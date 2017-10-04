@@ -1,0 +1,13 @@
+UniMarksUI
+- menu()
+
+Subject
+- name
+- year
+
+Assignment
+- type (test, exam)
+- percentage
+
+Calculate
+- private double totalMark
