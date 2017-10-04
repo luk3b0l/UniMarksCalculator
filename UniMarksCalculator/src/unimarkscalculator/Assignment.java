@@ -7,15 +7,18 @@ package unimarkscalculator;
 
 /**
  *
- * @author xxx
+ * @author Lukasz Bol
  */
 public class Assignment 
 {
+    private String name;
     private String type;    // test/exam
     private double resultPercentage;
     
-    public Assignment()
+    public Assignment(String newName, String newType, double newResult)
     {
-        
+        this.name = newName;
+        this.type = newType;
+        this.resultPercentage = newResult;
     }
 }
