@@ -5,18 +5,15 @@
  */
 package unimarkscalculator;
 
+import java.util.*;
+
 /**
  *
  * @author xxx
  */
-public class UniMarksCalculator {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) 
-    {
-        new marksGUItest();
-    }
+public class AssignmentsManager 
+{
+    private ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    
     
 }
