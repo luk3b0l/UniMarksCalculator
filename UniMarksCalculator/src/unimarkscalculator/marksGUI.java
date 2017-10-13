@@ -16,10 +16,17 @@ import javax.swing.*;
 public class marksGUI 
 {
     private JFrame myFrame = new JFrame("Uni Marks Calculator");
-    private JLabel assignment = new JLabel("Assignment");
-    private JLabel module = new JLabel("Module");
-    private JTextField moduleTitle = new JTextField("Module title");
-    private JTextField assignmentTitle = new JTextField("Assignment title");
+    private JLabel assignmentLabel = new JLabel("Assignment");
+    private JLabel moduleLabel = new JLabel("Module");
+    private JTextField moduleTitle = new JTextField(" ");
+    private JTextField assignmentTitle = new JTextField(" ");
+    
+    private JButton newModule = new JButton("New module");
+    private JButton addModule = new JButton("Add");
+    
+    
+    private JComboBox modulesList = new JComboBox();
+    
     
     
     public marksGUI()
@@ -34,6 +41,39 @@ public class marksGUI
         Dimension preferredSize = new Dimension(600, 400);
         myFrame.setPreferredSize(preferredSize);
         setMenuBar(myFrame);
+        
+        // ***** N O R T H
+        JPanel northPanel = new JPanel();
+        contentPane.add(northPanel, BorderLayout.NORTH);
+        northPanel.setLayout(new FlowLayout());
+        northPanel.add(newModule);
+        
+        // ***** C E N T E R
+        JPanel centerPanel = new JPanel();
+        contentPane.add(centerPanel, BorderLayout.CENTER);
+        centerPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gcCenter = new GridBagConstraints();
+        gcCenter.weightx = 0.5; gcCenter.weighty = 0.5;
+        
+        // COLUMN 1:
+        gcCenter.anchor = GridBagConstraints.LINE_START;
+        gcCenter.gridx = 0; gcCenter.gridy = 0;
+        centerPanel.add(moduleLabel, gcCenter);
+      
+        gcCenter.gridx = 0; gcCenter.gridy = 1;
+        centerPanel.add(assignmentLabel, gcCenter);
+         
+        // COLUMN 2:
+        gcCenter.anchor = GridBagConstraints.LINE_START;
+        gcCenter.gridx = 1; gcCenter.gridy = 0;
+        centerPanel.add(moduleTitle, gcCenter);
+        moduleTitle.setPreferredSize(new Dimension(100,25));
+        
+        gcCenter.gridx = 1; gcCenter.gridy = 1;
+        centerPanel.add(assignmentTitle, gcCenter);
+        assignmentTitle.setPreferredSize(new Dimension(100,25));
+        
+        
         
         myFrame.pack();
         myFrame.setVisible(true);
