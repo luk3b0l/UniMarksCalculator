@@ -7,6 +7,8 @@ package unimarkscalculator;
 
 import java.awt.*;
 import java.awt.Event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -92,7 +94,7 @@ public class marksGUI
         
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
-        //exitItem.addActionListener(new ExitHandler());                           // TESTING!
+        exitItem.addActionListener(new ExitHandler());                           // TESTING!
         // -----------------------------------------------
         
         // *** PROFILE menu:
@@ -124,12 +126,59 @@ public class marksGUI
         
         JMenuItem howToItem = new JMenuItem("How to use");
         helpMenu.add(howToItem);
-        //howToItem.addActionListener(new howToUseHandler());
+        howToItem.addActionListener(new howToUseHandler());
         
         JMenuItem aboutItem = new JMenuItem("About");
         helpMenu.add(aboutItem);
+        aboutItem.addActionListener(new AboutHandler());
         //aboutItem.addActionListener(new aboutHandler());
         // -----------------------------------------------
+    }
+    
+    // ***** MENU HANDLERS:
+
+    // File:
+    // - Exit    
+    private class ExitHandler implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
+    
+    // Help:
+    // - How to use
+    // - About
+    private class howToUseHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+         // TODO!
+            String title = "How to use";
+            String message = "\n<html><font size='5'>How to use Uni Marks Calculator ?</font></html>\n\n"
+                             +"For the Uni Marks Calculator application to work, please follow these simple steps: \n"
+                             + "1. ...\n"
+                             + "2. ...\n"
+                             + "3. ...\n";
+            JOptionPane.showMessageDialog(myFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }    
+    private class AboutHandler implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String title = "About";
+            String message = "\n<html><font size='5'>Uni Marks Calculator</font></html>\n\n"
+                            + "This application will help you to calculate your final marks and keep track of all your grades."
+                            + "\n\nAuthor: Lukasz Bol"
+                            + "\nContact: lukaszbol@yahoo.co.uk"
+                            + "\nVersion: 1.1  [October 2017]";
+            JOptionPane.showMessageDialog(myFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     public static void main(String[] args)
