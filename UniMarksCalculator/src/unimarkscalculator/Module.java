@@ -57,7 +57,12 @@ public class Module
     
     public String toString()
     {
-        String s = "\nModule: " + name + "\nCredits: " + credits + "\nGrade: " + grade;
+        String s = "***** MODULE INFO *****" + 
+                   "\nModule: " + name + 
+                   "\nYear: " + year + 
+                   "\nSemester: " + semester + 
+                   "\nCredits: " + credits + 
+                   "\nGrade: " + grade;
         for(Assignment temp : assignments)
         {
             s = s + "\nAssignment: " + temp.toString();
