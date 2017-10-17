@@ -13,7 +13,7 @@ import javax.swing.*;
 
 /**
  *
- * @author xxx
+ * @author Lukasz Bol
  */
 public class marksGUI 
 {

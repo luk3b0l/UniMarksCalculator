@@ -11,14 +11,16 @@ package unimarkscalculator;
  */
 public class Assignment 
 {
-    private String name;
+    private String title;
     private String type;    // test/exam
-    private double resultPercentage;
+    private double result;
+    private double weightPercent;
     
-    public Assignment(String newName, String newType, double newResult)
+    public Assignment(String newTitle, String newType, double newResult, double newWeightPercent)
     {
-        this.name = newName;
+        this.title = newTitle;
         this.type = newType;
-        this.resultPercentage = newResult;
+        this.result = newResult;
+        this.weightPercent = newWeightPercent;
     }
 }
