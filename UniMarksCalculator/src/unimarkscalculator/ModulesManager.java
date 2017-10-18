@@ -19,7 +19,7 @@ public class ModulesManager
     
     private ModulesManager()
     {
-        this.description = "MODULES MANAGER";
+        this.description = "USER MODULES MANAGER";
         allUserModules = new ArrayList<Module>();
     }
     
