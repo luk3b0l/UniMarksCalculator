@@ -67,6 +67,8 @@ public class marksGUI
         
         myFrame.pack();
         myFrame.setVisible(true);
+        myFrame.setAlwaysOnTop(false);
+        myFrame.setResizable(false);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }

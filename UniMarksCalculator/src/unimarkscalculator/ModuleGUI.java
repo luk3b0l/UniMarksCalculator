@@ -101,6 +101,8 @@ public class ModuleGUI
         
         myFrame.pack();
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        myFrame.setAlwaysOnTop(false);
+        myFrame.setResizable(false);
         myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }
     
@@ -131,7 +133,7 @@ public class ModuleGUI
             int creditsNum = Integer.parseInt(credits);
             userModulesManager.addModule(year, name, semester, creditsNum);
             System.out.println(userModulesManager.getDescription());
-            System.out.println(userModulesManager.getAllModules());
+            System.out.println(userModulesManager.getAllModulesString());
             // TODO
         }
     }

@@ -60,7 +60,30 @@ public class ModulesManager
         }
     }
     
-    public String getAllModules()
+    public Module getModule(String name)
+    {
+        Module moduleToReturn = null;
+        for(Module temp : allUserModules)
+        {
+            if(temp.getName().equals(name))
+            {
+                moduleToReturn = temp;
+            }
+        }
+        return moduleToReturn;
+    }
+    
+    public ArrayList<Module> getAllModules()
+    {
+        ArrayList<Module> modulesList = new ArrayList<Module>();
+        for(Module temp : allUserModules)
+        {
+            modulesList.add(temp);
+        }
+        return modulesList;
+    }
+    
+    public String getAllModulesString()
     {
         String s = "";
         for(Module temp : allUserModules)

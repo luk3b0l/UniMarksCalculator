@@ -8,6 +8,7 @@ package unimarkscalculator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 
 /**
@@ -30,6 +31,8 @@ public class AssignmentGUI
     private JButton addAssignmentButton = new JButton("Add");
     private JButton clearDataButton = new JButton("Clear data");
     private JComboBox modulesList = new JComboBox();
+    
+    private ModulesManager userModulesManager = ModulesManager.getInstance();
     
     public AssignmentGUI()
     {
@@ -78,6 +81,17 @@ public class AssignmentGUI
         gcCenter.gridx = 1; gcCenter.gridy = 0;
         centerPanel.add(modulesList, gcCenter);
         
+        //Populating updated modulesList:
+        modulesList.removeAllItems();
+        ArrayList<Module> tempModulesList = userModulesManager.getAllModules();
+        for(Module temp : tempModulesList)
+        {
+            modulesList.addItem(temp.getName());
+        }
+        
+        
+        
+        
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(titleInput, gcCenter);
         titleInput.setPreferredSize(new Dimension(100, 25));
@@ -97,15 +111,55 @@ public class AssignmentGUI
         // COLUMN 3:    
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
-        centerPanel.add(clearDataButton, gcCenter);        
+        centerPanel.add(clearDataButton, gcCenter);       
+        clearDataButton.addActionListener(new clearFieldsButtonHandler());
         
         gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(addAssignmentButton, gcCenter);                
+        addAssignmentButton.addActionListener(new addAssignmentButtonHandler());
         
         myFrame.pack();
+        myFrame.setAlwaysOnTop(false);
+        myFrame.setResizable(false);
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen        
     }
+    
+    // ---------------------------------------------------------------------------------------------------
+    
+    // ***** BUTTON HANDLERS:
+     private class clearFieldsButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            titleInput.setText("");
+            typeInput.setText("");
+            resultInput.setText("");
+            weightPercentInput.setText("");
+        }
+    }    
+    
+    private class addAssignmentButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String title = titleInput.getText();
+            String type = typeInput.getText();
+            String result = resultInput.getText(); 
+            double resultNum = Double.parseDouble(result);
+            String weightPercent = weightPercentInput.getText();
+            double weightPercentNum = Double.parseDouble(weightPercent);
+            String selectedModule = (String) modulesList.getSelectedItem();
+            
+            Module m = userModulesManager.getModule(selectedModule);
+            m.addAssignment(title, type, weightPercentNum, weightPercentNum);
+            
+            System.out.println(userModulesManager.getDescription());
+            System.out.println(userModulesManager.getAllModules());
+        }
+    }   
     
     public void setVisible(boolean visibility)
     {
