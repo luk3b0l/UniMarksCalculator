@@ -18,13 +18,8 @@ import javax.swing.*;
 public class marksGUI 
 {
     private JFrame myFrame = new JFrame("Uni Marks Calculator");
-    private JLabel assignmentLabel = new JLabel("Assignment");
-    private JLabel moduleLabel = new JLabel("Module");
-    private JTextField moduleTitle = new JTextField(" ");
-    private JTextField assignmentTitle = new JTextField(" ");
-    
-    private JButton newModule = new JButton("New module");
-    private JButton addModule = new JButton("Add");
+    private JButton addModuleButton = new JButton("Add module");
+    private JButton addAssignmentButton = new JButton("Add assignment");
     
     
     private JComboBox modulesList = new JComboBox();
@@ -40,7 +35,7 @@ public class marksGUI
     {
         Container contentPane = myFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(600, 400);
+        Dimension preferredSize = new Dimension(200, 150);
         myFrame.setPreferredSize(preferredSize);
         setMenuBar(myFrame);
         
@@ -48,7 +43,10 @@ public class marksGUI
         JPanel northPanel = new JPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
         northPanel.setLayout(new FlowLayout());
-        northPanel.add(newModule);
+        //northPanel.add(usernameLabel);
+        //northPanel.add(usernameInput);
+        //northPanel.add(passwordLabel);
+        //northPanel.add(passwordInput);
         
         // ***** C E N T E R
         JPanel centerPanel = new JPanel();
@@ -58,24 +56,14 @@ public class marksGUI
         gcCenter.weightx = 0.5; gcCenter.weighty = 0.5;
         
         // COLUMN 1:
-        gcCenter.anchor = GridBagConstraints.LINE_START;
+        gcCenter.anchor = GridBagConstraints.CENTER;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(moduleLabel, gcCenter);
+        centerPanel.add(addModuleButton, gcCenter);
+        addModuleButton.addActionListener(new AddModuleButtonHandler());
       
         gcCenter.gridx = 0; gcCenter.gridy = 1;
-        centerPanel.add(assignmentLabel, gcCenter);
-         
-        // COLUMN 2:
-        gcCenter.anchor = GridBagConstraints.LINE_START;
-        gcCenter.gridx = 1; gcCenter.gridy = 0;
-        centerPanel.add(moduleTitle, gcCenter);
-        moduleTitle.setPreferredSize(new Dimension(100,25));
-        
-        gcCenter.gridx = 1; gcCenter.gridy = 1;
-        centerPanel.add(assignmentTitle, gcCenter);
-        assignmentTitle.setPreferredSize(new Dimension(100,25));
-        
-        
+        centerPanel.add(addAssignmentButton, gcCenter);
+        addAssignmentButton.addActionListener(new AddAssignmentButtonHandler());
         
         myFrame.pack();
         myFrame.setVisible(true);
@@ -180,7 +168,28 @@ public class marksGUI
             JOptionPane.showMessageDialog(myFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    // -----------------------------------------------
     
+    // ***** EVENT HANDLERS:    
+    
+    private class AddModuleButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            new ModuleGUI().setVisible(true);
+        }
+    }
+    
+    private class AddAssignmentButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            new AssignmentGUI().setVisible(true);
+        }
+    }
+   
     public static void main(String[] args)
     {
         new marksGUI();
