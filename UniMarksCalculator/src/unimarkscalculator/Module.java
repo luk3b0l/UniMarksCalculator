@@ -45,6 +45,11 @@ public class Module
         return s;
     }
 
+    public String getName() 
+    {
+        return name;
+    }
+    
     public int getGrade() 
     {
         return grade;

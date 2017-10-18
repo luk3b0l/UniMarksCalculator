@@ -7,7 +7,8 @@ package unimarkscalculator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Event;
+import java.awt.event.*;
+
 
 
 /**
@@ -27,7 +28,9 @@ public class ModuleGUI
     private JTextField nameInput = new JTextField("");
     private JTextField creditsInput = new JTextField("");
     private JButton addModuleButton = new JButton("Add");
-    private JButton clearDataButton = new JButton("Clear data");
+    private JButton clearFieldsButton = new JButton("Clear all fields");
+    
+    private ModulesManager userModulesManager = ModulesManager.getInstance();
     
     public ModuleGUI()
     {
@@ -89,15 +92,48 @@ public class ModuleGUI
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
-        centerPanel.add(clearDataButton, gcCenter);
-        
+        centerPanel.add(clearFieldsButton, gcCenter);
+        clearFieldsButton.addActionListener(new clearFieldsButtonHandler());
+                
         gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(addModuleButton, gcCenter);
-        
+        addModuleButton.addActionListener(new addModuleButtonHandler());
         
         myFrame.pack();
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
+    }
+    
+    // ---------------------------------------------------------------------------------------------------
+    
+    // ***** BUTTON HANDLERS:
+    private class clearFieldsButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            yearInput.setText("");
+            semesterInput.setText("");
+            nameInput.setText("");
+            creditsInput.setText("");
+        }
+    }    
+    
+    private class addModuleButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String year = yearInput.getText();
+            String semester = semesterInput.getText();
+            String name = nameInput.getText(); 
+            String credits = creditsInput.getText();
+            int creditsNum = Integer.parseInt(credits);
+            userModulesManager.addModule(year, name, semester, creditsNum);
+            System.out.println(userModulesManager.getDescription());
+            System.out.println(userModulesManager.getAllModules());
+            // TODO
+        }
     }
     
     public void setVisible(boolean visibility)
