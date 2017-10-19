@@ -20,6 +20,9 @@ public class marksGUI
     private JFrame myFrame = new JFrame("Uni Marks Calculator");
     private JButton addModuleButton = new JButton("Add module");
     private JButton addAssignmentButton = new JButton("Add assignment");
+    private JButton modulesManagerButton = new JButton("Modules manager");
+    private JButton assignmentsManagerButton = new JButton("Assignments manager");
+    private JButton resultsButton = new JButton("Results");
     
     
     private JComboBox modulesList = new JComboBox();
@@ -35,7 +38,7 @@ public class marksGUI
     {
         Container contentPane = myFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(200, 150);
+        Dimension preferredSize = new Dimension(200, 250);
         myFrame.setPreferredSize(preferredSize);
         setMenuBar(myFrame);
         
@@ -64,6 +67,18 @@ public class marksGUI
         gcCenter.gridx = 0; gcCenter.gridy = 1;
         centerPanel.add(addAssignmentButton, gcCenter);
         addAssignmentButton.addActionListener(new AddAssignmentButtonHandler());
+        
+        gcCenter.gridx = 0; gcCenter.gridy = 2;
+        centerPanel.add(modulesManagerButton, gcCenter);
+        //addAssignmentButton.addActionListener(new ModulesManagerButtonHandler());        
+        
+        gcCenter.gridx = 0; gcCenter.gridy = 3;
+        centerPanel.add(assignmentsManagerButton, gcCenter);
+        //addAssignmentButton.addActionListener(new AssignmentsManagerButtonHandler());        
+        
+        gcCenter.gridx = 0; gcCenter.gridy = 4;
+        centerPanel.add(resultsButton, gcCenter);
+        //addAssignmentButton.addActionListener(new ResultsButtonHandler());  
         
         myFrame.pack();
         myFrame.setVisible(true);
@@ -192,6 +207,36 @@ public class marksGUI
         }
     }
    
+    private class ModulesManagerButtonHandler implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new ModulesManager().setVisible(true);
+        }
+        
+    }
+    
+    private class AssignmentsManagerButtonHandler implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new AssignmentsManager().setVisible(true);
+        }
+        
+    }
+    
+    private class ResultsButtonHandler implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Results().setVisible(true);
+        }
+        
+    }
+    
     public static void main(String[] args)
     {
         new marksGUI();
