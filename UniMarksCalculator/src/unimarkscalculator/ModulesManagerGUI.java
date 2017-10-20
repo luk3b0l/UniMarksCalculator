@@ -27,6 +27,7 @@ public class ModulesManagerGUI
     private JTextField semesterInput = new JTextField("");
     private JTextField nameInput = new JTextField("");
     private JTextField creditsInput = new JTextField("");
+    private JButton deleteModuleButton = new JButton("Delete all module");
     private JButton updateModuleButton = new JButton("Update");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
@@ -81,14 +82,7 @@ public class ModulesManagerGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 0;
         centerPanel.add(modulesList, gcCenter);
-        
-        //Populating updated modulesList:
-        modulesList.removeAllItems();
-        ArrayList<Module> tempModulesList = userModulesManager.getAllModules();
-        for(Module temp : tempModulesList)
-        {
-            modulesList.addItem(temp.getName());
-        }        
+        populateModulesList();      
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(yearInput, gcCenter);
@@ -108,6 +102,10 @@ public class ModulesManagerGUI
         
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
+        gcCenter.gridx = 2; gcCenter.gridy = 0;
+        centerPanel.add(deleteModuleButton, gcCenter);
+        //deleteModuleButton.addActionListener(new DeleteModuleButtonHandler());
+        
         gcCenter.gridx = 2; gcCenter.gridy = 3;
         centerPanel.add(clearFieldsButton, gcCenter);
         clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
@@ -155,6 +153,29 @@ public class ModulesManagerGUI
 
         }
     }   
+    
+    private class DeleteModuleButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String selectedModule = (String) modulesList.getSelectedItem();
+            userModulesManager.removeModule(selectedModule);     
+            populateModulesList();
+        }
+        
+    }
+    
+    public void populateModulesList()
+    {
+        //Populating updated modulesList:
+        modulesList.removeAllItems();
+        ArrayList<Module> tempModulesList = userModulesManager.getAllModules();
+        for(Module temp : tempModulesList)
+        {
+            modulesList.addItem(temp.getName());
+        }   
+    }
     
     public void setVisible(boolean visibility)
     {

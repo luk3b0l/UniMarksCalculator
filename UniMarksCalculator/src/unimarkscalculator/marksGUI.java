@@ -209,7 +209,6 @@ public class marksGUI
    
     private class ModulesManagerButtonHandler implements ActionListener
     {
-
         @Override
         public void actionPerformed(ActionEvent e) 
         {
@@ -220,7 +219,6 @@ public class marksGUI
     
     private class AssignmentsManagerButtonHandler implements ActionListener
     {
-
         @Override
         public void actionPerformed(ActionEvent e) 
         {
@@ -231,9 +229,9 @@ public class marksGUI
     
     private class ResultsButtonHandler implements ActionListener
     {
-
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) 
+        {
             //new ResultsGUI().setVisible(true);
         }
         
