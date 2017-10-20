@@ -45,11 +45,46 @@ public class Module
         return s;
     }
 
+    public String getYear() 
+    {
+        return year;
+    }
+
+    public String getSemester() 
+    {
+        return semester;
+    }
+
+    public int getCredits() 
+    {
+        return credits;
+    }
+
+    public void setYear(String year) 
+    {
+        this.year = year;
+    }
+
+    public void setSemester(String semester) 
+    {
+        this.semester = semester;
+    }
+
+    public void setCredits(int credits) 
+    {
+        this.credits = credits;
+    }
+    
     public String getName() 
     {
         return name;
     }
-    
+
+    public void setName(String name) 
+    {
+        this.name = name;
+    }
+
     public int getGrade() 
     {
         return grade;
@@ -58,6 +93,14 @@ public class Module
     public void setGrade(int grade) 
     {
         this.grade = grade;
+    }
+    
+    public void updateModuleInfo(String year, String name, String semester, int credits)
+    {
+        setYear(year);
+        setName(name);
+        setSemester(semester);
+        setCredits(credits);
     }
     
     public String toString()

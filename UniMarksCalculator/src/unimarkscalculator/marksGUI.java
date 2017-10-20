@@ -70,15 +70,15 @@ public class marksGUI
         
         gcCenter.gridx = 0; gcCenter.gridy = 2;
         centerPanel.add(modulesManagerButton, gcCenter);
-        addAssignmentButton.addActionListener(new ModulesManagerButtonHandler());        
+        modulesManagerButton.addActionListener(new ModulesManagerButtonHandler());        
         
         gcCenter.gridx = 0; gcCenter.gridy = 3;
         centerPanel.add(assignmentsManagerButton, gcCenter);
-        addAssignmentButton.addActionListener(new AssignmentsManagerButtonHandler());        
+        assignmentsManagerButton.addActionListener(new AssignmentsManagerButtonHandler());        
         
         gcCenter.gridx = 0; gcCenter.gridy = 4;
         centerPanel.add(resultsButton, gcCenter);
-        addAssignmentButton.addActionListener(new ResultsButtonHandler());  
+        resultsButton.addActionListener(new ResultsButtonHandler());  
         
         myFrame.pack();
         myFrame.setVisible(true);
@@ -211,7 +211,8 @@ public class marksGUI
     {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) 
+        {
             new ModulesManagerGUI().setVisible(true);
         }
         
@@ -221,8 +222,9 @@ public class marksGUI
     {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-            new AssignmentsManagerGUI().setVisible(true);
+        public void actionPerformed(ActionEvent e) 
+        {
+            //new AssignmentsManagerGUI().setVisible(true);
         }
         
     }
@@ -232,7 +234,7 @@ public class marksGUI
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            new ResultsGUI().setVisible(true);
+            //new ResultsGUI().setVisible(true);
         }
         
     }

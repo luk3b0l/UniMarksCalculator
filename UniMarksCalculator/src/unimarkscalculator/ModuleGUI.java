@@ -93,11 +93,11 @@ public class ModuleGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
         centerPanel.add(clearFieldsButton, gcCenter);
-        clearFieldsButton.addActionListener(new clearFieldsButtonHandler());
+        clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
                 
         gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(addModuleButton, gcCenter);
-        addModuleButton.addActionListener(new addModuleButtonHandler());
+        addModuleButton.addActionListener(new AddModuleButtonHandler());
         
         myFrame.pack();
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -109,7 +109,7 @@ public class ModuleGUI
     // ---------------------------------------------------------------------------------------------------
     
     // ***** BUTTON HANDLERS:
-    private class clearFieldsButtonHandler implements ActionListener
+    private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
@@ -121,7 +121,7 @@ public class ModuleGUI
         }
     }    
     
-    private class addModuleButtonHandler implements ActionListener
+    private class AddModuleButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
@@ -134,7 +134,7 @@ public class ModuleGUI
             userModulesManager.addModule(year, name, semester, creditsNum);
             System.out.println(userModulesManager.getDescription());
             System.out.println(userModulesManager.getAllModulesString());
-            // TODO
+            // TODO add JOption pane - module xyz has been added
         }
     }
     

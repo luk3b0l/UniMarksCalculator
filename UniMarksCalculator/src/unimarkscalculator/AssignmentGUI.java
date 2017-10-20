@@ -112,11 +112,11 @@ public class AssignmentGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
         centerPanel.add(clearDataButton, gcCenter);       
-        clearDataButton.addActionListener(new clearFieldsButtonHandler());
+        clearDataButton.addActionListener(new ClearFieldsButtonHandler());
         
         gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(addAssignmentButton, gcCenter);                
-        addAssignmentButton.addActionListener(new addAssignmentButtonHandler());
+        addAssignmentButton.addActionListener(new AddAssignmentButtonHandler());
         
         myFrame.pack();
         myFrame.setAlwaysOnTop(false);
@@ -128,7 +128,7 @@ public class AssignmentGUI
     // ---------------------------------------------------------------------------------------------------
     
     // ***** BUTTON HANDLERS:
-     private class clearFieldsButtonHandler implements ActionListener
+     private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
@@ -140,7 +140,7 @@ public class AssignmentGUI
         }
     }    
     
-    private class addAssignmentButtonHandler implements ActionListener
+    private class AddAssignmentButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
