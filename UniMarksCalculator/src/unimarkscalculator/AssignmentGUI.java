@@ -29,7 +29,7 @@ public class AssignmentGUI
     private JTextField resultInput = new JTextField("");
     private JTextField weightPercentInput = new JTextField("");
     private JButton addAssignmentButton = new JButton("Add");
-    private JButton clearDataButton = new JButton("Clear data");
+    private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
@@ -111,8 +111,8 @@ public class AssignmentGUI
         // COLUMN 3:    
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
-        centerPanel.add(clearDataButton, gcCenter);       
-        clearDataButton.addActionListener(new ClearFieldsButtonHandler());
+        centerPanel.add(clearFieldsButton, gcCenter);       
+        clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
         
         gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(addAssignmentButton, gcCenter);                

@@ -222,7 +222,7 @@ public class marksGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            //new AssignmentsManagerGUI().setVisible(true);
+            new AssignmentsManagerGUI().setVisible(true);
         }
         
     }

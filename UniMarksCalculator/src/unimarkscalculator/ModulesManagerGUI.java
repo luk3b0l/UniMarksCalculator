@@ -27,7 +27,7 @@ public class ModulesManagerGUI
     private JTextField semesterInput = new JTextField("");
     private JTextField nameInput = new JTextField("");
     private JTextField creditsInput = new JTextField("");
-    private JButton deleteModuleButton = new JButton("Delete all module");
+    private JButton deleteModuleButton = new JButton("Delete module");
     private JButton updateModuleButton = new JButton("Update");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
@@ -104,7 +104,7 @@ public class ModulesManagerGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 0;
         centerPanel.add(deleteModuleButton, gcCenter);
-        //deleteModuleButton.addActionListener(new DeleteModuleButtonHandler());
+        deleteModuleButton.addActionListener(new DeleteModuleButtonHandler());
         
         gcCenter.gridx = 2; gcCenter.gridy = 3;
         centerPanel.add(clearFieldsButton, gcCenter);
@@ -163,7 +163,6 @@ public class ModulesManagerGUI
             userModulesManager.removeModule(selectedModule);     
             populateModulesList();
         }
-        
     }
     
     public void populateModulesList()
