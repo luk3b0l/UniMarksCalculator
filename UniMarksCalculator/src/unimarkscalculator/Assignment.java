@@ -24,9 +24,43 @@ public class Assignment
         this.weightPercent = newWeightPercent / 100;    // converting input 'percentage' into double, for further calculations' needs
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getType() 
+    {
+        return type;
+    }
+
     public double getResult() 
     {
         return result;
+    }
+    
+    public double getWeightPercent() 
+    {
+        return weightPercent;
+    }    
+
+    public void setTitle(String title) 
+    {
+        this.title = title;
+    }
+
+    public void setType(String type) 
+    {
+        this.type = type;
+    }
+
+    public void setResult(double result) 
+    {
+        this.result = result;
+    }
+
+    public void setWeightPercent(double weightPercent) 
+    {
+        this.weightPercent = weightPercent;
     }
     
     public String toString()

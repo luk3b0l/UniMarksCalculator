@@ -19,7 +19,7 @@ public class AssignmentGUI
 {
     private JFrame myFrame = new JFrame("Add Assignment");
     private JLabel addAssignmentLabel = new JLabel("ADD ASSIGNMENT", JLabel.CENTER);
-    private JLabel moduleLabel = new JLabel("module: ");
+    private JLabel modulesLabel = new JLabel("module: ");
     private JLabel titleLabel = new JLabel("title: ");
     private JLabel typeLabel = new JLabel("type: ");
     private JLabel resultLabel = new JLabel("result: ");
@@ -31,7 +31,7 @@ public class AssignmentGUI
     private JButton addAssignmentButton = new JButton("Add");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
-    
+
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
     public AssignmentGUI()
@@ -62,8 +62,8 @@ public class AssignmentGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_END;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(moduleLabel, gcCenter);
-        
+        centerPanel.add(modulesLabel, gcCenter);
+
         gcCenter.gridx = 0; gcCenter.gridy = 1;
         centerPanel.add(titleLabel, gcCenter);        
 
@@ -88,9 +88,6 @@ public class AssignmentGUI
         {
             modulesList.addItem(temp.getName());
         }
-        
-        
-        
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(titleInput, gcCenter);

@@ -44,6 +44,11 @@ public class Module
         }
         return s;
     }
+    
+    public ArrayList<Assignment> getAllAssignments()
+    {
+        return assignments;
+    }
 
     public String getYear() 
     {

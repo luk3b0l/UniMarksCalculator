@@ -18,7 +18,8 @@ public class AssignmentsManagerGUI
 {
     private JFrame myFrame = new JFrame("Assignments Manager GUI");
     private JLabel assignmentsManagerLabel = new JLabel("ASSIGNMENTS MANAGER", JLabel.CENTER);
-    private JLabel moduleLabel = new JLabel("module: ");
+    private JLabel moduleLabel = new JLabel("modules: ");
+    private JLabel assignmentsLabel = new JLabel("assignments: ");
     private JLabel titleLabel = new JLabel("title: ");
     private JLabel typeLabel = new JLabel("type: ");
     private JLabel resultLabel = new JLabel("result: ");
@@ -31,6 +32,7 @@ public class AssignmentsManagerGUI
     private JButton updateModuleButton = new JButton("Update");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
+    private JComboBox assignmentsList = new JComboBox();
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
@@ -65,15 +67,18 @@ public class AssignmentsManagerGUI
         centerPanel.add(moduleLabel, gcCenter);
         
         gcCenter.gridx = 0; gcCenter.gridy = 1;
+        centerPanel.add(assignmentsLabel, gcCenter); 
+        
+        gcCenter.gridx = 0; gcCenter.gridy = 2;
         centerPanel.add(titleLabel, gcCenter);
 
-        gcCenter.gridx = 0; gcCenter.gridy = 2;
+        gcCenter.gridx = 0; gcCenter.gridy = 3;
         centerPanel.add(typeLabel, gcCenter);
         
-        gcCenter.gridx = 0; gcCenter.gridy = 3;
+        gcCenter.gridx = 0; gcCenter.gridy = 4;
         centerPanel.add(resultLabel, gcCenter);
 
-        gcCenter.gridx = 0; gcCenter.gridy = 4;
+        gcCenter.gridx = 0; gcCenter.gridy = 5;
         centerPanel.add(weightPercent, gcCenter);
 
         // COLUMN 2:        
@@ -89,34 +94,54 @@ public class AssignmentsManagerGUI
             modulesList.addItem(temp.getName());
         }
         
-        // TODO here dropdown menu for assignments need to be added
         gcCenter.gridx = 1; gcCenter.gridy = 1;
+        centerPanel.add(assignmentsList, gcCenter);
+        
+        if(modulesList.getSelectedItem() != null)
+        {
+            Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
+            ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
+            tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
+            for(Assignment tempAssignment : tempAssignmentsList)
+            {
+                if(tempAssignment != null)
+                {
+                    assignmentsList.addItem(tempAssignment.getTitle());
+                }
+            }
+        }
+        
+        
+        
+
+                
+        gcCenter.gridx = 1; gcCenter.gridy = 2;
         centerPanel.add(titleInput, gcCenter);      // TODO here dropdown menu for assignments need to be added  
         titleInput.setPreferredSize(new Dimension(100, 25));
         
-        gcCenter.gridx = 1; gcCenter.gridy = 2;
+        gcCenter.gridx = 1; gcCenter.gridy = 3;
         centerPanel.add(typeInput, gcCenter);   
         typeInput.setPreferredSize(new Dimension(100, 25));
 
-        gcCenter.gridx = 1; gcCenter.gridy = 3;
+        gcCenter.gridx = 1; gcCenter.gridy = 4;
         centerPanel.add(resultInput, gcCenter);   
         resultInput.setPreferredSize(new Dimension(50, 25));
         
-        gcCenter.gridx = 1; gcCenter.gridy = 4;
+        gcCenter.gridx = 1; gcCenter.gridy = 5;
         centerPanel.add(weightPercentInput, gcCenter);
         weightPercentInput.setPreferredSize(new Dimension(50, 25));
 
         // COLUMN 3:     
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 1; 
-        centerPanel.add(deleteAssignmentButton);
+        centerPanel.add(deleteAssignmentButton, gcCenter);
         //deleteAssignmentButton.addActionListener(new DeleteAssignmentButtonHandler());
 
-        gcCenter.gridx = 2; gcCenter.gridy = 3;
+        gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(clearFieldsButton, gcCenter);
         //clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
                 
-        gcCenter.gridx = 2; gcCenter.gridy = 4;
+        gcCenter.gridx = 2; gcCenter.gridy = 5;
         centerPanel.add(updateModuleButton, gcCenter);
         //updateModuleButton.addActionListener(new UpdateModuleButtonHandler());
         
