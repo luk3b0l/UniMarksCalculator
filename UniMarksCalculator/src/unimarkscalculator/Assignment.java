@@ -12,16 +12,17 @@ package unimarkscalculator;
 public class Assignment 
 {
     private String title;
-    private String type;    // test/exam
+    private String type;    // test/exam/coursework
     private double result;
     private double weightPercent;
+    private final static int TOTAL_WEIGHT = 100;
     
     public Assignment(String newTitle, String newType, double newResult, double newWeightPercent)
     {
         this.title = newTitle;
         this.type = newType;
         this.result = newResult;
-        this.weightPercent = newWeightPercent / 100;    // converting input 'percentage' into double, for further calculations' needs
+        this.weightPercent = newWeightPercent;
     }
 
     public String getTitle() {

@@ -114,10 +114,7 @@ public class ModuleGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            yearInput.setText("");
-            semesterInput.setText("");
-            nameInput.setText("");
-            creditsInput.setText("");
+            clearFields();
         }
     }    
     
@@ -135,9 +132,18 @@ public class ModuleGUI
             System.out.println(userModulesManager.getDescription());
             System.out.println(userModulesManager.getAllModulesString());
             // TODO add JOption pane - module xyz has been added
+            
+            clearFields();  //Clearing the input fields for next data input
         }
     }
     
+    public void clearFields()
+    {
+        yearInput.setText("");
+        semesterInput.setText("");
+        nameInput.setText("");
+        creditsInput.setText("");
+    }
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);

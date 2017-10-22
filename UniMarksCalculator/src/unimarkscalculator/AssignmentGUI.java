@@ -130,10 +130,7 @@ public class AssignmentGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            titleInput.setText("");
-            typeInput.setText("");
-            resultInput.setText("");
-            weightPercentInput.setText("");
+            clearFields();
         }
     }    
     
@@ -152,11 +149,20 @@ public class AssignmentGUI
             
             Module m = userModulesManager.getModule(selectedModule);
             m.addAssignment(title, type, weightPercentNum, weightPercentNum);
+            // TODO add JOption pane - module xyz has been added
             
-            System.out.println(userModulesManager.getDescription());
-            System.out.println(userModulesManager.getAllModules());
+            clearFields();  //Clearing the input fields for next data input
+
         }
-    }   
+    }
+    
+    public void clearFields()
+    {
+        titleInput.setText("");
+        typeInput.setText("");
+        resultInput.setText("");
+        weightPercentInput.setText("");
+    }
     
     public void setVisible(boolean visibility)
     {

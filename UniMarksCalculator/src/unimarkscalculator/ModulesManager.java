@@ -73,6 +73,14 @@ public class ModulesManager
         return moduleToReturn;
     }
     
+    public void removeAssignment(String name)
+    {
+        for(Module tempModule : allUserModules)
+        {
+            tempModule.removeAssignment(name);
+        }
+    }
+    
     public ArrayList<Module> getAllModules()
     {
         ArrayList<Module> modulesList = new ArrayList<Module>();
@@ -82,7 +90,7 @@ public class ModulesManager
         }
         return modulesList;
     }
-    
+        
     public String getAllModulesString()
     {
         String s = "";

@@ -35,6 +35,31 @@ public class Module
         assignments.add(tempAssignment);
     }
     
+    public void removeAssignment(String name)
+    {
+        for(Assignment tempAssignment : assignments)
+        {
+            if((tempAssignment.getTitle()).equals(name))
+            {
+                assignments.remove(tempAssignment);
+            }
+        }
+    }
+    
+    public void updateAssignment(String title, String type, double result, double weight)
+    {
+        for(Assignment tempAssignment : assignments)
+        {
+            if((tempAssignment.getTitle()).equals(title))
+            {
+                tempAssignment.setTitle(name);
+                tempAssignment.setType(type);
+                tempAssignment.setResult(result);
+                tempAssignment.setWeightPercent(weight);
+            }
+        }
+    }
+    
     public String listAllAssignments()
     {
         String s = "";

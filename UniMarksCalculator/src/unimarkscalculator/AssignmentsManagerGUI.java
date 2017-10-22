@@ -7,7 +7,7 @@ package unimarkscalculator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Event;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +35,7 @@ public class AssignmentsManagerGUI
     private JComboBox assignmentsList = new JComboBox();
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
+    private ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
     
     public AssignmentsManagerGUI()
     {
@@ -100,7 +101,6 @@ public class AssignmentsManagerGUI
         if(modulesList.getSelectedItem() != null)
         {
             Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-            ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
             tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
             for(Assignment tempAssignment : tempAssignmentsList)
             {
@@ -110,13 +110,10 @@ public class AssignmentsManagerGUI
                 }
             }
         }
-        
-        
-        
-
-                
+        assignmentsList.addActionListener(new AssignmentsListHandler());
+             
         gcCenter.gridx = 1; gcCenter.gridy = 2;
-        centerPanel.add(titleInput, gcCenter);      // TODO here dropdown menu for assignments need to be added  
+        centerPanel.add(titleInput, gcCenter);
         titleInput.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
@@ -135,21 +132,87 @@ public class AssignmentsManagerGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 1; 
         centerPanel.add(deleteAssignmentButton, gcCenter);
-        //deleteAssignmentButton.addActionListener(new DeleteAssignmentButtonHandler());
+        deleteAssignmentButton.addActionListener(new DeleteAssignmentButtonHandler());
 
         gcCenter.gridx = 2; gcCenter.gridy = 4;
         centerPanel.add(clearFieldsButton, gcCenter);
-        //clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
+        clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
                 
         gcCenter.gridx = 2; gcCenter.gridy = 5;
         centerPanel.add(updateModuleButton, gcCenter);
-        //updateModuleButton.addActionListener(new UpdateModuleButtonHandler());
+        updateModuleButton.addActionListener(new UpdateAssignmentButtonHandler());
         
         myFrame.pack();
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         myFrame.setAlwaysOnTop(false);
         myFrame.setResizable(false);
         myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen 
+    }
+    
+    // ---------------------------------------------------------------------------------------------------
+    
+    // ***** BUTTON HANDLERS:
+    private class ClearFieldsButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            titleInput.setText("");
+            typeInput.setText("");
+            resultInput.setText("");
+            weightPercentInput.setText("");
+        }
+    }
+    
+    private class UpdateAssignmentButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String selectedModule = (String) modulesList.getSelectedItem();
+            Module m = userModulesManager.getModule(selectedModule);
+            
+            String title = titleInput.getText();
+            String type = typeInput.getText();
+            double result = Double.valueOf(resultInput.getText());
+            double weight = Double.valueOf(weightPercentInput.getText());
+            m.updateAssignment(title, type, result, weight);            
+        }
+    }    
+    
+    private class DeleteAssignmentButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String assignmentName = assignmentsList.getSelectedItem().toString();
+            userModulesManager.removeAssignment(assignmentName);
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+    // ***** OTHER HANDLERS:
+    private class AssignmentsListHandler implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            String selectedAssignment = assignmentsList.getSelectedItem().toString();
+            for(Assignment tempAssignment : tempAssignmentsList)
+            {
+                if(tempAssignment != null && (tempAssignment.getTitle()).equals(selectedAssignment))
+                {
+                    titleInput.setText(tempAssignment.getTitle());
+                    typeInput.setText(tempAssignment.getType());
+                    String result = String.valueOf(tempAssignment.getResult());
+                    resultInput.setText(result);
+                    String weight = String.valueOf(tempAssignment.getWeightPercent());
+                    weightPercentInput.setText(weight);               
+                }
+            } 
+        }
+        
     }
     
     public void setVisible(boolean visibility)
