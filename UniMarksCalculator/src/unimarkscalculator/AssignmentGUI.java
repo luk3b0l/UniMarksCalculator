@@ -139,20 +139,30 @@ public class AssignmentGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            String title = titleInput.getText();
-            String type = typeInput.getText();
-            String result = resultInput.getText(); 
-            double resultNum = Double.parseDouble(result);
-            String weightPercent = weightPercentInput.getText();
-            double weightPercentNum = Double.parseDouble(weightPercent);
-            String selectedModule = (String) modulesList.getSelectedItem();
+            if(modulesList.getItemCount() == 0)
+            {
+                JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
             
-            Module m = userModulesManager.getModule(selectedModule);
-            m.addAssignment(title, type, weightPercentNum, weightPercentNum);
-            // TODO add JOption pane - module xyz has been added
-            
-            clearFields();  //Clearing the input fields for next data input
+            else if(titleInput.getText().equals("") || typeInput.getText().equals("") || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(myFrame, "Some of the fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                String title = titleInput.getText();
+                String type = typeInput.getText();
+                String result = resultInput.getText(); 
+                double resultNum = Double.parseDouble(result);
+                String weightPercent = weightPercentInput.getText();
+                double weightPercentNum = Double.parseDouble(weightPercent);
+                String selectedModule = (String) modulesList.getSelectedItem();
 
+                Module m = userModulesManager.getModule(selectedModule);
+                m.addAssignment(title, type, weightPercentNum, weightPercentNum);
+                clearFields();  //Clearing the input fields for next data input
+                JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
     

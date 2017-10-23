@@ -123,17 +123,22 @@ public class ModuleGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            String year = yearInput.getText();
-            String semester = semesterInput.getText();
-            String name = nameInput.getText(); 
-            String credits = creditsInput.getText();
-            int creditsNum = Integer.parseInt(credits);
-            userModulesManager.addModule(year, name, semester, creditsNum);
-            System.out.println(userModulesManager.getDescription());
-            System.out.println(userModulesManager.getAllModulesString());
-            // TODO add JOption pane - module xyz has been added
-            
-            clearFields();  //Clearing the input fields for next data input
+
+            if(yearInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(myFrame, "Some of the fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                String year = yearInput.getText();
+                String semester = semesterInput.getText();
+                String name = nameInput.getText(); 
+                String credits = creditsInput.getText();
+                int creditsNum = Integer.parseInt(credits);
+                userModulesManager.addModule(year, name, semester, creditsNum);
+                clearFields();  //Clearing the input fields for next data input
+                JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+            }           
         }
     }
     
