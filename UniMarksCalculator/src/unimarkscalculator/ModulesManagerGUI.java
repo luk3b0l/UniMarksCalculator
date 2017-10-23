@@ -141,15 +141,25 @@ public class ModulesManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            String year = yearInput.getText();
-            String semester = semesterInput.getText();
-            String name = nameInput.getText(); 
-            String credits = creditsInput.getText();
-            int creditsNum = Integer.parseInt(credits);
-            String selectedModule = (String) modulesList.getSelectedItem();
-            Module m = userModulesManager.getModule(selectedModule);
-            m.updateModuleInfo(year, name, semester, creditsNum);
-            //TODO add JOption pane info about updating a module
+            if(modulesList.getItemCount() == 0 || yearInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                String year = yearInput.getText();
+                String semester = semesterInput.getText();
+                String name = nameInput.getText(); 
+                String credits = creditsInput.getText();
+                int creditsNum = Integer.parseInt(credits);
+                String selectedModule = (String) modulesList.getSelectedItem();
+                Module m = userModulesManager.getModule(selectedModule);
+                m.updateModuleInfo(year, name, semester, creditsNum);
+                JOptionPane.showMessageDialog(myFrame, "Module has been updated successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            
+            
 
         }
     }   
@@ -159,9 +169,17 @@ public class ModulesManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            String selectedModule = (String) modulesList.getSelectedItem();
-            userModulesManager.removeModule(selectedModule);     
-            populateModulesList();
+            if(modulesList.getItemCount() == 0)
+            {
+                JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                String selectedModule = (String) modulesList.getSelectedItem();
+                userModulesManager.removeModule(selectedModule);     
+                populateModulesList();
+                JOptionPane.showMessageDialog(myFrame, "Module has been removed successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
     
