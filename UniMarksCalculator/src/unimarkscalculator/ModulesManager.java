@@ -6,6 +6,7 @@
 package unimarkscalculator;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 /**
  *
@@ -49,15 +50,22 @@ public class ModulesManager
     }
     
     public void removeModule(String name)
-    {
-        for(Module temp : allUserModules)
+    {   
+        try
         {
-            if(temp.getName().equals(name))
+            for(Module temp : allUserModules)
             {
-                allUserModules.remove(temp);
-                System.out.println("REMOVED");
+                if(temp.getName().equals(name))
+                {
+                    allUserModules.remove(temp);
+                    System.out.println("REMOVED");
+                }
             }
         }
+        catch(ConcurrentModificationException e)
+        {
+            System.out.println(e);
+        }  
     }
     
     public Module getModule(String name)

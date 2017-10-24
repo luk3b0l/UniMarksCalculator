@@ -84,6 +84,7 @@ public class ModulesManagerGUI
         centerPanel.add(modulesList, gcCenter);
         populateModulesList();      
         modulesList.setSelectedIndex(-1);
+        modulesList.addActionListener(new ModulesListHandler());
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(yearInput, gcCenter);
@@ -130,10 +131,7 @@ public class ModulesManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            yearInput.setText("");
-            semesterInput.setText("");
-            nameInput.setText("");
-            creditsInput.setText("");
+            clearFields();
         }
     }    
     
@@ -175,9 +173,28 @@ public class ModulesManagerGUI
                 String selectedModule = (String) modulesList.getSelectedItem();
                 userModulesManager.removeModule(selectedModule);     
                 populateModulesList();
+                clearFields();
                 JOptionPane.showMessageDialog(myFrame, "Module has been removed successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+    }
+    
+    // ---------------------------------------------------------------------------------------------------    
+    // ***** OTHER HANDLERS:    
+    private class ModulesListHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            if(modulesList.getSelectedItem() != null)
+            {
+                Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
+                yearInput.setText(moduleToRetrieveInfo.getYear());
+                semesterInput.setText(moduleToRetrieveInfo.getSemester());
+                nameInput.setText(moduleToRetrieveInfo.getName());
+                creditsInput.setText(String.valueOf(moduleToRetrieveInfo.getCredits()));
+            }
+        }  
     }
     
     public void populateModulesList()
@@ -189,6 +206,14 @@ public class ModulesManagerGUI
         {
             modulesList.addItem(temp.getName());
         }   
+    }
+    
+    public void clearFields()
+    {
+        yearInput.setText("");
+        semesterInput.setText("");
+        nameInput.setText("");
+        creditsInput.setText("");
     }
     
     public void setVisible(boolean visibility)
