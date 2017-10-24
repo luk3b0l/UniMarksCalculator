@@ -88,6 +88,7 @@ public class AssignmentGUI
         {
             modulesList.addItem(temp.getName());
         }
+        modulesList.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(titleInput, gcCenter);
@@ -139,14 +140,9 @@ public class AssignmentGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if(modulesList.getItemCount() == 0)
+            if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || typeInput.getText().equals("") || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
             {
-                JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-            }
-            
-            else if(titleInput.getText().equals("") || typeInput.getText().equals("") || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(myFrame, "Some of the fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -159,7 +155,7 @@ public class AssignmentGUI
                 String selectedModule = (String) modulesList.getSelectedItem();
 
                 Module m = userModulesManager.getModule(selectedModule);
-                m.addAssignment(title, type, weightPercentNum, weightPercentNum);
+                m.addAssignment(title, type, resultNum, weightPercentNum);
                 clearFields();  //Clearing the input fields for next data input
                 JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
             }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author xxx
+ * @author Lukasz Bol
  */
 public class ModulesManager 
 {

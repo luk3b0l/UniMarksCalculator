@@ -7,7 +7,7 @@ package unimarkscalculator;
 
 /**
  *
- * @author xxx
+ * @author Lukasz Bol
  */
 public class ResultsGUI {
     

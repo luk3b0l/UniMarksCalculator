@@ -83,6 +83,7 @@ public class ModulesManagerGUI
         gcCenter.gridx = 1; gcCenter.gridy = 0;
         centerPanel.add(modulesList, gcCenter);
         populateModulesList();      
+        modulesList.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(yearInput, gcCenter);
@@ -157,10 +158,6 @@ public class ModulesManagerGUI
                 m.updateModuleInfo(year, name, semester, creditsNum);
                 JOptionPane.showMessageDialog(myFrame, "Module has been updated successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }
-            
-            
-            
-
         }
     }   
     

@@ -126,7 +126,7 @@ public class ModuleGUI
 
             if(yearInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
             {
-                JOptionPane.showMessageDialog(myFrame, "Some of the fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
