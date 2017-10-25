@@ -13,16 +13,16 @@ import java.util.*;
  */
 public class Module 
 {
-    private String year;
+    private String level;
     private String name;
     private String semester;
     private int credits;
     private int grade;
     private ArrayList<Assignment> assignments; 
     
-    public Module(String newYear, String newName, String newSemester, int newCredits)
+    public Module(String newLevel, String newName, String newSemester, int newCredits)
     {
-        this.year = newYear;
+        this.level = newLevel;
         this.name = newName;
         this.semester = newSemester;
         this.credits = newCredits;
@@ -75,9 +75,9 @@ public class Module
         return assignments;
     }
 
-    public String getYear() 
+    public String getLevel() 
     {
-        return year;
+        return level;
     }
 
     public String getSemester() 
@@ -90,9 +90,9 @@ public class Module
         return credits;
     }
 
-    public void setYear(String year) 
+    public void setLevel(String level) 
     {
-        this.year = year;
+        this.level = level;
     }
 
     public void setSemester(String semester) 
@@ -125,9 +125,9 @@ public class Module
         this.grade = grade;
     }
     
-    public void updateModuleInfo(String year, String name, String semester, int credits)
+    public void updateModuleInfo(String level, String name, String semester, int credits)
     {
-        setYear(year);
+        setLevel(level);
         setName(name);
         setSemester(semester);
         setCredits(credits);
@@ -137,7 +137,7 @@ public class Module
     {
         String s = "***** MODULE INFO *****" + 
                    "\nModule: " + name + 
-                   "\nYear: " + year + 
+                   "\nLevel: " + level + 
                    "\nSemester: " + semester + 
                    "\nCredits: " + credits + 
                    "\nGrade: " + grade;

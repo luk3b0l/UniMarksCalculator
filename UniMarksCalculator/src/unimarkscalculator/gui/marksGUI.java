@@ -231,7 +231,7 @@ public class marksGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            //new ResultsGUI().setVisible(true);
+            new ResultsGUI().setVisible(true);
         }
         
     }

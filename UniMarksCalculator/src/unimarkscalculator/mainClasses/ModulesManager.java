@@ -43,9 +43,9 @@ public class ModulesManager
         this.description = description;
     }
     
-    public void addModule(String newYear, String newName, String newSemester, int newCredits)
+    public void addModule(String newLevel, String newName, String newSemester, int newCredits)
     {
-        Module tempModule = new Module(newYear, newName, newSemester, newCredits);
+        Module tempModule = new Module(newLevel, newName, newSemester, newCredits);
         allUserModules.add(tempModule);
     }
     

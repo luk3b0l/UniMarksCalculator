@@ -20,11 +20,11 @@ public class ModuleGUI
 {
     private JFrame myFrame = new JFrame("Add Module");
     private JLabel addModuleLabel = new JLabel("ADD MODULE", JLabel.CENTER);
-    private JLabel yearLabel = new JLabel("year: ");
+    private JLabel levelLabel = new JLabel("level: ");
     private JLabel semesterLabel = new JLabel("semester: ");
     private JLabel nameLabel = new JLabel("name: ");
     private JLabel creditsLabel = new JLabel("credits: ");
-    private JTextField yearInput = new JTextField("");
+    private JTextField levelInput = new JTextField("");
     private JTextField semesterInput = new JTextField("");
     private JTextField nameInput = new JTextField("");
     private JTextField creditsInput = new JTextField("");
@@ -61,7 +61,7 @@ public class ModuleGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_END;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(yearLabel, gcCenter);
+        centerPanel.add(levelLabel, gcCenter);
 
         gcCenter.gridx = 0; gcCenter.gridy = 1;
         centerPanel.add(semesterLabel, gcCenter);        
@@ -75,8 +75,8 @@ public class ModuleGUI
         // COLUMN 2:        
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 0;
-        centerPanel.add(yearInput, gcCenter);
-        yearInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(levelInput, gcCenter);
+        levelInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(semesterInput, gcCenter);
@@ -125,18 +125,18 @@ public class ModuleGUI
         public void actionPerformed(ActionEvent e) 
         {
 
-            if(yearInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
+            if(levelInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                String year = yearInput.getText();
+                String level = levelInput.getText();
                 String semester = semesterInput.getText();
                 String name = nameInput.getText(); 
                 String credits = creditsInput.getText();
                 int creditsNum = Integer.parseInt(credits);
-                userModulesManager.addModule(year, name, semester, creditsNum);
+                userModulesManager.addModule(level, name, semester, creditsNum);
                 clearFields();  //Clearing the input fields for next data input
                 JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }           
@@ -145,7 +145,7 @@ public class ModuleGUI
     
     public void clearFields()
     {
-        yearInput.setText("");
+        levelInput.setText("");
         semesterInput.setText("");
         nameInput.setText("");
         creditsInput.setText("");
