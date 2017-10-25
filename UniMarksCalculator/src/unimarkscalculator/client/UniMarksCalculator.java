@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package unimarkscalculator;
+package unimarkscalculator.client;
+
+import unimarkscalculator.gui.marksGUI;
 
 /**
  *
@@ -16,7 +18,7 @@ public class UniMarksCalculator {
      */
     public static void main(String[] args) 
     {
-        new marksGUItest();
+        new marksGUI();
     }
     
 }

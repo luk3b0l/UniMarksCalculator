@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package unimarkscalculator;
+package unimarkscalculator.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import unimarkscalculator.mainClasses.ModulesManager;
 
 
 

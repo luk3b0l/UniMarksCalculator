@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package unimarkscalculator;
+package unimarkscalculator.gui;
 
 import java.awt.*;
 import java.awt.Event.*;
@@ -22,9 +22,8 @@ public class marksGUI
     private JButton addAssignmentButton = new JButton("Add assignment");
     private JButton modulesManagerButton = new JButton("Modules manager");
     private JButton assignmentsManagerButton = new JButton("Assignments manager");
-    private JButton resultsButton = new JButton("Results");
-    
-    
+    private JButton resultsButton = new JButton("View Results");
+        
     private JComboBox modulesList = new JComboBox();
     
     

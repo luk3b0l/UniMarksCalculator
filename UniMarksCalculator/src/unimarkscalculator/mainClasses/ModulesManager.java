@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package unimarkscalculator;
+package unimarkscalculator.mainClasses;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
