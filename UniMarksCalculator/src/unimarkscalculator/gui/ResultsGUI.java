@@ -57,8 +57,17 @@ public class ResultsGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        //centerPanel.add(..., gcCenter);
-
+        
+        // Creating MODULES table:
+        String[] modulesColumnNames = {"name", "semester", "credits", "completed(%)", "grade"};
+        Object[][] modulesData = {
+            {"Artificial Intelligence", "A", new Integer(15), new Integer(100), new Integer(85)},
+            {"Cybersecurity", "B", new Integer(15), new Integer (85), "---"}
+        };
+        JTable table = new JTable(modulesData, modulesColumnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+        centerPanel.add(table, gcCenter);
         
         
         gcCenter.gridx = 0; gcCenter.gridy = 1;      
