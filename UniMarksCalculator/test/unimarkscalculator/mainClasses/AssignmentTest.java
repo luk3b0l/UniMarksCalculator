@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
  */
 public class AssignmentTest 
 {
+    private Assignment testAssignment;
     public AssignmentTest(){}
     
     @BeforeClass
@@ -22,7 +23,7 @@ public class AssignmentTest
     @Before
     public void setUp()
     {
-        //new Assignment()
+        testAssignment = new Assignment("PEN Test", "coursework", 70, 50);
     }
     
     @After
