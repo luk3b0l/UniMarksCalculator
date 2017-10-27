@@ -3,6 +3,8 @@ package unimarkscalculator.mainClasses;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,23 +42,30 @@ public class ModuleTest
     }
     
     @Test
-    public void getModuleName()
+    public void testGetModuleName()
     {
         String moduleName = "Cybersecurity";
         assertEquals(testModule.getName(), moduleName);
     }
     
     @Test
-    public void getSemester()
+    public void testGetSemester()
     {
         String semester = "a";
         assertEquals(testModule.getSemester(), semester);
     }
     
     @Test
-    public void getCredits()
+    public void testGetCredits()
     {
         double credits = 15;
         assertEquals(credits, testModule.getCredits(), 0);  //expected, actual, delta
     }             
+    
+    @Test
+    public void testSucceedCreatingNewModule()
+    {
+        Module testSuccessfulModule = new Module("4", "Artificial Intelligence", "b", 15);
+        assertNotNull(testSuccessfulModule);
+    }
 }

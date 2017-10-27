@@ -235,7 +235,7 @@ public class MarksGUI
         }
         
     }
-    
+
     public static void main(String[] args)
     {
         new MarksGUI();
