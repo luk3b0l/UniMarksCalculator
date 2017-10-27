@@ -5,7 +5,7 @@
  */
 package unimarkscalculator.client;
 
-import unimarkscalculator.gui.marksGUI;
+import unimarkscalculator.gui.MarksGUI;
 
 /**
  *
@@ -18,7 +18,7 @@ public class UniMarksCalculator {
      */
     public static void main(String[] args) 
     {
-        new marksGUI();
+        new MarksGUI();
     }
     
 }

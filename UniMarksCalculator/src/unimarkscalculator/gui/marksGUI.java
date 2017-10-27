@@ -15,7 +15,7 @@ import javax.swing.*;
  *
  * @author Lukasz Bol
  */
-public class marksGUI 
+public class MarksGUI 
 {
     private JFrame myFrame = new JFrame("Uni Marks Calculator");
     private JButton addModuleButton = new JButton("Add module");
@@ -28,7 +28,7 @@ public class marksGUI
     
     
     
-    public marksGUI()
+    public MarksGUI()
     {
         setFrame();
     }
@@ -238,6 +238,6 @@ public class marksGUI
     
     public static void main(String[] args)
     {
-        new marksGUI();
+        new MarksGUI();
     }
 }

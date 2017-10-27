@@ -1,3 +1,5 @@
+package unimarkscalculator.mainClasses;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,8 +20,13 @@ public class AssignmentTest
     public static void tearDownClass(){}
     
     @Before
-    public void setUp(){}
+    public void setUp()
+    {
+        //new Assignment()
+    }
     
     @After
     public void tearDown(){}
+    
+    
 }
