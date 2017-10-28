@@ -62,18 +62,34 @@ public class AssignmentTest
     }
     
     @Test
-    public void testSetTitle(){}
+    public void testSetTitle()
+    {
+        String newTitle = "AI - NetLogo 2";
+        testAssignment.setTitle(newTitle);
+        assertEquals(testAssignment.getTitle(), newTitle);
+    }
     
     @Test
-    public void testSetType(){}
+    public void testSetType()
+    {
+        String newType = "exam";
+        testAssignment.setType(newType);
+        assertEquals(testAssignment.getType(), newType);
+    }
     
     @Test
-    public void testSetResult(){}
+    public void testSetResult()
+    {
+        double newResult = 90;
+        testAssignment.setResult(newResult);
+        assertTrue(testAssignment.getResult() == newResult);
+    }
     
     @Test
-    public void testSetWeight(){}
-    
-
-            
-    
+    public void testSetWeight()
+    {
+        double newWeight = 100;
+        testAssignment.setWeightPercent(newWeight);
+        assertTrue(testAssignment.getWeightPercent() == newWeight);
+    }
 }
