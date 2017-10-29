@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -62,10 +63,19 @@ public class ResultsGUI
         String[] modulesColumnNames = {"name", "semester", "credits", "completed(%)", "grade"};
         Object[][] modulesData = {
             {"Artificial Intelligence", "A", new Integer(15), new Integer(100), new Integer(85)},
-            {"Cybersecurity", "B", new Integer(15), new Integer (85), new Integer(55)}
+            {"Cybersecurity", "B", new Integer(15), new Integer (85), null},
+            {"Machine Learning", "B", new Integer(15), new Integer(79), new Integer(60)},
+            {"Software Engineering Practice", "A", new Integer(15), new Integer(30), null}
         };
         DefaultTableModel modulesTableModel = new DefaultTableModel(modulesData, modulesColumnNames);
-        modulesTable = new JTable(modulesTableModel);
+        modulesTable = new JTable(modulesTableModel)
+        {
+            @Override
+            public boolean isCellEditable(int data, int columns)
+            {
+                return false;
+            }            
+        };
         modulesTable.setPreferredScrollableViewportSize(modulesTable.getPreferredSize());
         //modulesTable.setFillsViewportHeight(true);
         modulesTable.setAutoCreateRowSorter(true);      //allows to sort through the information
@@ -83,11 +93,19 @@ public class ResultsGUI
             {"AI - Exam", "exam", 81, 50}
         };
         DefaultTableModel assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames);
-        assignmentsTable = new JTable(modulesData, modulesColumnNames);
+        assignmentsTable = new JTable(modulesData, modulesColumnNames)
+        {
+            public boolean isCellEditable(int data, int columns)
+            {
+                return false;
+            }
+        };
         assignmentsTable.setPreferredScrollableViewportSize(assignmentsTable.getPreferredSize());
         assignmentsTable.setAutoCreateRowSorter(true);
         JScrollPane assignmentsScrollPane = new JScrollPane(assignmentsTable);
         centerPanel.add(assignmentsScrollPane, gcCenter);      
+        
+        
         
         // ***** W E S T
         JPanel westPanel = new JPanel();
