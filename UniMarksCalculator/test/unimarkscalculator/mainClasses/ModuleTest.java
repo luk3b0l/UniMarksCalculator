@@ -2,9 +2,7 @@ package unimarkscalculator.mainClasses;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,22 +18,22 @@ public class ModuleTest
     public ModuleTest(){}
     
     @BeforeClass
-    public static void setUpClass()
-    {
-        testModule = new Module("6", "Cybersecurity", "a", 15);
-    }
+    public static void setUpClass(){}
     
     @AfterClass
     public static void tearDownClass(){}
     
     @Before
-    public void setUp(){}
+    public void setUp()
+    {
+        testModule = new Module("6", "Cybersecurity", "a", 15);
+    }
     
     @After
     public void tearDown(){}    
     
     @Test
-    public void getLevel()
+    public void testGetLevel()
     {
         String level = "6";
         assertEquals(testModule.getLevel(), level);
@@ -67,5 +65,24 @@ public class ModuleTest
     {
         Module testSuccessfulModule = new Module("4", "Artificial Intelligence", "b", 15);
         assertNotNull(testSuccessfulModule);
+    }
+    
+    @Test
+    public void testToString()
+    {
+        assertNotNull(testModule.toString());
+    }
+    
+    @Test
+    public void testAddAssignment()
+    {
+        testModule.addAssignment("PEN Testing with Kali", "coursework", 90, 50);
+        assertNotNull(testModule.getAssignment("PEN Testing with Kali"));
+    }
+    
+    @Test
+    public void testGetNonExistingAssignment()
+    {
+        assertNull(testModule.getAssignment("Cybersecurity - exam"));
     }
 }

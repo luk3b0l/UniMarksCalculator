@@ -14,20 +14,22 @@ import org.junit.Test;
 public class AssignmentTest 
 {
     private static Assignment testAssignment;
+    private static double delta;
     
     public AssignmentTest(){}
     
     @BeforeClass
-    public static void setUpClass()
-    {
-        testAssignment = new Assignment("AI - NetLogo", "coursework", 85, 50);
-    }
+    public static void setUpClass(){}
     
     @AfterClass
     public static void tearDownClass(){}
     
     @Before
-    public void setUp(){}
+    public void setUp()
+    {
+        testAssignment = new Assignment("AI - NetLogo", "coursework", 85, 50);
+        delta = 0;
+    }
     
     @After
     public void tearDown(){}
@@ -50,15 +52,14 @@ public class AssignmentTest
     public void testGetResult()
     {
         double result = 85;
-        assertTrue(testAssignment.getResult() == result);
-        
+        assertEquals(result, testAssignment.getResult(), delta);
     }
     
     @Test
     public void testGetWeight()
     {
         double weight = 50;
-        assertTrue(testAssignment.getWeightPercent() == weight);
+        assertEquals(weight, testAssignment.getWeightPercent(), delta);
     }
     
     @Test
@@ -91,5 +92,12 @@ public class AssignmentTest
         double newWeight = 100;
         testAssignment.setWeightPercent(newWeight);
         assertTrue(testAssignment.getWeightPercent() == newWeight);
+    }
+    
+    @Test
+    public void testToString()
+    {
+        String assignmentInfo = testAssignment.toString();
+        assertTrue(assignmentInfo != null);
     }
 }

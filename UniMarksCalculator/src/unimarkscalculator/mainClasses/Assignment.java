@@ -73,5 +73,4 @@ public class Assignment
                    "\nWeight(%): " + weightPercent;
         return s;
     }
-    
 }

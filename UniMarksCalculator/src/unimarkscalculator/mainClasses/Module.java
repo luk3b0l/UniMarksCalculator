@@ -69,7 +69,18 @@ public class Module
         }
         return s;
     }
-    
+    public Assignment getAssignment(String name)
+    {
+        Assignment returnAssignment = null;
+        for(Assignment tempAssignment : assignments)
+        {
+            if((tempAssignment.getTitle()).equals(name))
+            {
+                return returnAssignment = tempAssignment;
+            }
+        }
+        return returnAssignment;
+    }
     public ArrayList<Assignment> getAllAssignments()
     {
         return assignments;
