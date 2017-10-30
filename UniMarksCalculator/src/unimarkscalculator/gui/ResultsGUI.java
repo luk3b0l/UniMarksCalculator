@@ -3,8 +3,11 @@ package unimarkscalculator.gui;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import unimarkscalculator.mainClasses.Module;
+import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
  *
@@ -26,7 +29,16 @@ public class ResultsGUI
     private JComboBox levelsList = new JComboBox();
     private JTable modulesTable;
     private JTable assignmentsTable;
-
+    
+    private Object[][] modulesData;
+    private Object[][] assignmentsData = {{"","","",""}};
+    private String[] modulesColumnNames;
+    private String[] assignmentsColumnNames;
+    private ModulesManager modulesCollectionInstance = ModulesManager.getInstance();
+    private ArrayList<Module> modulesList = new ArrayList<>();
+    
+    private DefaultTableModel modulesTableModel;
+    private DefaultTableModel assignmentsTableModel;
     
     public ResultsGUI()
     {
@@ -37,7 +49,7 @@ public class ResultsGUI
     {
         Container contentPane = myFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(600, 600);
+        Dimension preferredSize = new Dimension(700, 600);
         myFrame.setPreferredSize(preferredSize);
         
         // ***** N O R T H
@@ -60,14 +72,35 @@ public class ResultsGUI
         
         gcCenter.gridx = 0; gcCenter.gridy = 1;
         // Creating MODULES table:
-        String[] modulesColumnNames = {"name", "semester", "credits", "completed(%)", "grade"};
-        Object[][] modulesData = {
-            {"Artificial Intelligence", "A", new Integer(15), new Integer(100), new Integer(85)},
-            {"Cybersecurity", "B", new Integer(15), new Integer (85), null},
-            {"Machine Learning", "B", new Integer(15), new Integer(79), new Integer(60)},
-            {"Software Engineering Practice", "A", new Integer(15), new Integer(30), null}
+        String[] modulesColumnNames = {"Name", "Semester", "Credits", "Grade"}; 
+        modulesTableModel = new DefaultTableModel(modulesData, modulesColumnNames)
+        {
+            public Class getColumnClass(int column)
+            {
+                Class returnValue;
+
+                if((column >= 0) && (column < getColumnCount()))
+                {
+                    returnValue = getValueAt(0, column).getClass();
+                }
+                else
+                {
+                    returnValue = Object.class;
+                }
+                return returnValue;
+            }
         };
-        DefaultTableModel modulesTableModel = new DefaultTableModel(modulesData, modulesColumnNames);
+        Object[] newModule;
+        modulesList = modulesCollectionInstance.getAllModules();
+        int index = 0;
+        for(Module tempModule : modulesList)
+        {
+            System.out.println(tempModule.getName());
+            newModule = new Object[]{tempModule.getName(), tempModule.getSemester(), tempModule.getCredits(), tempModule.getGrade()};
+            modulesTableModel.addRow(newModule);
+            index++;
+        }
+        
         modulesTable = new JTable(modulesTableModel)
         {
             @Override
@@ -76,8 +109,8 @@ public class ResultsGUI
                 return false;
             }            
         };
-        modulesTable.setPreferredScrollableViewportSize(modulesTable.getPreferredSize());
-        //modulesTable.setFillsViewportHeight(true);
+        modulesTable.setPreferredScrollableViewportSize(new Dimension(500,100));
+        modulesTable.setFillsViewportHeight(true);
         modulesTable.setAutoCreateRowSorter(true);      //allows to sort through the information
         JScrollPane modulesScrollPane = new JScrollPane(modulesTable);
         centerPanel.add(modulesScrollPane, gcCenter);     
@@ -88,19 +121,45 @@ public class ResultsGUI
         gcCenter.gridx = 0; gcCenter.gridy = 3;
         // Creating ASSIGNMENTS table:
         String[] assignmentsColumnNames = {"title", "type", "result", "weight(%)"};
-        Object[][] assignmentsData = {
-            {"AI - NetLogo", "coursework", 85, 50},
-            {"AI - Exam", "exam", 81, 50}
-        };
-        DefaultTableModel assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames);
-        assignmentsTable = new JTable(modulesData, modulesColumnNames)
+        DefaultTableModel assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
+        {
+            public Class getColumnClass(int column)
+            {
+                Class returnValue;
+                if((column >= 0) && (column < getColumnCount()))
+                {
+                    returnValue = getValueAt(0, column).getClass();
+                }
+                else
+                {
+                    returnValue = Object.class;
+                }
+                return returnValue;                    
+            }
+        };        
+        
+//        Object[] newAssignment;
+//        modulesList = modulesCollectionInstance.getAllModules();
+//        int index = 0;
+//        for(Module tempModule : modulesList)
+//        {
+//            System.out.println(tempModule.getName());
+//            newModule = new Object[]{tempModule.getName(), tempModule.getSemester(), tempModule.getCredits(), tempModule.getGrade()};
+//            modulesTableModel.addRow(newModule);
+//            index++;
+//        }
+        
+        
+
+        assignmentsTable = new JTable(assignmentsData, assignmentsColumnNames)
         {
             public boolean isCellEditable(int data, int columns)
             {
                 return false;
             }
         };
-        assignmentsTable.setPreferredScrollableViewportSize(assignmentsTable.getPreferredSize());
+        assignmentsTable.setPreferredScrollableViewportSize(new Dimension(500,100));
+        assignmentsTable.setFillsViewportHeight(true);
         assignmentsTable.setAutoCreateRowSorter(true);
         JScrollPane assignmentsScrollPane = new JScrollPane(assignmentsTable);
         centerPanel.add(assignmentsScrollPane, gcCenter);      
