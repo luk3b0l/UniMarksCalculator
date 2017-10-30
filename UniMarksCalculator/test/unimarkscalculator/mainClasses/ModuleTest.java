@@ -85,4 +85,12 @@ public class ModuleTest
     {
         assertNull(testModule.getAssignment("Cybersecurity - exam"));
     }
+    
+    @Test
+    public void testRemoveAssignment()
+    {
+        testModule.addAssignment("Cybersecurity - EXAM", "exam", 50, 50);
+        testModule.removeAssignment("Cybersecurity - EXAM");
+        assertNull(testModule.getAssignment("Cybersecurity - EXAM"));
+    }
 }

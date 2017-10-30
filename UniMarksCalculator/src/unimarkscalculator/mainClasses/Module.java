@@ -42,6 +42,7 @@ public class Module
             if((tempAssignment.getTitle()).equals(name))
             {
                 assignments.remove(tempAssignment);
+                break;
             }
         }
     }
