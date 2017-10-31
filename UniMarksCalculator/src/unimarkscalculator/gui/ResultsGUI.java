@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import unimarkscalculator.mainClasses.Module;
@@ -114,6 +116,7 @@ public class ResultsGUI
         modulesTable.setAutoCreateRowSorter(true);      //allows to sort through the information
         JScrollPane modulesScrollPane = new JScrollPane(modulesTable);
         centerPanel.add(modulesScrollPane, gcCenter);     
+        modulesTable.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
 
         gcCenter.gridx = 0; gcCenter.gridy = 2;
         centerPanel.add(assignmentsListLabel, gcCenter);
@@ -213,6 +216,22 @@ public class ResultsGUI
         myFrame.setAlwaysOnTop(false);
         //myFrame.setResizable(false);
         myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
+    }
+    
+    private class ModulesListSelectionListener implements ListSelectionListener
+    {
+
+        @Override
+        public void valueChanged(ListSelectionEvent event) 
+        {
+            int viewRow = modulesTable.getSelectedRow();
+            String value = modulesTable.getValueAt(viewRow, 0).toString();
+            System.out.println("ROW number: " + viewRow);
+            System.out.println("VALUE: " + value);
+            
+            
+        }
+                
     }
     
     public void setVisible(boolean visibility)
