@@ -1,5 +1,5 @@
 # UniMarksCalculator
-This program helps to calculate student's marks. It also shows how far the student is from his/her goal (1st, 2nd).
+This program helps to calculate student's marks. It also shows how far the student is from their goal (1st, 2nd).
 NOTE: The project is under construction.
 
 The below are screenshots from the initial version of the program:
