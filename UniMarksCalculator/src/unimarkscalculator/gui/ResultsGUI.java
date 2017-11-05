@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import unimarkscalculator.mainClasses.Assignment;
 import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
 
@@ -33,7 +34,7 @@ public class ResultsGUI
     private JTable assignmentsTable;
     
     private Object[][] modulesData;
-    private Object[][] assignmentsData = {{"","","",""}};
+    private Object[][] assignmentsData = {{"....","...","..","."}};
     private String[] modulesColumnNames;
     private String[] assignmentsColumnNames;
     private ModulesManager modulesCollectionInstance = ModulesManager.getInstance();
@@ -94,13 +95,11 @@ public class ResultsGUI
         };
         Object[] newModule;
         modulesList = modulesCollectionInstance.getAllModules();
-        int index = 0;
         for(Module tempModule : modulesList)
         {
             System.out.println(tempModule.getName());
             newModule = new Object[]{tempModule.getName(), tempModule.getSemester(), tempModule.getCredits(), tempModule.getGrade()};
             modulesTableModel.addRow(newModule);
-            index++;
         }
         
         modulesTable = new JTable(modulesTableModel)
@@ -132,28 +131,17 @@ public class ResultsGUI
                 if((column >= 0) && (column < getColumnCount()))
                 {
                     returnValue = getValueAt(0, column).getClass();
+                    System.out.println("TEST2");
                 }
                 else
                 {
                     returnValue = Object.class;
+                    System.out.println("TEST3");
                 }
                 return returnValue;                    
             }
         };        
         
-//        Object[] newAssignment;
-//        modulesList = modulesCollectionInstance.getAllModules();
-//        int index = 0;
-//        for(Module tempModule : modulesList)
-//        {
-//            System.out.println(tempModule.getName());
-//            newModule = new Object[]{tempModule.getName(), tempModule.getSemester(), tempModule.getCredits(), tempModule.getGrade()};
-//            modulesTableModel.addRow(newModule);
-//            index++;
-//        }
-        
-        
-
         assignmentsTable = new JTable(assignmentsData, assignmentsColumnNames)
         {
             public boolean isCellEditable(int data, int columns)
@@ -220,20 +208,53 @@ public class ResultsGUI
     
     private class ModulesListSelectionListener implements ListSelectionListener
     {
-
         @Override
         public void valueChanged(ListSelectionEvent event) 
         {
             int viewRow = modulesTable.getSelectedRow();
-            String value = modulesTable.getValueAt(viewRow, 0).toString();
+            String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
             System.out.println("ROW number: " + viewRow);
-            System.out.println("VALUE: " + value);
+            System.out.println("VALUE: " + selectedModuleName);
             
+            modulesList = modulesCollectionInstance.getAllModules();
+            ArrayList<Assignment> selectedModuleAssignments = new ArrayList<>();
+            int index = 0;
+            for(Module tempModule : modulesList)
+            {
+                if((tempModule.getName()).equals(selectedModuleName))
+                {
+                    tempModule.getAllAssignments();
+                    break;
+                }
+            }
+            assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
+            {
+                public Class getColumnClass(int column)
+                {
+                    Class returnValue;
+                    if((column >= 0) && (column < getColumnCount()))
+                    {
+                        returnValue = getValueAt(0, column).getClass();
+                        System.out.println("TEST2");
+                    }
+                    else
+                    {
+                        returnValue = Object.class;
+                        System.out.println("TEST3");
+                    }
+                    return returnValue;                    
+                }
+            };        
+            Object[] newAssignment;
             
-        }
-                
+            for(Assignment tempAssignment : selectedModuleAssignments)
+            {
+                newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getResult(), tempAssignment.getWeightPercent()};
+                assignmentsTableModel.addRow(newAssignment);
+                System.out.println("TEST1");
+            }    
+        }     
     }
-    
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
