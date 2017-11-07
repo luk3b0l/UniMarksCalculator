@@ -59,4 +59,17 @@ public class ModulesManagerTest
         
         Assert.assertNull(testingModulesManager.getModule("Project Planning"));
     }
+    
+    @Test
+    public void testGetModulesManagerDescription()
+    {
+        Assert.assertEquals("USER MODULES MANAGER", testingModulesManager.getDescription());
+    }
+    
+    @Test
+    public void testSetModulesManagerDescription()
+    {
+        testingModulesManager.setDescription("User1 MODULES MANAGER");
+        Assert.assertEquals("User1 MODULES MANAGER", testingModulesManager.getDescription());
+    }
 }
