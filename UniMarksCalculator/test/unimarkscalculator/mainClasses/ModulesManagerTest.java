@@ -13,6 +13,10 @@ import org.junit.Test;
  */
 public class ModulesManagerTest 
 {
+
+    private static ModulesManager testingModulesManager = ModulesManager.getInstance();
+
+    
     public ModulesManagerTest(){}
     
     @BeforeClass
@@ -30,9 +34,29 @@ public class ModulesManagerTest
     @Test
     public void testGetInstance()
     {
-        ModulesManager testingModulesManager = ModulesManager.getInstance();
+        
         String description = "NEW ModulesManager";
         testingModulesManager.setDescription(description);
         Assert.assertEquals(description, testingModulesManager.getDescription());
+    }
+    
+    @Test
+    public void testAddModule()
+    {
+        
+        testingModulesManager.addModule("5", "Database Concepts", "B", 15);
+        
+        Module testModule = testingModulesManager.getModule("Database Concepts");
+        Assert.assertEquals("Database Concepts", testModule.getName());
+    }
+    
+    @Test 
+    public void testRemoveModule()
+    {
+        //testingModulesManager.addModule("4", "Computer Science Development Exercise", "B", 15);
+        testingModulesManager.addModule("6", "Project Planning", "A", 15);
+        testingModulesManager.removeModule("Project Planning");
+        
+        Assert.assertNull(testingModulesManager.getModule("Project Planning"));
     }
 }

@@ -21,6 +21,4 @@ public class UniMarksCalculatorTest {
     {
         System.out.println("");
     }
-
-
 }
