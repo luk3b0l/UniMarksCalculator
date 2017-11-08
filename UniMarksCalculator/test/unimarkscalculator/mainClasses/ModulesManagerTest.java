@@ -26,7 +26,10 @@ public class ModulesManagerTest
     public static void tearDownClass(){}
     
     @Before
-    public void setUp(){}
+    public void setUp()
+    {
+        testingModulesManager.removeAllModulesList();
+    }
     
     @After
     public void tearDown(){} 
@@ -53,7 +56,6 @@ public class ModulesManagerTest
     @Test 
     public void testRemoveModule()
     {
-        //testingModulesManager.addModule("4", "Computer Science Development Exercise", "B", 15);
         testingModulesManager.addModule("6", "Project Planning", "A", 15);
         testingModulesManager.removeModule("Project Planning");
         
@@ -85,5 +87,36 @@ public class ModulesManagerTest
     {
         testingModulesManager.setDescription(null);
         Assert.assertEquals("<no description set>", testingModulesManager.getDescription());
+    }
+    
+    @Test
+    public void testGetModuleExists()
+    {
+        testingModulesManager.addModule("5", "Database Concepts", "B", 15);
+        String expectedModule = "Database Concepts";
+        Assert.assertNotNull(testingModulesManager.getModule(expectedModule));
+    }
+
+    @Test
+    public void testGetModuleDoesNotExist()
+    {
+        String expectedModule = "Project Planning";
+        Assert.assertNull(testingModulesManager.getModule(expectedModule));
+    }
+    
+    @Test
+    public void testGetAllModulesEmpty()
+    {
+        int expectedSize = 0;
+        Assert.assertEquals(expectedSize, testingModulesManager.getAllModules().size());
+    }    
+    
+    @Test
+    public void testGetAllModulesCorrectModulesQuantityInCollection()
+    {
+        testingModulesManager.addModule("4", "Computer Science Development Exercise", "B", 15);
+        testingModulesManager.addModule("4", "Human Dimensions of Computing", "A", 30);
+        int expectedQuantity = 2;
+        Assert.assertEquals(expectedQuantity, testingModulesManager.getAllModules().size());
     }
 }

@@ -60,7 +60,6 @@ public class ModulesManager
                 if(temp.getName().equals(name))
                 {
                     allUserModules.remove(temp);
-                    System.out.println("REMOVED");
                 }
             }
         }
@@ -81,6 +80,11 @@ public class ModulesManager
             }
         }
         return moduleToReturn;
+    }
+    
+    public void removeAllModulesList()
+    {
+        allUserModules.removeAll(allUserModules);
     }
     
     public void removeAssignment(String name)
