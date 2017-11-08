@@ -72,4 +72,18 @@ public class ModulesManagerTest
         testingModulesManager.setDescription("User1 MODULES MANAGER");
         Assert.assertEquals("User1 MODULES MANAGER", testingModulesManager.getDescription());
     }
+    
+    @Test
+    public void testSetModulesManagerDescriptionEdgeCase1()
+    {
+        testingModulesManager.setDescription("");
+        Assert.assertEquals("<no description set>", testingModulesManager.getDescription());
+    }
+    
+    @Test
+    public void testSetModulesManagerDescriptionEdgeCase2()
+    {
+        testingModulesManager.setDescription(null);
+        Assert.assertEquals("<no description set>", testingModulesManager.getDescription());
+    }
 }

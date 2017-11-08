@@ -35,7 +35,14 @@ public class ModulesManager
 
     public void setDescription(String description) 
     {
-        this.description = description;
+        if(description == null | description == "")
+        {
+            this.description = "<no description set>";
+        }
+        else
+        {
+            this.description = description;
+        }
     }
     
     public void addModule(String newLevel, String newName, String newSemester, int newCredits)
