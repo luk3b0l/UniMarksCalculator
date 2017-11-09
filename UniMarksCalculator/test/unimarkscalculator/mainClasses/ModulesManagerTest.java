@@ -1,5 +1,6 @@
 package unimarkscalculator.mainClasses;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -118,5 +119,15 @@ public class ModulesManagerTest
         testingModulesManager.addModule("4", "Human Dimensions of Computing", "A", 30);
         int expectedQuantity = 2;
         Assert.assertEquals(expectedQuantity, testingModulesManager.getAllModules().size());
+    }
+    
+    @Test
+    public void testRemoveAllModulesList()
+    {
+        testingModulesManager.addModule("4", "Computer Science Development Exercise", "B", 15);
+        testingModulesManager.addModule("4", "Human Dimensions of Computing", "A", 30);
+        //testingModulesManager.removeAllModulesList();
+        ArrayList<Module> tempModules = new ArrayList<>();
+        Assert.assertEquals(tempModules, testingModulesManager.getAllModules());
     }
 }
