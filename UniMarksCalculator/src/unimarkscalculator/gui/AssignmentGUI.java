@@ -137,6 +137,9 @@ public class AssignmentGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
+            boolean isResultDouble = false;
+            boolean isWeightDouble = false;            
+            
             if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || typeInput.getText().equals("") || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
@@ -146,15 +149,26 @@ public class AssignmentGUI
                 String title = titleInput.getText();
                 String type = typeInput.getText();
                 String result = resultInput.getText(); 
-                double resultNum = Double.parseDouble(result);
                 String weightPercent = weightPercentInput.getText();
-                double weightPercentNum = Double.parseDouble(weightPercent);
                 String selectedModule = (String) modulesList.getSelectedItem();
-
-                Module m = userModulesManager.getModule(selectedModule);
-                m.addAssignment(title, type, resultNum, weightPercentNum);
-                clearFields();  //Clearing the input fields for next data input
-                JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                
+                isResultDouble = isDouble(result);
+                isWeightDouble = isDouble(weightPercent);
+                
+                if(isResultDouble == true && isWeightDouble == true)
+                {
+                    double resultNum = Double.parseDouble(result);
+                    double weightPercentNum = Double.parseDouble(weightPercent);
+                    
+                    Module m = userModulesManager.getModule(selectedModule);
+                    m.addAssignment(title, type, resultNum, weightPercentNum);
+                    clearFields();  //Clearing the input fields for next data input
+                    JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(myFrame, "Some of the data input are incorrect", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
@@ -170,5 +184,21 @@ public class AssignmentGUI
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
+    }
+
+    private boolean isDouble(String numberToCheck)
+    {
+        boolean isValidInteger = false;
+        
+        try
+        {
+            Double.parseDouble(numberToCheck);
+            isValidInteger = true;
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println(e);
+        }
+        return isValidInteger;
     }
 }
