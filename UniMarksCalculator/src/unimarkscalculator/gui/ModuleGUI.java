@@ -119,7 +119,9 @@ public class ModuleGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-
+            boolean isLevelInteger = false;
+            boolean isCreditsInteger = false;
+            boolean isSemesterCorrect = false;
             if(levelInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
@@ -130,10 +132,23 @@ public class ModuleGUI
                 String semester = semesterInput.getText();
                 String name = nameInput.getText(); 
                 String credits = creditsInput.getText();
-                int creditsNum = Integer.parseInt(credits);
-                userModulesManager.addModule(level, name, semester, creditsNum);
-                clearFields();  //Clearing the input fields for next data input
-                JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                
+                //checking data input:
+                isLevelInteger = isInteger(level);
+                isCreditsInteger = isInteger(credits);
+                isSemesterCorrect = isSemester(semester);
+                
+                if(isLevelInteger == true && isCreditsInteger == true && isSemesterCorrect == true)
+                {
+                    int creditsNum = Integer.parseInt(credits);
+                    userModulesManager.addModule(level, name, semester, creditsNum);
+                    clearFields();  //Clearing the input fields for next data input
+                    JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(myFrame, "Some of the data input are incorrect", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                }
             }           
         }
     }
@@ -148,5 +163,34 @@ public class ModuleGUI
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
+    }
+    
+    private boolean isInteger(String numberToCheck)
+    {
+        boolean isValidInteger = false;
+        
+        try
+        {
+            Integer.parseInt(numberToCheck);
+            isValidInteger = true;
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println(e);
+        }
+        return isValidInteger;
+    }
+    
+    private boolean isSemester(String semesterToCheck)
+    {
+        boolean isValidSemester = false;
+        String lowerSemester = semesterToCheck.toLowerCase();
+        int stringLength = semesterToCheck.length();
+        System.out.println("LENGTH:" + stringLength);
+        if(stringLength == 1)
+        {
+            isValidSemester = true;
+        }
+        return isValidSemester;
     }
 }
