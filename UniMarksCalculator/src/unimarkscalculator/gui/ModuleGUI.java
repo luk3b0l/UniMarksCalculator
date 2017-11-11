@@ -28,7 +28,6 @@ public class ModuleGUI
     private JComboBox semestersList = new JComboBox(new String[] {"A", "B", "C"});
     private JComboBox levelsList = new JComboBox(new String[] {"4", "5", "6"});
     private JComboBox creditsList = new JComboBox(new String[] {"15", "30"});
-//    private String specialMessage = "HELLO WORLD!";
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
@@ -76,12 +75,10 @@ public class ModuleGUI
         gcCenter.gridx = 1; gcCenter.gridy = 0;
         centerPanel.add(levelsList, gcCenter);
         levelsList.setSelectedIndex(-1);
-        //levelInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(semestersList, gcCenter);
         semestersList.setSelectedIndex(-1);
-        //semesterInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
         centerPanel.add(nameInput, gcCenter);
@@ -90,7 +87,6 @@ public class ModuleGUI
         gcCenter.gridx = 1; gcCenter.gridy = 3;
         centerPanel.add(creditsList, gcCenter);   
         creditsList.setSelectedIndex(-1);
-        //creditsInput.setPreferredSize(new Dimension(100, 25));
         
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
@@ -173,35 +169,4 @@ public class ModuleGUI
         }
         return isValidInteger;
     }
-    
-    private boolean isSemester(String semesterToCheck)
-    {
-        boolean isValidSemester = false;
-        char[] semestersArray = {'a','b','c'};
-        String lowerSemester = semesterToCheck.toLowerCase();
-        int stringLength = semesterToCheck.length();        
-        if(stringLength == 1)
-        {
-            char semesterCharacter = lowerSemester.charAt(0);
-            for(char tempChar : semestersArray)
-            {
-                if(semesterCharacter == tempChar)
-                {
-                    isValidSemester = true;
-                }
-            }          
-        }
-        return isValidSemester;
-    }
-//    private String appropriateJOptionMessage(boolean isLevelCorrect, boolean isCreditsCorrect, boolean isSemesterCorrect)
-//    {
-//        String level = "";
-//        String credits = "";
-//        String semester = "";
-//        String returnedMessage = "";
-//        if(!isLevelCorrect)
-//        {
-//            level = "- unaprropriate level entered."
-//        }
-//    }
 }
