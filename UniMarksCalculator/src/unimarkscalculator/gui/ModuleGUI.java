@@ -25,6 +25,10 @@ public class ModuleGUI
     private JTextField creditsInput = new JTextField("");
     private JButton addModuleButton = new JButton("Add");
     private JButton clearFieldsButton = new JButton("Clear all fields");
+    private JComboBox semestersList = new JComboBox(new String[] {"A", "B", "C"});
+    private JComboBox levelsList = new JComboBox(new String[] {"4", "5", "6"});
+    private JComboBox creditsList = new JComboBox(new String[] {"15", "30"});
+//    private String specialMessage = "HELLO WORLD!";
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
@@ -70,20 +74,23 @@ public class ModuleGUI
         // COLUMN 2:        
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 0;
-        centerPanel.add(levelInput, gcCenter);
-        levelInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(levelsList, gcCenter);
+        levelsList.setSelectedIndex(-1);
+        //levelInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
-        centerPanel.add(semesterInput, gcCenter);
-        semesterInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(semestersList, gcCenter);
+        semestersList.setSelectedIndex(-1);
+        //semesterInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
         centerPanel.add(nameInput, gcCenter);
         nameInput.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
-        centerPanel.add(creditsInput, gcCenter);        
-        creditsInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(creditsList, gcCenter);   
+        creditsList.setSelectedIndex(-1);
+        //creditsInput.setPreferredSize(new Dimension(100, 25));
         
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
@@ -119,46 +126,32 @@ public class ModuleGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            boolean isLevelInteger = false;
             boolean isCreditsInteger = false;
-            boolean isSemesterCorrect = false;
-            if(levelInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
+            if(levelsList.getSelectedItem().equals(null) || semestersList.getSelectedItem().equals(null) || nameInput.getText().equals("") || creditsList.getSelectedItem().equals(null))
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                String level = levelInput.getText();
-                String semester = semesterInput.getText();
+                String level = levelsList.getSelectedItem().toString();
+                String semester = semestersList.getSelectedItem().toString();
                 String name = nameInput.getText(); 
-                String credits = creditsInput.getText();
+                String credits = creditsList.getSelectedItem().toString();             
+                int creditsNum = Integer.parseInt(credits);
                 
-                //checking data input:
-                isLevelInteger = isInteger(level);
-                isCreditsInteger = isInteger(credits);
-                isSemesterCorrect = isSemester(semester);
-                
-                if(isLevelInteger == true && isCreditsInteger == true && isSemesterCorrect == true)
-                {
-                    int creditsNum = Integer.parseInt(credits);
-                    userModulesManager.addModule(level, name, semester, creditsNum);
-                    clearFields();  //Clearing the input fields for next data input
-                    JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(myFrame, "Some of the data input are incorrect", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-                }
+                userModulesManager.addModule(level, name, semester, creditsNum);
+                clearFields();  //Clearing the input fields for next data input
+                JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }           
         }
     }
     
     public void clearFields()
     {
-        levelInput.setText("");
-        semesterInput.setText("");
+        levelsList.setSelectedIndex(-1);
+        semestersList.setSelectedIndex(-1);
+        creditsList.setSelectedIndex(-1);
         nameInput.setText("");
-        creditsInput.setText("");
     }
     public void setVisible(boolean visibility)
     {
@@ -184,13 +177,31 @@ public class ModuleGUI
     private boolean isSemester(String semesterToCheck)
     {
         boolean isValidSemester = false;
+        char[] semestersArray = {'a','b','c'};
         String lowerSemester = semesterToCheck.toLowerCase();
-        int stringLength = semesterToCheck.length();
-        System.out.println("LENGTH:" + stringLength);
+        int stringLength = semesterToCheck.length();        
         if(stringLength == 1)
         {
-            isValidSemester = true;
+            char semesterCharacter = lowerSemester.charAt(0);
+            for(char tempChar : semestersArray)
+            {
+                if(semesterCharacter == tempChar)
+                {
+                    isValidSemester = true;
+                }
+            }          
         }
         return isValidSemester;
     }
+//    private String appropriateJOptionMessage(boolean isLevelCorrect, boolean isCreditsCorrect, boolean isSemesterCorrect)
+//    {
+//        String level = "";
+//        String credits = "";
+//        String semester = "";
+//        String returnedMessage = "";
+//        if(!isLevelCorrect)
+//        {
+//            level = "- unaprropriate level entered."
+//        }
+//    }
 }
