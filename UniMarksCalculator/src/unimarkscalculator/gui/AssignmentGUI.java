@@ -28,6 +28,7 @@ public class AssignmentGUI
     private JButton addAssignmentButton = new JButton("Add");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
+    private JComboBox assignmentTypesLists = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
 
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
@@ -92,8 +93,8 @@ public class AssignmentGUI
         titleInput.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
-        centerPanel.add(typeInput, gcCenter);        
-        typeInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(assignmentTypesLists, gcCenter);        
+        assignmentTypesLists.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
         centerPanel.add(resultInput, gcCenter);        
@@ -140,14 +141,14 @@ public class AssignmentGUI
             boolean isResultDouble = false;
             boolean isWeightDouble = false;            
             
-            if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || typeInput.getText().equals("") || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || assignmentTypesLists.getSelectedItem().equals(null) || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
                 String title = titleInput.getText();
-                String type = typeInput.getText();
+                String type = assignmentTypesLists.getSelectedItem().toString();
                 String result = resultInput.getText(); 
                 String weightPercent = weightPercentInput.getText();
                 String selectedModule = (String) modulesList.getSelectedItem();
@@ -160,14 +161,23 @@ public class AssignmentGUI
                     double resultNum = Double.parseDouble(result);
                     double weightPercentNum = Double.parseDouble(weightPercent);
                     
-                    Module m = userModulesManager.getModule(selectedModule);
-                    m.addAssignment(title, type, resultNum, weightPercentNum);
-                    clearFields();  //Clearing the input fields for next data input
-                    JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                    if(resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
+                    {
+                        Module m = userModulesManager.getModule(selectedModule);
+                        m.addAssignment(title, type, resultNum, weightPercentNum);
+                        clearFields();  //Clearing the input fields for next data input
+                        JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(myFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                    
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(myFrame, "Some of the data input are incorrect", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(myFrame, "Result or weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -176,7 +186,7 @@ public class AssignmentGUI
     public void clearFields()
     {
         titleInput.setText("");
-        typeInput.setText("");
+        assignmentTypesLists.setSelectedIndex(-1);
         resultInput.setText("");
         weightPercentInput.setText("");
     }
