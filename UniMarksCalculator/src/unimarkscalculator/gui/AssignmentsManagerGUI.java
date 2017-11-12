@@ -98,6 +98,7 @@ public class AssignmentsManagerGUI
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(assignmentsList, gcCenter);
         assignmentsList.addActionListener(new AssignmentsListHandler());
+        assignmentsList.setSelectedIndex(-1);
              
         gcCenter.gridx = 1; gcCenter.gridy = 2;
         centerPanel.add(titleInput, gcCenter);
@@ -144,10 +145,9 @@ public class AssignmentsManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            titleInput.setText("");
-            typeInput.setText("");
-            resultInput.setText("");
-            weightPercentInput.setText("");
+            clearFields();
+            modulesList.setSelectedIndex(-1);
+            assignmentsList.setSelectedIndex(-1);
         }
     }
     
@@ -200,11 +200,12 @@ public class AssignmentsManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
+            assignmentsList.removeAllItems();
             if(modulesList.getSelectedItem() != null)
             {
                 Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
                 ArrayList<Assignment> tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
-                assignmentsList.removeAllItems();
+                
                 for(Assignment tempAssignment : tempAssignmentsList)
                 {
                     if(tempAssignment != null)
@@ -213,6 +214,7 @@ public class AssignmentsManagerGUI
                     }
                 } 
                 clearFields();
+                //assignmentsList.setSelectedIndex(-1);
             }
         }
     }
@@ -225,24 +227,25 @@ public class AssignmentsManagerGUI
             if(assignmentsList.getItemCount() != 0)
             {
                 Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-                String selectedAssignment = assignmentsList.getSelectedItem().toString();
-                ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
-                tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
-                for(Assignment tempAssignment : tempAssignmentsList)
+                if(!assignmentsList.getSelectedItem().equals(null))
                 {
-                    if(tempAssignment != null && (tempAssignment.getTitle()).equals(selectedAssignment))
+                    String selectedAssignment = assignmentsList.getSelectedItem().toString();
+                    ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
+                    tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
+                    for(Assignment tempAssignment : tempAssignmentsList)
                     {
-                        titleInput.setText(tempAssignment.getTitle());
-                        typeInput.setText(tempAssignment.getType());
-                        String result = String.valueOf(tempAssignment.getResult());
-                        resultInput.setText(result);
-                        String weight = String.valueOf(tempAssignment.getWeightPercent());
-                        weightPercentInput.setText(weight);               
-                    }
-                } 
+                        if(tempAssignment != null && (tempAssignment.getTitle()).equals(selectedAssignment))
+                        {
+                            titleInput.setText(tempAssignment.getTitle());
+                            typeInput.setText(tempAssignment.getType());
+                            String result = String.valueOf(tempAssignment.getResult());
+                            resultInput.setText(result);
+                            String weight = String.valueOf(tempAssignment.getWeightPercent());
+                            weightPercentInput.setText(weight);               
+                        }
+                    } 
+                }                
             }
-
-            
         }
     }
     
