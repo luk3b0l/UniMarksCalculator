@@ -141,7 +141,7 @@ public class AssignmentGUI
             boolean isResultDouble = false;
             boolean isWeightDouble = false;            
             
-            if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || assignmentTypesLists.getSelectedItem().equals(null) || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || assignmentTypesLists.getSelectedIndex() == -1 || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
