@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import unimarkscalculator.mainClasses.ModulesManager;
 
-
-
 /**
  *
  * @author Lukasz BOl
@@ -123,7 +121,7 @@ public class ModuleGUI
         public void actionPerformed(ActionEvent e) 
         {
             boolean isCreditsInteger = false;
-            if(levelsList.getSelectedItem().equals(null) || semestersList.getSelectedItem().equals(null) || nameInput.getText().equals("") || creditsList.getSelectedItem().equals(null))
+            if(levelsList.getSelectedIndex() == -1 || semestersList.getSelectedIndex() == -1 || nameInput.getText().equals("") || creditsList.getSelectedIndex() == -1)
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
@@ -152,21 +150,5 @@ public class ModuleGUI
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
-    }
-    
-    private boolean isInteger(String numberToCheck)
-    {
-        boolean isValidInteger = false;
-        
-        try
-        {
-            Integer.parseInt(numberToCheck);
-            isValidInteger = true;
-        }
-        catch (NumberFormatException e)
-        {
-            System.out.println(e);
-        }
-        return isValidInteger;
     }
 }
