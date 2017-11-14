@@ -28,6 +28,9 @@ public class ModulesManagerGUI
     private JButton updateModuleButton = new JButton("Update");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
+    private JComboBox setLevel = new JComboBox(new String[] {"4", "5", "6"});
+    private JComboBox setSemester = new JComboBox(new String[] {"A", "B", "C"});
+    private JComboBox setCredits = new JComboBox(new String[] {"15", "30"});
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
@@ -84,20 +87,23 @@ public class ModulesManagerGUI
         modulesList.addActionListener(new ModulesListHandler());
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
-        centerPanel.add(levelInput, gcCenter);
-        levelInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(setLevel, gcCenter);
+        setLevel.setSelectedIndex(-1);
+        //levelInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
-        centerPanel.add(semesterInput, gcCenter);
-        semesterInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(setSemester, gcCenter);
+        setSemester.setSelectedIndex(-1);
+        //semesterInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
         centerPanel.add(nameInput, gcCenter);
         nameInput.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 4;
-        centerPanel.add(creditsInput, gcCenter);        
-        creditsInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(setCredits, gcCenter);        
+        setCredits.setSelectedIndex(-1);
+        //creditsInput.setPreferredSize(new Dimension(100, 25));
         
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
@@ -186,10 +192,16 @@ public class ModulesManagerGUI
             if(modulesList.getSelectedItem() != null)
             {
                 Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-                levelInput.setText(moduleToRetrieveInfo.getLevel());
-                semesterInput.setText(moduleToRetrieveInfo.getSemester());
+                String level = moduleToRetrieveInfo.getLevel();
+                String semester = moduleToRetrieveInfo.getSemester();
                 nameInput.setText(moduleToRetrieveInfo.getName());
-                creditsInput.setText(String.valueOf(moduleToRetrieveInfo.getCredits()));
+                String credits = String.valueOf(moduleToRetrieveInfo.getCredits());
+                
+                // search for level in setLevel JComboBox and set it 
+                // search for semester in setSemester JComboBox and set it
+                // search for credits in setCredits JComboBox and set it
+                
+                
             }
         }  
     }
