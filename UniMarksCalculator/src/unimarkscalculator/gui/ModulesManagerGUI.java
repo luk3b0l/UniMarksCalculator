@@ -89,12 +89,10 @@ public class ModulesManagerGUI
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(setLevel, gcCenter);
         setLevel.setSelectedIndex(-1);
-        //levelInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
         centerPanel.add(setSemester, gcCenter);
         setSemester.setSelectedIndex(-1);
-        //semesterInput.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
         centerPanel.add(nameInput, gcCenter);
@@ -103,7 +101,6 @@ public class ModulesManagerGUI
         gcCenter.gridx = 1; gcCenter.gridy = 4;
         centerPanel.add(setCredits, gcCenter);        
         setCredits.setSelectedIndex(-1);
-        //creditsInput.setPreferredSize(new Dimension(100, 25));
         
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
