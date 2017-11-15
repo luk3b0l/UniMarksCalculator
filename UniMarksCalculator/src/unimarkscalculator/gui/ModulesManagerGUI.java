@@ -13,9 +13,6 @@ import unimarkscalculator.mainClasses.ModulesManager;
  */
 public class ModulesManagerGUI 
 {
-    String[] levelsList = {"4", "5", "6"};
-    String[] semestersList = {"A", "B", "C"};
-    String[] creditsList = {"15", "30"};
     private JFrame myFrame = new JFrame("Modules Manager");
     private JLabel modulesManagerLabel = new JLabel("MODULES MANAGER", JLabel.CENTER);
     private JLabel moduleLabel = new JLabel("module: ");
@@ -31,9 +28,9 @@ public class ModulesManagerGUI
     private JButton updateModuleButton = new JButton("Update");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
-    private JComboBox setLevel = new JComboBox(levelsList);
-    private JComboBox setSemester = new JComboBox(semestersList);
-    private JComboBox setCredits = new JComboBox(creditsList);
+    private JComboBox setLevel = new JComboBox(new String[] {"4", "5", "6"});
+    private JComboBox setSemester = new JComboBox(new String[] {"A", "B", "C"});
+    private JComboBox setCredits = new JComboBox(new String[] {"15", "30"});
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
