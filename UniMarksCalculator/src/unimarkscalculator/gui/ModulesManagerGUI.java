@@ -13,6 +13,9 @@ import unimarkscalculator.mainClasses.ModulesManager;
  */
 public class ModulesManagerGUI 
 {
+    String[] levelsList = {"4", "5", "6"};
+    String[] semestersList = {"A", "B", "C"};
+    String[] creditsList = {"15", "30"};
     private JFrame myFrame = new JFrame("Modules Manager");
     private JLabel modulesManagerLabel = new JLabel("MODULES MANAGER", JLabel.CENTER);
     private JLabel moduleLabel = new JLabel("module: ");
@@ -28,9 +31,9 @@ public class ModulesManagerGUI
     private JButton updateModuleButton = new JButton("Update");
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
-    private JComboBox setLevel = new JComboBox(new String[] {"4", "5", "6"});
-    private JComboBox setSemester = new JComboBox(new String[] {"A", "B", "C"});
-    private JComboBox setCredits = new JComboBox(new String[] {"15", "30"});
+    private JComboBox setLevel = new JComboBox(levelsList);
+    private JComboBox setSemester = new JComboBox(semestersList);
+    private JComboBox setCredits = new JComboBox(creditsList);
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
@@ -194,11 +197,29 @@ public class ModulesManagerGUI
                 nameInput.setText(moduleToRetrieveInfo.getName());
                 String credits = String.valueOf(moduleToRetrieveInfo.getCredits());
                 
-                // search for level in setLevel JComboBox and set it 
-                // search for semester in setSemester JComboBox and set it
-                // search for credits in setCredits JComboBox and set it
+                for(int labelIndex = 0; labelIndex < setLevel.getItemCount(); labelIndex++)
+                {
+                    if(setLevel.getItemAt(labelIndex).equals(level))
+                    {
+                        setLevel.setSelectedIndex(labelIndex);
+                    }                        
+                }
                 
+                for(int semesterIndex = 0; semesterIndex < setSemester.getItemCount(); semesterIndex++)
+                {
+                    if(setSemester.getItemAt(semesterIndex).equals(semester))
+                    {
+                        setSemester.setSelectedIndex(semesterIndex);
+                    }
+                }
                 
+                for(int creditsIndex = 0; creditsIndex < setCredits.getItemCount(); creditsIndex++)
+                {
+                    if(setCredits.getItemAt(creditsIndex).equals(credits))
+                    {
+                        setCredits.setSelectedIndex(creditsIndex);
+                    }
+                }                
             }
         }  
     }
