@@ -114,4 +114,18 @@ public class ModulesManager
         }
         return s;
     }
+    
+    public boolean checkModuleExists(String moduleName)
+    {
+        boolean result = false;
+        for(Module temp : allUserModules)
+        {
+            if(temp.getName().equals(moduleName))
+            {
+                result = true;
+                break;
+            }
+        }        
+        return result; 
+    }
 }

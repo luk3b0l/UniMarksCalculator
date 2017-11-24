@@ -126,7 +126,7 @@ public class ModulesManagerGUI
     // ---------------------------------------------------------------------------------------------------
     
     // ***** BUTTON HANDLERS:
-     private class ClearFieldsButtonHandler implements ActionListener
+    private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 

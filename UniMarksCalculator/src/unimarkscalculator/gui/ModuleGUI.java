@@ -125,6 +125,10 @@ public class ModuleGUI
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
+            else if(userModulesManager.checkModuleExists(nameInput.getText()) == true)
+            {
+                JOptionPane.showMessageDialog(myFrame, "Module already exists", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
             else
             {
                 String level = levelsList.getSelectedItem().toString();
