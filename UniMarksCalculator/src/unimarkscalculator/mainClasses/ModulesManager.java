@@ -118,9 +118,9 @@ public class ModulesManager
     public boolean checkModuleExists(String moduleName)
     {
         boolean result = false;
-        for(Module temp : allUserModules)
+        for(Module tempModule : allUserModules)
         {
-            if(temp.getName().equals(moduleName))
+            if((tempModule.getName().toLowerCase()).equals(moduleName.toLowerCase()))
             {
                 result = true;
                 break;
