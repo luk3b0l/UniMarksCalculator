@@ -140,6 +140,20 @@ public class Module
         setCredits(credits);
     }
     
+    public boolean checkAssignmentExists(String assignmentName)
+    {
+        boolean result = false;
+        for(Assignment tempAssignment : assignments)
+        {
+            if(((tempAssignment.getTitle()).toLowerCase()).equals(assignmentName.toLowerCase()))
+            {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+    
     public String toString()
     {
         String s = "***** MODULE INFO *****" + 

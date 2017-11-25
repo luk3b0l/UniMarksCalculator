@@ -140,18 +140,24 @@ public class AssignmentGUI
         {
             boolean isResultDouble = false;
             boolean isWeightDouble = false;            
+            String selectedModule = (String) modulesList.getSelectedItem();
+            String title = titleInput.getText();
+            Module m = userModulesManager.getModule(selectedModule);
             
             if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || assignmentTypesLists.getSelectedIndex() == -1 || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
+            else if(m.checkAssignmentExists(title) == true)
+            {
+                JOptionPane.showMessageDialog(myFrame, "Assignment already exists.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
             else
             {
-                String title = titleInput.getText();
+                
                 String type = assignmentTypesLists.getSelectedItem().toString();
                 String result = resultInput.getText(); 
                 String weightPercent = weightPercentInput.getText();
-                String selectedModule = (String) modulesList.getSelectedItem();
                 
                 isResultDouble = isDouble(result);
                 isWeightDouble = isDouble(weightPercent);
@@ -163,7 +169,6 @@ public class AssignmentGUI
                     
                     if(resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
                     {
-                        Module m = userModulesManager.getModule(selectedModule);
                         m.addAssignment(title, type, resultNum, weightPercentNum);
                         clearFields();  //Clearing the input fields for next data input
                         JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
