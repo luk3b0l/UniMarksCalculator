@@ -140,7 +140,15 @@ public class ModulesManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if(modulesList.getItemCount() == 0 || levelInput.getText().equals("") || semesterInput.getText().equals("") || nameInput.getText().equals("") || creditsInput.getText().equals(""))
+            
+                    modulesList.setSelectedIndex(-1);
+        setLevel.setSelectedIndex(-1);
+        setSemester.setSelectedIndex(-1);
+        nameInput.setText("");
+        setCredits.setSelectedIndex(-1);
+            
+            
+            if(modulesList.getItemCount() == 0 || modulesList.getSelectedIndex() == -1 || setLevel.getSelectedIndex() == -1 || setSemester.getSelectedIndex() == -1 || nameInput.getText().equals("") || setCredits.getSelectedIndex() == -1)
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
@@ -167,6 +175,10 @@ public class ModulesManagerGUI
             if(modulesList.getItemCount() == 0)
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(modulesList.getSelectedIndex() == -1)
+            {
+                JOptionPane.showMessageDialog(myFrame, "No module selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
@@ -234,10 +246,11 @@ public class ModulesManagerGUI
     
     public void clearFields()
     {
-        levelInput.setText("");
-        semesterInput.setText("");
+        modulesList.setSelectedIndex(-1);
+        setLevel.setSelectedIndex(-1);
+        setSemester.setSelectedIndex(-1);
         nameInput.setText("");
-        creditsInput.setText("");
+        setCredits.setSelectedIndex(-1);
     }
     
     public void setVisible(boolean visibility)
