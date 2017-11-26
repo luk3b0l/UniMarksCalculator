@@ -83,7 +83,6 @@ public class ModulesManagerGUI
         gcCenter.gridx = 1; gcCenter.gridy = 0;
         centerPanel.add(modulesList, gcCenter);
         populateModulesList();      
-        modulesList.setSelectedIndex(-1);
         modulesList.addActionListener(new ModulesListHandler());
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
@@ -140,29 +139,29 @@ public class ModulesManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            
-                    modulesList.setSelectedIndex(-1);
-        setLevel.setSelectedIndex(-1);
-        setSemester.setSelectedIndex(-1);
-        nameInput.setText("");
-        setCredits.setSelectedIndex(-1);
-            
-            
-            if(modulesList.getItemCount() == 0 || modulesList.getSelectedIndex() == -1 || setLevel.getSelectedIndex() == -1 || setSemester.getSelectedIndex() == -1 || nameInput.getText().equals("") || setCredits.getSelectedIndex() == -1)
+            if(modulesList.getItemCount() == 0 )
+//                
             {
-                JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myFrame, "No modules on the list", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(modulesList.getSelectedIndex() == -1 || setLevel.getSelectedIndex() == -1 || setSemester.getSelectedIndex() == -1 || nameInput.getText().equals("") || setCredits.getSelectedIndex() == -1)
+            {
+                JOptionPane.showMessageDialog(myFrame, "Some fields are empty.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                String level = levelInput.getText();
-                String semester = semesterInput.getText();
-                String name = nameInput.getText(); 
-                String credits = creditsInput.getText();
+                String level = setLevel.getSelectedItem().toString();
+                String semester = setSemester.getSelectedItem().toString();
+                String name = nameInput.getText();
+                String credits = setCredits.getSelectedItem().toString();
                 int creditsNum = Integer.parseInt(credits);
-                String selectedModule = (String) modulesList.getSelectedItem();
+                String selectedModule = modulesList.getSelectedItem().toString();
                 Module m = userModulesManager.getModule(selectedModule);
                 m.updateModuleInfo(level, name, semester, creditsNum);
+                populateModulesList();
                 JOptionPane.showMessageDialog(myFrame, "Module has been updated successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                
+                
             }
         }
     }   
@@ -185,7 +184,6 @@ public class ModulesManagerGUI
                 String selectedModule = (String) modulesList.getSelectedItem();
                 userModulesManager.removeModule(selectedModule);     
                 populateModulesList();
-                clearFields();
                 JOptionPane.showMessageDialog(myFrame, "Module has been removed successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -242,6 +240,7 @@ public class ModulesManagerGUI
         {
             modulesList.addItem(temp.getName());
         }   
+        clearFields();
     }
     
     public void clearFields()
