@@ -31,6 +31,7 @@ public class AssignmentsManagerGUI
     private JButton clearFieldsButton = new JButton("Clear all fields");
     private JComboBox modulesList = new JComboBox();
     private JComboBox assignmentsList = new JComboBox();
+    private JComboBox assignmentTypesLists = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     //private ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
@@ -105,8 +106,8 @@ public class AssignmentsManagerGUI
         titleInput.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
-        centerPanel.add(typeInput, gcCenter);   
-        typeInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(assignmentTypesLists, gcCenter);   
+        assignmentTypesLists.setSelectedIndex(-1);
 
         gcCenter.gridx = 1; gcCenter.gridy = 4;
         centerPanel.add(resultInput, gcCenter);   
@@ -148,6 +149,7 @@ public class AssignmentsManagerGUI
             clearFields();
             modulesList.setSelectedIndex(-1);
             assignmentsList.setSelectedIndex(-1);
+            assignmentTypesLists.setSelectedIndex(-1);
         }
     }
     
@@ -156,20 +158,37 @@ public class AssignmentsManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if(modulesList.getItemCount() == 0 || assignmentsList.getItemCount()== 0 || titleInput.getText().equals("") || typeInput.getText().equals("") || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            if(modulesList.getItemCount() == 0)
             {
-                JOptionPane.showMessageDialog(myFrame, "No modules/assignments on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (modulesList.getSelectedIndex() == -1)
+            {
+                JOptionPane.showMessageDialog(myFrame, "No module selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(assignmentsList.getItemCount() == 0)
+            {
+                JOptionPane.showMessageDialog(myFrame, "No assignments on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(assignmentsList.getSelectedIndex() == -1)
+            {
+                JOptionPane.showMessageDialog(myFrame, "No assignment selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            else if(titleInput.getText().equals("") || assignmentTypesLists.getSelectedIndex() == -1 || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(myFrame, "Some fields are empty.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
                 String selectedModule = (String) modulesList.getSelectedItem();
                 Module m = userModulesManager.getModule(selectedModule);
                 String title = titleInput.getText();
-                String type = typeInput.getText();
+                String type = assignmentTypesLists.getSelectedItem().toString();
                 double result = Double.valueOf(resultInput.getText());
                 double weight = Double.valueOf(weightPercentInput.getText());
                 m.updateAssignment(title, type, result, weight);     
-                JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }    
@@ -214,7 +233,9 @@ public class AssignmentsManagerGUI
                     }
                 } 
                 clearFields();
-                //assignmentsList.setSelectedIndex(-1);
+                assignmentsList.setSelectedIndex(-1);
+                assignmentTypesLists.setSelectedIndex(-1);
+                
             }
         }
     }
@@ -224,27 +245,32 @@ public class AssignmentsManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if(assignmentsList.getItemCount() != 0)
+            if(assignmentsList.getItemCount() != 0 && assignmentsList.getSelectedIndex() != -1)
             {
                 Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-                if(!assignmentsList.getSelectedItem().equals(null))
+                String selectedAssignment = assignmentsList.getSelectedItem().toString();
+                ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
+                tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
+                for(Assignment tempAssignment : tempAssignmentsList)
                 {
-                    String selectedAssignment = assignmentsList.getSelectedItem().toString();
-                    ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
-                    tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
-                    for(Assignment tempAssignment : tempAssignmentsList)
+                    if(tempAssignment != null && (tempAssignment.getTitle()).equals(selectedAssignment))
                     {
-                        if(tempAssignment != null && (tempAssignment.getTitle()).equals(selectedAssignment))
+                        titleInput.setText(tempAssignment.getTitle());
+                        
+                        for(int typeIndex = 0; typeIndex < assignmentTypesLists.getItemCount(); typeIndex++)
                         {
-                            titleInput.setText(tempAssignment.getTitle());
-                            typeInput.setText(tempAssignment.getType());
-                            String result = String.valueOf(tempAssignment.getResult());
-                            resultInput.setText(result);
-                            String weight = String.valueOf(tempAssignment.getWeightPercent());
-                            weightPercentInput.setText(weight);               
+                            if(assignmentTypesLists.getItemAt(typeIndex).equals(tempAssignment.getType()))
+                            {
+                                assignmentTypesLists.setSelectedIndex(typeIndex);
+                            }
                         }
-                    } 
-                }                
+
+                        String result = String.valueOf(tempAssignment.getResult());
+                        resultInput.setText(result);
+                        String weight = String.valueOf(tempAssignment.getWeightPercent());
+                        weightPercentInput.setText(weight);               
+                    }
+                }          
             }
         }
     }
@@ -252,7 +278,6 @@ public class AssignmentsManagerGUI
     public void clearFields()
     {
         titleInput.setText("");
-        typeInput.setText("");
         resultInput.setText("");
         weightPercentInput.setText("");
     }

@@ -177,8 +177,6 @@ public class AssignmentGUI
                     {
                         JOptionPane.showMessageDialog(myFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                     }
-                    
-                    
                 }
                 else
                 {
