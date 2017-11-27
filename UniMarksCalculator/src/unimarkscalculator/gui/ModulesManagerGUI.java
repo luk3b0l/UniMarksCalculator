@@ -139,8 +139,21 @@ public class ModulesManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
+            Module m = null;
+            int creditsNum = -1;
+            if(modulesList.getItemCount() != 0 && modulesList.getSelectedIndex() != -1)
+            {
+                String selectedModule = modulesList.getSelectedItem().toString();
+                m = userModulesManager.getModule(selectedModule);
+                
+                if(setCredits.getSelectedIndex() != -1)
+                {
+                    String credits = setCredits.getSelectedItem().toString();
+                    creditsNum = Integer.parseInt(credits);
+                }
+            }
+            
             if(modulesList.getItemCount() == 0 )
-//                
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
@@ -148,15 +161,25 @@ public class ModulesManagerGUI
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
+            else if(
+                    setLevel.getSelectedItem().toString().equals(m.getLevel()) && 
+                    setSemester.getSelectedItem().toString().equals(m.getSemester()) && 
+                    nameInput.getText().equals(m.getName()) &&
+                    (creditsNum == m.getCredits())
+                    ) 
+            {
+                JOptionPane.showMessageDialog(myFrame, "No information has been changed.", "WARNING Info", JOptionPane.WARNING_MESSAGE);
+            }
+                    
             else
             {
                 String level = setLevel.getSelectedItem().toString();
                 String semester = setSemester.getSelectedItem().toString();
                 String name = nameInput.getText();
-                String credits = setCredits.getSelectedItem().toString();
-                int creditsNum = Integer.parseInt(credits);
-                String selectedModule = modulesList.getSelectedItem().toString();
-                Module m = userModulesManager.getModule(selectedModule);
+//                String credits = setCredits.getSelectedItem().toString();
+//                int creditsNum = Integer.parseInt(credits);
+//                String selectedModule = modulesList.getSelectedItem().toString();
+//                Module m = userModulesManager.getModule(selectedModule);
                 m.updateModuleInfo(level, name, semester, creditsNum);
                 populateModulesList();
                 JOptionPane.showMessageDialog(myFrame, "Module has been updated successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);

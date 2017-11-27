@@ -182,7 +182,7 @@ public class AssignmentGUI
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(myFrame, "Result or weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(myFrame, "Result and weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
