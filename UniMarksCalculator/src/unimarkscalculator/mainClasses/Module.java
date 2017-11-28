@@ -42,13 +42,16 @@ public class Module
         }
     }
     
-    public void updateAssignment(String title, String type, double result, double weight)
+    public void updateAssignment(String oldTitle, String newTitle, String type, double result, double weight)
     {
         for(Assignment tempAssignment : assignments)
         {
-            if((tempAssignment.getTitle()).equals(title))
+            System.out.println("dbAssignment title: " + tempAssignment.getTitle());
+            System.out.println("oldTitle: " + oldTitle);
+            System.out.println("newTitle: " + newTitle);
+            if((tempAssignment.getTitle()).equals(oldTitle))
             {
-                tempAssignment.setTitle(name);
+                tempAssignment.setTitle(newTitle);
                 tempAssignment.setType(type);
                 tempAssignment.setResult(result);
                 tempAssignment.setWeightPercent(weight);

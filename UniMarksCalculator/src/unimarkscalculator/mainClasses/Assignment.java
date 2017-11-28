@@ -61,7 +61,7 @@ public class Assignment
     
     public String toString()
     {
-        String s = ":: Assignment ::" + 
+        String s = ":: Assignment INFO ::" + 
                    "\nTitle:" + title + 
                    "\nType: " + type + 
                    "\nResult: " + result + 
