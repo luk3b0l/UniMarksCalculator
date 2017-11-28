@@ -46,9 +46,6 @@ public class Module
     {
         for(Assignment tempAssignment : assignments)
         {
-            System.out.println("dbAssignment title: " + tempAssignment.getTitle());
-            System.out.println("oldTitle: " + oldTitle);
-            System.out.println("newTitle: " + newTitle);
             if((tempAssignment.getTitle()).equals(oldTitle))
             {
                 tempAssignment.setTitle(newTitle);

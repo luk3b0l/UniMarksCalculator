@@ -159,6 +159,41 @@ public class AssignmentsManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
+            boolean isResultDouble = false;
+            boolean isWeightDouble = false;  
+            Module m = null;
+            Assignment selectedAssignment = null;
+            String assignmentType = "";
+            double resultNum = -1;
+            double weightNum = -1;
+            
+            if(modulesList.getItemCount() != 0 && modulesList.getSelectedIndex() != -1)
+            {
+                String selectedModule = (String) modulesList.getSelectedItem();
+                m = userModulesManager.getModule(selectedModule); 
+                
+                if(assignmentsList.getItemCount() != 0 && assignmentsList.getSelectedIndex() != -1)
+                {
+                    assignmentType = assignmentTypesLists.getSelectedItem().toString();
+                    selectedAssignment = m.getAssignment(assignmentsList.getSelectedItem().toString());
+                    String result = resultInput.getText();
+                    String weight = weightPercentInput.getText();
+                    
+                    isResultDouble = isDouble(result);
+                    isWeightDouble = isDouble(weight);
+                    
+                    if(isResultDouble == true && isWeightDouble == true)
+                    {
+                        resultNum = Double.parseDouble(result);
+                        weightNum = Double.parseDouble(weight);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(myFrame, "Result and weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    } 
+                }
+            }
+            
             if(modulesList.getItemCount() == 0)
             {
                 JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
@@ -180,18 +215,40 @@ public class AssignmentsManagerGUI
             {
                 JOptionPane.showMessageDialog(myFrame, "Some fields are empty.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
+            else if((titleInput.getText()).equals(selectedAssignment.getTitle()) &&
+                    (assignmentTypesLists.getSelectedItem().toString()).equals(selectedAssignment.getType()) &&
+                    resultNum == selectedAssignment.getResult() &&
+                    weightNum == selectedAssignment.getWeightPercent()
+                    )
+            {
+                JOptionPane.showMessageDialog(myFrame, "No information has been changed.", "WARNING Info", JOptionPane.WARNING_MESSAGE);
+            }
+            
             else
             {
-                String selectedModule = (String) modulesList.getSelectedItem();
-                Module m = userModulesManager.getModule(selectedModule);
+                System.out.println("Title input:" + titleInput.getText());
+                System.out.println("Title db:" + selectedAssignment.getTitle());
+                System.out.println("Type input:" + assignmentTypesLists.getSelectedItem().toString());
+                System.out.println("Type db:" + selectedAssignment.getType());
+                System.out.println("Result input:" + resultInput.getText());
+                System.out.println("Result db:" + selectedAssignment.getResult());
+                System.out.println("Weight input:" + weightPercentInput.getText());
+                System.out.println("Weight db:" + selectedAssignment.getWeightPercent());
+                
+
                 String oldTitle = getTempAssignmentTitle();
                 String newTitle = titleInput.getText();
-                String type = assignmentTypesLists.getSelectedItem().toString();
-                double result = Double.valueOf(resultInput.getText());
-                double weight = Double.valueOf(weightPercentInput.getText());
-                m.updateAssignment(oldTitle, newTitle, type, result, weight);   
-                populateAssignmentsList();
-                JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+
+                if(resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
+                {
+                    m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
+                    populateAssignmentsList();
+                    JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(myFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }    
@@ -324,7 +381,19 @@ public class AssignmentsManagerGUI
         this.tempAssignmentTitle = tempAssignmentTitle;
     }
 
-
-    
-    
+    private boolean isDouble(String numberToCheck)
+    {
+        boolean isValidInteger = false;
+        
+        try
+        {
+            Double.parseDouble(numberToCheck);
+            isValidInteger = true;
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println(e);
+        }
+        return isValidInteger;
+    }   
 }

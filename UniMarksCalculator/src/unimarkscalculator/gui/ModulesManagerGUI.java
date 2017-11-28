@@ -169,8 +169,7 @@ public class ModulesManagerGUI
                     ) 
             {
                 JOptionPane.showMessageDialog(myFrame, "No information has been changed.", "WARNING Info", JOptionPane.WARNING_MESSAGE);
-            }
-                    
+            }        
             else
             {
                 String level = setLevel.getSelectedItem().toString();
