@@ -34,11 +34,12 @@ public class ResultsGUI
     private JTable assignmentsTable;
     
     private Object[][] modulesData;
-    private Object[][] assignmentsData = {{"....","...","..","."}};
+    private Object[][] assignmentsData;
     private String[] modulesColumnNames;
     private String[] assignmentsColumnNames;
     private ModulesManager modulesCollectionInstance = ModulesManager.getInstance();
     private ArrayList<Module> modulesList = new ArrayList<>();
+    private ArrayList<Assignment> assignmentsList = new ArrayList<>();
     
     private DefaultTableModel modulesTableModel;
     private DefaultTableModel assignmentsTableModel;
@@ -97,7 +98,6 @@ public class ResultsGUI
         modulesList = modulesCollectionInstance.getAllModules();
         for(Module tempModule : modulesList)
         {
-            System.out.println(tempModule.getName());
             newModule = new Object[]{tempModule.getName(), tempModule.getSemester(), tempModule.getCredits(), tempModule.getGrade()};
             modulesTableModel.addRow(newModule);
         }
@@ -120,10 +120,10 @@ public class ResultsGUI
         gcCenter.gridx = 0; gcCenter.gridy = 2;
         centerPanel.add(assignmentsListLabel, gcCenter);
         
-        gcCenter.gridx = 0; gcCenter.gridy = 3;
+        gcCenter.gridx = 0; gcCenter.gridy = 3;                
         // Creating ASSIGNMENTS table:
-        String[] assignmentsColumnNames = {"title", "type", "result", "weight(%)"};
-        DefaultTableModel assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
+        String[] assignmentsColumnNames = {"Title", "Type", "Result", "Weight(%)"};
+        assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
         {
             public Class getColumnClass(int column)
             {
@@ -131,31 +131,31 @@ public class ResultsGUI
                 if((column >= 0) && (column < getColumnCount()))
                 {
                     returnValue = getValueAt(0, column).getClass();
-                    System.out.println("TEST2");
+                    System.out.println("LOADED assignment");
                 }
                 else
                 {
                     returnValue = Object.class;
-                    System.out.println("TEST3");
+                    System.out.println("NOT LOADED");
                 }
                 return returnValue;                    
             }
         };        
-        
-        assignmentsTable = new JTable(assignmentsData, assignmentsColumnNames)
+        assignmentsList = null;
+        assignmentsTable = new JTable(assignmentsTableModel)
         {
+            @Override
             public boolean isCellEditable(int data, int columns)
             {
                 return false;
             }
         };
+
         assignmentsTable.setPreferredScrollableViewportSize(new Dimension(500,100));
         assignmentsTable.setFillsViewportHeight(true);
         assignmentsTable.setAutoCreateRowSorter(true);
         JScrollPane assignmentsScrollPane = new JScrollPane(assignmentsTable);
         centerPanel.add(assignmentsScrollPane, gcCenter);      
-        
-        
         
         // ***** W E S T
         JPanel westPanel = new JPanel();
@@ -211,50 +211,40 @@ public class ResultsGUI
         @Override
         public void valueChanged(ListSelectionEvent event) 
         {
+            
+            assignmentsTableModel.getDataVector().removeAllElements();
+            
+            
+            Module selectedModule = null;
             int viewRow = modulesTable.getSelectedRow();
             String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
+            selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
+            assignmentsList = selectedModule.getAllAssignments();
+            
             System.out.println("ROW number: " + viewRow);
             System.out.println("VALUE: " + selectedModuleName);
             
-            modulesList = modulesCollectionInstance.getAllModules();
-            ArrayList<Assignment> selectedModuleAssignments = new ArrayList<>();
-            int index = 0;
-            for(Module tempModule : modulesList)
-            {
-                if((tempModule.getName()).equals(selectedModuleName))
-                {
-                    tempModule.getAllAssignments();
-                    break;
-                }
-            }
-            assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
-            {
-                public Class getColumnClass(int column)
-                {
-                    Class returnValue;
-                    if((column >= 0) && (column < getColumnCount()))
-                    {
-                        returnValue = getValueAt(0, column).getClass();
-                        System.out.println("TEST2");
-                    }
-                    else
-                    {
-                        returnValue = Object.class;
-                        System.out.println("TEST3");
-                    }
-                    return returnValue;                    
-                }
-            };        
+
             Object[] newAssignment;
-            
-            for(Assignment tempAssignment : selectedModuleAssignments)
+            for(Assignment tempAssignment : assignmentsList)
             {
-                newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getResult(), tempAssignment.getWeightPercent()};
-                assignmentsTableModel.addRow(newAssignment);
-                System.out.println("TEST1");
+                System.out.println("TITLE: " + tempAssignment.getTitle());
+                if(assignmentsList == null && assignmentsList.isEmpty())
+                {
+                    assignmentsTableModel.getDataVector().removeAllElements();
+                    System.out.println("Assignments EMPTY");
+                }
+                else
+                {
+                    newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getResult(), tempAssignment.getWeightPercent()};
+                    assignmentsTableModel.addRow(newAssignment);
+                    System.out.println("ASSIGNMENT TABLE loading FINISHED");
+                }
+                
             }    
         }     
     }
+    
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
