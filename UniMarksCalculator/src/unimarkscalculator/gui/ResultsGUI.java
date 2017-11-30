@@ -212,41 +212,39 @@ public class ResultsGUI
     {
         @Override
         public void valueChanged(ListSelectionEvent event) 
-        {
-            
-            //assignmentsTableModel.getDataVector().removeAllElements();
-            //assignmentsTableModel.fireTableDataChanged(); // notifies the JTable that the model has changed
-            
-            Module selectedModule = null;
-            int viewRow = modulesTable.getSelectedRow();
-            String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
-            selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
-            assignmentsList = selectedModule.getAllAssignments();
-            
-            System.out.println("ROW number: " + viewRow);
-            System.out.println("VALUE: " + selectedModuleName);
-            
+        {   
+            if(event.getValueIsAdjusting())     // 'true' if this is one in a series of multiple events, where changes are still being made 
+                                                // (important for showing ONLY 1 instance of each assignment)
+            {
+                System.out.println("EVENT: " + event.getValueIsAdjusting());
+                Module selectedModule = null;
+                int viewRow = modulesTable.getSelectedRow();
+                String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
+                selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
+                assignmentsList = selectedModule.getAllAssignments();
 
-            
-            if(assignmentsList.isEmpty())
-            {
-                assignmentsTableModel.getDataVector().removeAllElements();
-                assignmentsTableModel.fireTableDataChanged(); // notifies the JTable that the model has changed
-                System.out.println("--- EMPTY ");
-            }
-            else
-            {
-                System.out.println("--- FULL");
-                //assignmentsTableModel.getDataVector().removeAllElements();
-                //assignmentsTableModel.fireTableDataChanged(); // notifies the JTable that the model has changed
-                
-                Object[] newAssignment;
-                for(Assignment tempAssignment : assignmentsList)
+                System.out.println("ROW number: " + viewRow);
+                System.out.println("VALUE: " + selectedModuleName);
+
+
+
+                if(assignmentsList.isEmpty())
                 {
-                    newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getResult(), tempAssignment.getWeightPercent()};
-                    assignmentsTableModel.addRow(newAssignment);
-                    System.out.println("ASSIGNMENT TABLE loading FINISHED");
-                }    
+                    assignmentsTableModel.getDataVector().removeAllElements();
+                    assignmentsTableModel.fireTableDataChanged(); // notifies the JTable that the model has changed
+                    System.out.println("--- EMPTY ");
+                }
+                else
+                {
+                    System.out.println("--- FULL");
+                    Object[] newAssignment;
+                    for(Assignment tempAssignment : assignmentsList)
+                    {
+                        newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getResult(), tempAssignment.getWeightPercent()};
+                        assignmentsTableModel.addRow(newAssignment);
+                        System.out.println("ASSIGNMENT TABLE loading FINISHED");
+                    }    
+                } 
             }
         }     
     }
