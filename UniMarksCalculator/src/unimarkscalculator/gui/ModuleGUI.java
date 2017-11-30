@@ -23,7 +23,7 @@ public class ModuleGUI
     private JTextField creditsInput = new JTextField("");
     private JButton addModuleButton = new JButton("Add");
     private JButton clearFieldsButton = new JButton("Clear all fields");
-    private JComboBox semestersList = new JComboBox(new String[] {"A", "B", "C"});
+    private JComboBox semestersList = new JComboBox(new String[] {"A", "B", "AB"});
     private JComboBox levelsList = new JComboBox(new String[] {"4", "5", "6"});
     private JComboBox creditsList = new JComboBox(new String[] {"15", "30"});
     

@@ -76,7 +76,8 @@ public class ResultsGUI
         
         gcCenter.gridx = 0; gcCenter.gridy = 1;
         // Creating MODULES table:
-        String[] modulesColumnNames = {"Name", "Semester", "Credits", "Grade"}; 
+        //String[] modulesColumnNames = {"Module", "Semester", "Credits", "Grade"}; 
+        String[] modulesColumnNames = {"Module title", "Credits", "Semester", "Grade", "Level"}; 
         modulesTableModel = new DefaultTableModel(modulesData, modulesColumnNames)
         {
             public Class getColumnClass(int column)
@@ -98,7 +99,7 @@ public class ResultsGUI
         modulesList = modulesCollectionInstance.getAllModules();
         for(Module tempModule : modulesList)
         {
-            newModule = new Object[]{tempModule.getName(), tempModule.getSemester(), tempModule.getCredits(), tempModule.getGrade()};
+            newModule = new Object[]{tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel()};
             modulesTableModel.addRow(newModule);
         }
         
@@ -122,7 +123,7 @@ public class ResultsGUI
         
         gcCenter.gridx = 0; gcCenter.gridy = 3;                
         // Creating ASSIGNMENTS table:
-        String[] assignmentsColumnNames = {"Title", "Type", "Result", "Weight(%)"};
+        String[] assignmentsColumnNames = {"Title", "Type", "Weight(%)", "Result"};
         assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
         {
             public Class getColumnClass(int column)
@@ -240,7 +241,7 @@ public class ResultsGUI
                     Object[] newAssignment;
                     for(Assignment tempAssignment : assignmentsList)
                     {
-                        newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getResult(), tempAssignment.getWeightPercent()};
+                        newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
                         assignmentsTableModel.addRow(newAssignment);
                         System.out.println("ASSIGNMENT TABLE loading FINISHED");
                     }    
