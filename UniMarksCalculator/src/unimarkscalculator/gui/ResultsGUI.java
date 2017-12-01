@@ -20,16 +20,13 @@ public class ResultsGUI
 {
     private JFrame myFrame = new JFrame("View Results");
     private JLabel resultsLabel = new JLabel("RESULTS", JLabel.CENTER);
-    private JLabel levelLabel = new JLabel("level: ");
     private JLabel modulesListLabel = new JLabel("MODULES");
     private JLabel assignmentsListLabel = new JLabel("ASSIGNMENTS");
     private JLabel modulesForCalculationLabel = new JLabel("modules chosen for calculation: ");
     private JLabel finalGradeLabel = new JLabel("Final Grade: ");
-    private JButton showAllButton = new JButton("Show all results");
     private JButton calculateFinalGradeButton = new JButton("Calculate FINAL GRADE");
     private JButton printResultsButton = new JButton("Print all results");
     private JTextField finalGradeOutput = new JTextField("");
-    private JComboBox levelsList = new JComboBox();
     private JTable modulesTable;
     private JTable assignmentsTable;
     
@@ -44,6 +41,8 @@ public class ResultsGUI
     private DefaultTableModel modulesTableModel;
     private DefaultTableModel assignmentsTableModel;
     
+    private int tempModuleRow = -1;
+    
     public ResultsGUI()
     {
         setFrame();
@@ -53,7 +52,7 @@ public class ResultsGUI
     {
         Container contentPane = myFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(700, 600);
+        Dimension preferredSize = new Dimension(511, 600);
         myFrame.setPreferredSize(preferredSize);
         
         // ***** N O R T H
@@ -123,7 +122,7 @@ public class ResultsGUI
         centerPanel.add(modulesScrollPane, gcCenter);     
         modulesTable.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
 
-        // added two empty JLabels to make space between two JTables (for better clarity)
+        // added two empty JLabels to make space between two JTables (for better clarity) [TO IMPROVE]
         gcCenter.gridx = 0; gcCenter.gridy = 4;
         gcCenter.weighty = 5;
         centerPanel.add(new JLabel(""), gcCenter);
@@ -159,7 +158,6 @@ public class ResultsGUI
                 return returnValue;                    
             }
         };        
-        //assignmentsList = null;
         assignmentsTable = new JTable(assignmentsTableModel)
         {
             @Override
@@ -175,58 +173,19 @@ public class ResultsGUI
         JScrollPane assignmentsScrollPane = new JScrollPane(assignmentsTable);
         centerPanel.add(assignmentsScrollPane, gcCenter);      
         
-//        // ***** W E S T
-//        JPanel westPanel = new JPanel();
-//        contentPane.add(westPanel, BorderLayout.WEST);
-//        westPanel.setLayout(new GridBagLayout());
-//        GridBagConstraints gcWest = new GridBagConstraints();
-//        gcWest.weightx = 0.5; gcWest.weighty = 0.5;
-//        
-//        // COLUMN 1:
-//        gcWest.anchor = GridBagConstraints.CENTER;
-//        gcWest.gridx = 0; gcWest.gridy = 0;
-//        //westPanel.add(showAllButton, gcWest);
-//        
-//        gcWest.gridx = 0; gcWest.gridy = 1;
-//        //westPanel.add(printResultsButton, gcWest);
-//        
-//        gcWest.gridx = 0; gcWest.gridy = 2;
-//        //westPanel.add(levelLabel, gcWest);
-//        
-//        // COLUMN 2:
-//        gcWest.anchor = GridBagConstraints.LINE_START;
-//        gcWest.gridx = 1; gcWest.gridy = 2;
-//        //westPanel.add(levelsList, gcWest);
-
         // ***** S O U T H
         JPanel southPanel = new JPanel();
         contentPane.add(southPanel, BorderLayout.SOUTH);
         southPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        
-        
-//        GridBagConstraints gcSouth = new GridBagConstraints();
-//        gcSouth.weightx = 0.5; gcSouth.weighty = 0.5;
-//        
-        // COLUMN 1:
-//        gcSouth.anchor = GridBagConstraints.LINE_START;
-//        gcSouth.gridx = 0; gcSouth.gridy = 0;
-        southPanel.add(calculateFinalGradeButton);
-        southPanel.add(new JLabel("         "));
-        southPanel.add(new JLabel("         "));
 
-        // COLUMN 2:
-//        gcSouth.anchor = GridBagConstraints.CENTER;
-//        gcSouth.gridx = 1; gcSouth.gridy = 0;
+        southPanel.add(calculateFinalGradeButton);
+        calculateFinalGradeButton.addActionListener(new CalculateFinalGradeButtonHandler());
+        southPanel.add(new JLabel("         "));    // to make space between button and JTextField [TO IMPROVE]
+        southPanel.add(new JLabel("         "));    // to make space between button and JTextField [TO IMPROVE]
         southPanel.add(finalGradeLabel);
-        
-        // COLUMN 3:
-//        gcSouth.anchor = GridBagConstraints.FIRST_LINE_START;
-//        gcSouth.gridx = 2; gcSouth.gridy = 0;
         southPanel.add(finalGradeOutput);
         finalGradeOutput.setPreferredSize(new Dimension(50, 25));
 
-                
-        
         
         myFrame.pack();
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -246,6 +205,7 @@ public class ResultsGUI
                 System.out.println("EVENT: " + event.getValueIsAdjusting());
                 Module selectedModule = null;
                 int viewRow = modulesTable.getSelectedRow();
+                setTempModuleRow(viewRow);
                 String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
                 selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
                 assignmentsList = selectedModule.getAllAssignments();
@@ -276,13 +236,50 @@ public class ResultsGUI
         }     
     }
     
+    private class CalculateFinalGradeButtonHandler implements ActionListener // [TO DO]
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            int viewRow = getTempModuleRow();
+            
+            if(viewRow > -1)
+            {
+                Module selectedModule = null;
+                
+                System.out.println("===== ROW: " + viewRow);
+                
+                
+                String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
+                selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
+                System.out.println("SELECTED MODULE:");
+                System.out.println("Module Title:" + selectedModule.getName());
+                //assignmentsList = selectedModule.getAllAssignments(); 
+            }
+            else
+            {
+                System.out.println("NO MODULES");
+                System.out.println("===== ROW: " + viewRow);
+            }
+            
+        }
+        
+    }
+    
     public void setVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
     }
 
-    public static void main (String[] args)
+    public int getTempModuleRow() 
     {
-        new ResultsGUI().setVisible(true);
+        return tempModuleRow;
     }
+
+    public void setTempModuleRow(int tempModuleRow) 
+    {
+        this.tempModuleRow = tempModuleRow;
+    }
+    
+    
 }
