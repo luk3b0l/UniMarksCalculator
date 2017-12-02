@@ -165,8 +165,23 @@ public class AssignmentGUI
                 {
                     double resultNum = Double.parseDouble(result);
                     double weightPercentNum = Double.parseDouble(weightPercent);
+                    double totalWeight = m.getTotalAssignmentsWeight() + weightPercentNum;
                     
-                    if(resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
+                    if(totalWeight > 100)
+                    {
+//                      
+                        JOptionPane.showMessageDialog(myFrame, "Total weights are more than 100. Please check your assignments' dates for mistakes.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
+                        
+                    }
+                    else if(totalWeight == 100 && resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
+                    {
+                        double calculatedGrade = 0;
+//                      m.setGrade(calculatedGrade);
+                        m.addAssignment(title, type, resultNum, weightPercentNum);
+                        clearFields();  //Clearing the input fields for next data input
+                        JOptionPane.showMessageDialog(myFrame, "Total assignments' weights are equal 100. \nYour grade has been calculated. You can see it in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else if (totalWeight < 100 && resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
                     {
                         m.addAssignment(title, type, resultNum, weightPercentNum);
                         clearFields();  //Clearing the input fields for next data input

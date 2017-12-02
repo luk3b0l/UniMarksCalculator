@@ -13,6 +13,7 @@ public class Module
     private String semester;
     private int credits;
     private int grade;
+    private double totalAssignmentsWeight;
     private ArrayList<Assignment> assignments; 
     
     public Module(String newLevel, String newName, String newSemester, int newCredits)
@@ -21,11 +22,13 @@ public class Module
         this.name = newName;
         this.semester = newSemester;
         this.credits = newCredits;
+        this.totalAssignmentsWeight = 0;
         assignments = new ArrayList<Assignment>();
     }
     
     public void addAssignment(String name, String type, double result, double weight)
     {
+        setTotalAssignmentsWeight(weight);
         Assignment tempAssignment = new Assignment(name, type, result, weight);
         assignments.add(tempAssignment);
     }
@@ -152,6 +155,16 @@ public class Module
             }
         }
         return result;
+    }
+
+    public double getTotalAssignmentsWeight() 
+    {
+        return totalAssignmentsWeight;
+    }
+
+    public void setTotalAssignmentsWeight(double addAssignmentsWeight) 
+    {
+        this.totalAssignmentsWeight += addAssignmentsWeight;
     }
     
     public String toString()
