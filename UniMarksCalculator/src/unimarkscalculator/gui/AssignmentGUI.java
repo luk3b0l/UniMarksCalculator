@@ -154,7 +154,6 @@ public class AssignmentGUI
             }
             else
             {
-                
                 String type = assignmentTypesLists.getSelectedItem().toString();
                 String result = resultInput.getText(); 
                 String weightPercent = weightPercentInput.getText();

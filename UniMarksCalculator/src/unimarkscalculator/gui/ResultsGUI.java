@@ -144,16 +144,13 @@ public class ResultsGUI
             {
                 Class returnValue= null;
                 
-                System.out.println("ASS: " + assignmentsList.isEmpty());
                 if((column >= 0) && (column < getColumnCount()) && !assignmentsList.isEmpty())
                 {
                     returnValue = getValueAt(0, column).getClass();
-                    System.out.println("LOADED assignment");
                 }
                 else
                 {
                     returnValue = Object.class;
-                    System.out.println("NOT LOADED");
                 }
                 return returnValue;                    
             }
@@ -202,7 +199,6 @@ public class ResultsGUI
             if(event.getValueIsAdjusting())     // 'true' if this is one in a series of multiple events, where changes are still being made 
                                                 // (important for showing ONLY 1 instance of each assignment)
             {
-                System.out.println("EVENT: " + event.getValueIsAdjusting());
                 Module selectedModule = null;
                 int viewRow = modulesTable.getSelectedRow();
                 setTempModuleRow(viewRow);
@@ -210,26 +206,18 @@ public class ResultsGUI
                 selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
                 assignmentsList = selectedModule.getAllAssignments();
 
-                System.out.println("ROW number: " + viewRow);
-                System.out.println("VALUE: " + selectedModuleName);
-
-
-
                 if(assignmentsList.isEmpty())
                 {
                     assignmentsTableModel.getDataVector().removeAllElements();
                     assignmentsTableModel.fireTableDataChanged(); // notifies the JTable that the model has changed
-                    System.out.println("--- EMPTY ");
                 }
                 else
                 {
-                    System.out.println("--- FULL");
                     Object[] newAssignment;
                     for(Assignment tempAssignment : assignmentsList)
                     {
                         newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
                         assignmentsTableModel.addRow(newAssignment);
-                        System.out.println("ASSIGNMENT TABLE loading FINISHED");
                     }    
                 } 
             }
@@ -246,24 +234,15 @@ public class ResultsGUI
             if(viewRow > -1)
             {
                 Module selectedModule = null;
-                
-                System.out.println("===== ROW: " + viewRow);
-                
-                
                 String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
                 selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
-                System.out.println("SELECTED MODULE:");
-                System.out.println("Module Title:" + selectedModule.getName());
-                //assignmentsList = selectedModule.getAllAssignments(); 
+                JOptionPane.showMessageDialog(myFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
             }
             else
             {
-                System.out.println("NO MODULES");
-                System.out.println("===== ROW: " + viewRow);
+                JOptionPane.showMessageDialog(myFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            
         }
-        
     }
     
     public void setVisible(boolean visibility)
@@ -279,7 +258,5 @@ public class ResultsGUI
     public void setTempModuleRow(int tempModuleRow) 
     {
         this.tempModuleRow = tempModuleRow;
-    }
-    
-    
+    } 
 }
