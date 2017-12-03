@@ -28,7 +28,9 @@ public class Module
     
     public void addAssignment(String name, String type, double result, double weight)
     {
-        setTotalAssignmentsWeight(weight);
+        double newTotalWeight = getTotalAssignmentsWeight() + weight;
+        setTotalAssignmentsWeight(newTotalWeight);
+        System.out.println("TOTAL WEIGHT:" + getTotalAssignmentsWeight());
         Assignment tempAssignment = new Assignment(name, type, result, weight);
         assignments.add(tempAssignment);
     }
@@ -39,6 +41,9 @@ public class Module
         {
             if((tempAssignment.getTitle()).equals(name))
             {
+                double newTotalWeight = getTotalAssignmentsWeight() - tempAssignment.getWeightPercent();
+                setTotalAssignmentsWeight(newTotalWeight);
+                System.out.println("TOTAL WEIGHT:" + getTotalAssignmentsWeight());
                 assignments.remove(tempAssignment);
                 break;
             }
@@ -51,13 +56,18 @@ public class Module
         {
             if((tempAssignment.getTitle()).equals(oldTitle))
             {
+                double newTotalWeight = (getTotalAssignmentsWeight() - tempAssignment.getWeightPercent()) + weight;
+                setTotalAssignmentsWeight(newTotalWeight);
                 tempAssignment.setTitle(newTitle);
                 tempAssignment.setType(type);
                 tempAssignment.setResult(result);
                 tempAssignment.setWeightPercent(weight);
+                System.out.println("TOTAL WEIGHT:" + getTotalAssignmentsWeight());
+                break;
             }
         }
     }
+    
     
     public String listAllAssignments()
     {
@@ -80,6 +90,7 @@ public class Module
         }
         return returnAssignment;
     }
+    
     public ArrayList<Assignment> getAllAssignments()
     {
         return assignments;
@@ -162,9 +173,9 @@ public class Module
         return totalAssignmentsWeight;
     }
 
-    public void setTotalAssignmentsWeight(double addAssignmentsWeight) 
+    public void setTotalAssignmentsWeight(double newTotalAssignmentsWeight) 
     {
-        this.totalAssignmentsWeight += addAssignmentsWeight;
+        this.totalAssignmentsWeight = newTotalAssignmentsWeight;
     }
     
     public String toString()
