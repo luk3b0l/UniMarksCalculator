@@ -223,27 +223,27 @@ public class AssignmentsManagerGUI
             {
                 JOptionPane.showMessageDialog(myFrame, "No information has been changed.", "WARNING Info", JOptionPane.WARNING_MESSAGE);
             }
-            
             else
-            {
-                System.out.println("Title input:" + titleInput.getText());
-                System.out.println("Title db:" + selectedAssignment.getTitle());
-                System.out.println("Type input:" + assignmentTypesLists.getSelectedItem().toString());
-                System.out.println("Type db:" + selectedAssignment.getType());
-                System.out.println("Result input:" + resultInput.getText());
-                System.out.println("Result db:" + selectedAssignment.getResult());
-                System.out.println("Weight input:" + weightPercentInput.getText());
-                System.out.println("Weight db:" + selectedAssignment.getWeightPercent());
-                
-
+            {             
                 String oldTitle = getTempAssignmentTitle();
                 String newTitle = titleInput.getText();
-
-                if(resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
+                double totalWeight = (m.getTotalAssignmentsWeight() - selectedAssignment.getWeightPercent()) + weightNum;
+                
+                if(totalWeight > 100)
+                {
+                    JOptionPane.showMessageDialog(myFrame, "Your total weight of assignments cannot be more than 100. Please check your input data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
+                }
+                else if(totalWeight == 100 && resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
                 {
                     m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
                     populateAssignmentsList();
-                    JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if(totalWeight < 100 && resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
+                {
+                    m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
+                    populateAssignmentsList();
+                    JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                 {
