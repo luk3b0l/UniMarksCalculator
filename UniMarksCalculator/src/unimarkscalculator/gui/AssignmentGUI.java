@@ -178,6 +178,7 @@ public class AssignmentGUI
                         double calculatedGrade = 0;
 //                      m.setGrade(calculatedGrade);
                         m.addAssignment(title, type, resultNum, weightPercentNum);
+                        m.calculateAndSetGrade();
                         clearFields();  //Clearing the input fields for next data input
                         JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                     }

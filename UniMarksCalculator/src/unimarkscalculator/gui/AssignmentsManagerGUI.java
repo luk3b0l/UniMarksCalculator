@@ -236,12 +236,14 @@ public class AssignmentsManagerGUI
                 else if(totalWeight == 100 && resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
                 {
                     m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
+                    m.calculateAndSetGrade();
                     populateAssignmentsList();
                     JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else if(totalWeight < 100 && resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
                 {
                     m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
+                    m.setGrade(0);
                     populateAssignmentsList();
                     JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -268,8 +270,13 @@ public class AssignmentsManagerGUI
             }
             else
             {
+                Module tempModule = userModulesManager.getModule(modulesList.getSelectedItem().toString());
                 String assignmentName = assignmentsList.getSelectedItem().toString();
-                userModulesManager.removeAssignment(assignmentName);   
+                //userModulesManager.removeAssignment(assignmentName);   
+                                
+                tempModule.removeAssignment(assignmentName);
+                tempModule.setGrade(0);
+                                
                 JOptionPane.showMessageDialog(myFrame, "Assignment has been removed successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
                 populateAssignmentsList();
             }
