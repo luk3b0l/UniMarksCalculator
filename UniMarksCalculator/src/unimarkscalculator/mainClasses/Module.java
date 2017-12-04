@@ -12,7 +12,7 @@ public class Module
     private String name;
     private String semester;
     private int credits;
-    private int grade;
+    private double grade;
     private double totalAssignmentsWeight;
     private ArrayList<Assignment> assignments; 
     
@@ -95,6 +95,18 @@ public class Module
     {
         return assignments;
     }
+    
+    public void calculateAndSetGrade()
+    {
+        ArrayList<Assignment> allAssignments = getAllAssignments();
+        double result = 0;
+        for(Assignment tempAssignment : allAssignments)
+        {
+            result = result + tempAssignment.getResult() * (tempAssignment.getWeightPercent() * 0.01);
+        }       
+        setGrade(result);
+        
+    }
 
     public String getLevel() 
     {
@@ -136,12 +148,12 @@ public class Module
         this.name = name;
     }
 
-    public int getGrade() 
+    public double getGrade() 
     {
         return grade;
     }
 
-    public void setGrade(int grade) 
+    public void setGrade(double grade) 
     {
         this.grade = grade;
     }
