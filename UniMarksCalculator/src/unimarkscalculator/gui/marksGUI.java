@@ -163,9 +163,15 @@ public class MarksGUI
             String title = "How to use";
             String message = "\n<html><font size='5'>How to use Uni Marks Calculator ?</font></html>\n\n"
                              +"For the Uni Marks Calculator application to work, please follow these simple steps: \n"
-                             + "1. ...\n"
-                             + "2. ...\n"
-                             + "3. ...\n";
+                             + "1. Add all relevant modules.\n"
+                             + "2. Add all assignments to each individual module stored earlier.\n"
+                             + "3. Go to 'View Results' to see all your modules and assignments.\n"
+                             + "4. Tick modules that you want to add to the final mark grade (not applicable for Level 4 modules) and press 'Calculate FINAL GRADE' button.\n"
+                             + "\n"
+                             + "NOTE:\n"
+                    + "<html><ul><li>Module grades are calculated once total percentage weight of module assignments will be equal to 100%."
+                             + "<li>Otherwise, the Grade will be 0 in the 'View Results' tab.</ul></html>";
+            
             JOptionPane.showMessageDialog(myFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
         }
     }    
@@ -177,7 +183,7 @@ public class MarksGUI
         {
             String title = "About";
             String message = "\n<html><font size='5'>Uni Marks Calculator</font></html>\n\n"
-                            + "This application will help you to calculate your final marks and keep track of all your grades."
+                            + "This application helps keeping track of your university grades (Level 4,5,6) and helps to calculate your Final Grade."
                             + "\n\nAuthor: Lukasz Bol"
                             + "\nContact: lukaszbol@yahoo.co.uk"
                             + "\nVersion: 1.1  [October 2017]";
