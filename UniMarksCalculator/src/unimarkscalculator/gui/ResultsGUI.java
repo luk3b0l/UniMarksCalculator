@@ -29,6 +29,7 @@ public class ResultsGUI
     private JTextField finalGradeOutput = new JTextField("");
     private JTable modulesTable;
     private JTable assignmentsTable;
+    private JCheckBox selectModuleCheckBox;
     
     private Object[][] modulesData;
     private Object[][] assignmentsData;
@@ -48,6 +49,8 @@ public class ResultsGUI
         setFrame();
     }
     
+
+    //Setting frame to create 'View Results' tab
     private void setFrame()
     {
         Container contentPane = myFrame.getContentPane();
@@ -69,7 +72,6 @@ public class ResultsGUI
         gcCenter.weightx = 0.5; gcCenter.weighty = 50;
         
         // COLUMN 1:
-        
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
         centerPanel.add(printResultsButton, gcCenter);
@@ -78,32 +80,53 @@ public class ResultsGUI
         gcCenter.gridx = 0; gcCenter.gridy = 2;
         gcCenter.weighty = 5;
         centerPanel.add(modulesListLabel, gcCenter);
-        
+
+        /**
+         * Creating MODULES table
+         */
         gcCenter.gridx = 0; gcCenter.gridy = 3;
-        // Creating MODULES table:
-        String[] modulesColumnNames = {"Module title", "Credits", "Semester", "Grade", "Level"}; 
+        String[] modulesColumnNames = {"Module title", "Credits", "Semester", "Grade", "Level", "Selected"}; 
         modulesTableModel = new DefaultTableModel(modulesData, modulesColumnNames)
         {
-            public Class getColumnClass(int column)
+            public Class<?> getColumnClass(int column)
             {
-                Class returnValue;
-
-                if((column >= 0) && (column < getColumnCount()))
+                switch(column)  //added switch to paste different types of values into a JTable row
                 {
-                    returnValue = getValueAt(0, column).getClass();
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return String.class;
+                    case 5:
+                        return Boolean.class;
+                    default:
+                        return String.class;
                 }
-                else
-                {
-                    returnValue = Object.class;
-                }
-                return returnValue;
+//            public Class getColumnClass(int column)
+//            {
+//                Class returnValue;
+//
+//                if((column >= 0) && (column < getColumnCount()))
+//                {
+//                    returnValue = getValueAt(0, column).getClass();
+//                }
+//                else
+//                {
+//                    returnValue = Object.class;
+//                }
+//                return returnValue;
             }
         };
         Object[] newModule;
         modulesList = modulesCollectionInstance.getAllModules();
         for(Module tempModule : modulesList)
         {
-            newModule = new Object[]{tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel()};
+            newModule = new Object[]{tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel(), false};
             modulesTableModel.addRow(newModule);
         }
         
@@ -122,6 +145,10 @@ public class ResultsGUI
         centerPanel.add(modulesScrollPane, gcCenter);     
         modulesTable.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
 
+        /**
+         * --------------------------------------------------------------------------------------------
+         */
+        
         // added two empty JLabels to make space between two JTables (for better clarity) [TO IMPROVE]
         gcCenter.gridx = 0; gcCenter.gridy = 4;
         gcCenter.weighty = 5;
@@ -135,24 +162,42 @@ public class ResultsGUI
         gcCenter.weighty = 5;
         centerPanel.add(assignmentsListLabel, gcCenter);
         
-        gcCenter.gridx = 0; gcCenter.gridy = 7;                
-        // Creating ASSIGNMENTS table:
+        /**
+         * Creating ASSIGNMENTS table
+         */
+        gcCenter.gridx = 0; gcCenter.gridy = 7;               
         String[] assignmentsColumnNames = {"Title", "Type", "Weight(%)", "Result"};
         assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
         {
             public Class getColumnClass(int column)
             {
-                Class returnValue= null;
-                
-                if((column >= 0) && (column < getColumnCount()) && !assignmentsList.isEmpty())
+                switch(column)
                 {
-                    returnValue = getValueAt(0, column).getClass();
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return Boolean.class;
+                    default:
+                        return String.class;
+                        
                 }
-                else
-                {
-                    returnValue = Object.class;
-                }
-                return returnValue;                    
+//                Class returnValue= null;
+//                
+//                if((column >= 0) && (column < getColumnCount()) && !assignmentsList.isEmpty())
+//                {
+//                    returnValue = getValueAt(0, column).getClass();
+//                }
+//                else
+//                {
+//                    returnValue = Object.class;
+//                }
+//                return returnValue;                    
             }
         };        
         assignmentsTable = new JTable(assignmentsTableModel)
@@ -169,6 +214,10 @@ public class ResultsGUI
         assignmentsTable.setAutoCreateRowSorter(true);
         JScrollPane assignmentsScrollPane = new JScrollPane(assignmentsTable);
         centerPanel.add(assignmentsScrollPane, gcCenter);      
+        
+        /**
+         * -----------------------------------------------------------------------------
+         */
         
         // ***** S O U T H
         JPanel southPanel = new JPanel();
@@ -229,19 +278,34 @@ public class ResultsGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            int viewRow = getTempModuleRow();
+            for(int i=0; i<modulesTable.getRowCount(); i++)
+            {
+                Boolean checked = Boolean.valueOf(modulesTable.getValueAt(i, 5).toString());
+                String column = modulesTable.getValueAt(i, 0).toString();
+                
+                if(checked)
+                {
+                    JOptionPane.showMessageDialog(null, column);
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, column + "false value");
+                }
+            }
             
-            if(viewRow > -1)
-            {
-                Module selectedModule = null;
-                String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
-                selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
-                JOptionPane.showMessageDialog(myFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(myFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-            }
+//            int viewRow = getTempModuleRow();
+//            
+//            if(viewRow > -1)
+//            {
+//                Module selectedModule = null;
+//                String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
+//                selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
+//                JOptionPane.showMessageDialog(myFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+//            }
+//            else
+//            {
+//                JOptionPane.showMessageDialog(myFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+//            }
         }
     }
     
