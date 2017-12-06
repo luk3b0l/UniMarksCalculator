@@ -19,6 +19,13 @@ public class ModulesManager
         allUserModules = new ArrayList<Module>();
     }
     
+    /*
+    * Helps with getting instance of existing Module Manager, instead of creating a new object of the Modules Manager class.
+    * IF the Modules Manager object has been previously created ==> create instance of it.
+    * ELSE create new object of Modules Manager
+    * This method represents part of the SINGLETON Design Pattern and its core to its proper functionality.
+    * @return ModulesManager
+    */
     public static ModulesManager getInstance()
     {
         if(theManager == null)
@@ -33,6 +40,10 @@ public class ModulesManager
         return description;
     }
 
+    /**
+     * Sets description for a new ModulesManager
+     * @param description String representation of the actual Modules Manager description to be set
+     */
     public void setDescription(String description) 
     {
         if(description == null | description == "")
@@ -60,6 +71,7 @@ public class ModulesManager
                 if(temp.getName().equals(name))
                 {
                     allUserModules.remove(temp);
+                    break;
                 }
             }
         }
@@ -115,6 +127,11 @@ public class ModulesManager
         return s;
     }
     
+    /**
+     * Checks if an input module exists in allUserModules list. Returns false if not.
+     * @param moduleName
+     * @return boolean representation of module existence
+     */
     public boolean checkModuleExists(String moduleName)
     {
         boolean result = false;
