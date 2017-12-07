@@ -9,7 +9,7 @@ import unimarkscalculator.mainClasses.ModulesManager;
 
 
 /**
- *
+ * This class provides functionality on adding assignments to existing modules.
  * @author Lukasz Bol
  */
 public class AssignmentGUI 
@@ -30,13 +30,19 @@ public class AssignmentGUI
     private JComboBox modulesList = new JComboBox();
     private JComboBox assignmentTypesLists = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
 
-    private ModulesManager userModulesManager = ModulesManager.getInstance();
+    private ModulesManager userModulesManager = ModulesManager.getInstance();   // getting instance of ModulesManager (instead of creating new object) - SINGLETON PATTERN
     
+    /**
+     * Setting constructor which sets frame for the Assignment GUI window.
+     */
     public AssignmentGUI()
     {
         setFrame();
     }
     
+    /**
+     * Actual method for setting the frame. Main layout managers (North and Centre) were created.
+     */
     private void setFrame()
     {
         Container contentPane = myFrame.getContentPane();
@@ -123,6 +129,8 @@ public class AssignmentGUI
     
     // ---------------------------------------------------------------------------------------------------
     
+    
+    
     // ***** BUTTON HANDLERS:
      private class ClearFieldsButtonHandler implements ActionListener
     {
@@ -201,6 +209,9 @@ public class AssignmentGUI
         }
     }
     
+    /**
+     * Clearing fields and JComboBox when needed.
+     */
     public void clearFields()
     {
         titleInput.setText("");
@@ -214,6 +225,11 @@ public class AssignmentGUI
         myFrame.setVisible(visibility);
     }
 
+    /**
+     * Method for checking whether input number is Double or not.
+     * @param numberToCheck potential Double value
+     * @return boolean representation of whether input number is Double or not (true if it is).
+     */
     private boolean isDouble(String numberToCheck)
     {
         boolean isValidInteger = false;
