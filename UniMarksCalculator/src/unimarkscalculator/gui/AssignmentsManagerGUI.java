@@ -34,7 +34,7 @@ public class AssignmentsManagerGUI
     private JComboBox assignmentTypesLists = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
     private String tempAssignmentTitle = "";
     
-    private ModulesManager userModulesManager = ModulesManager.getInstance();
+    private ModulesManager userModulesManager = ModulesManager.getInstance();       // getting instance of the class instead of a new object - SINGLETON PATTERN
     //private ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
     
     public AssignmentsManagerGUI()
@@ -42,6 +42,9 @@ public class AssignmentsManagerGUI
         setFrame();
     }
     
+    /**
+     * Setting the frame to North and Centre, accordingly.
+     */
     public void setFrame()
     {
         Container contentPane = myFrame.getContentPane();
@@ -142,6 +145,9 @@ public class AssignmentsManagerGUI
     // ---------------------------------------------------------------------------------------------------
     
     // ***** BUTTON HANDLERS:
+    /*
+    * Handler for clearing the fields, including JComboBox()
+    */
     private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
@@ -154,6 +160,9 @@ public class AssignmentsManagerGUI
         }
     }
     
+    /**
+     * Handler for maintaining update of any assignment.
+     */
     private class UpdateAssignmentButtonHandler implements ActionListener
     {
         @Override
@@ -255,6 +264,9 @@ public class AssignmentsManagerGUI
         }
     }    
     
+    /**
+     * Handler for deleting assignment if not needed anymore.
+     */
     private class DeleteAssignmentButtonHandler implements ActionListener
     {
         @Override
@@ -272,7 +284,6 @@ public class AssignmentsManagerGUI
             {
                 Module tempModule = userModulesManager.getModule(modulesList.getSelectedItem().toString());
                 String assignmentName = assignmentsList.getSelectedItem().toString();
-                //userModulesManager.removeAssignment(assignmentName);   
                                 
                 tempModule.removeAssignment(assignmentName);
                 tempModule.setGrade(0);
