@@ -14,43 +14,39 @@ import unimarkscalculator.mainClasses.ModulesManager;
  */
 public class AssignmentsManagerGUI 
 {
-    private JFrame myFrame = new JFrame("Assignments Manager GUI");
+    private JFrame assignmentsManagerFrame = new JFrame("Assignments Manager GUI");
     private JLabel assignmentsManagerLabel = new JLabel("ASSIGNMENTS MANAGER", JLabel.CENTER);
-    private JLabel moduleLabel = new JLabel("modules: ");
-    private JLabel assignmentsLabel = new JLabel("assignments: ");
-    private JLabel titleLabel = new JLabel("title: ");
-    private JLabel typeLabel = new JLabel("type: ");
-    private JLabel resultLabel = new JLabel("result: ");
-    private JLabel weightPercent = new JLabel("weight(%): ");
-    private JTextField titleInput = new JTextField("");
-    private JTextField typeInput = new JTextField("");
-    private JTextField resultInput = new JTextField("");
-    private JTextField weightPercentInput = new JTextField("");
-    private JButton deleteAssignmentButton = new JButton("Delete assignment");
-    private JButton updateModuleButton = new JButton("Update");
-    private JButton clearFieldsButton = new JButton("Clear all fields");
-    private JComboBox modulesList = new JComboBox();
-    private JComboBox assignmentsList = new JComboBox();
-    private JComboBox assignmentTypesLists = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
+    private JLabel labelModules = new JLabel("modules: ");
+    private JLabel labelAssignments = new JLabel("assignments: ");
+    private JLabel labelTitle = new JLabel("title: ");
+    private JLabel labelType = new JLabel("type: ");
+    private JLabel labelResult = new JLabel("result: ");
+    private JLabel labelWeightPercents = new JLabel("weight(%): ");
+    private JTextField inputTitle = new JTextField("");
+    private JTextField inputType = new JTextField("");
+    private JTextField inputResult = new JTextField("");
+    private JTextField inputWeightPercents = new JTextField("");
+    private JButton buttonDeleteAssignment = new JButton("Delete assignment");
+    private JButton buttonUpdateModule = new JButton("Update");
+    private JButton buttonClearFields = new JButton("Clear all fields");
+    private JComboBox dropdownModules = new JComboBox();
+    private JComboBox dropdownAssignments = new JComboBox();
+    private JComboBox dropdownAssignmentTypes = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
     private String tempAssignmentTitle = "";
     
-    private ModulesManager userModulesManager = ModulesManager.getInstance();       // getting instance of the class instead of a new object - SINGLETON PATTERN
-    //private ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
+    private ModulesManager userModulesManager = ModulesManager.getInstance();       // very important, gets instance of the class instead of a new object - SINGLETON PATTERN
     
     public AssignmentsManagerGUI()
     {
-        setFrame();
+        setGUIFrame();
     }
     
-    /**
-     * Setting the frame to North and Centre, accordingly.
-     */
-    public void setFrame()
+    public void setGUIFrame()
     {
-        Container contentPane = myFrame.getContentPane();
+        Container contentPane = assignmentsManagerFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(400,300);
-        contentPane.setPreferredSize(preferredSize);
+        Dimension preferredWindowSize = new Dimension(400,300);
+        contentPane.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H
         JPanel northPanel = new JPanel();
@@ -68,101 +64,93 @@ public class AssignmentsManagerGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_END;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(moduleLabel, gcCenter);
+        centerPanel.add(labelModules, gcCenter);
         
         gcCenter.gridx = 0; gcCenter.gridy = 1;
-        centerPanel.add(assignmentsLabel, gcCenter); 
+        centerPanel.add(labelAssignments, gcCenter); 
         
         gcCenter.gridx = 0; gcCenter.gridy = 2;
-        centerPanel.add(titleLabel, gcCenter);
+        centerPanel.add(labelTitle, gcCenter);
 
         gcCenter.gridx = 0; gcCenter.gridy = 3;
-        centerPanel.add(typeLabel, gcCenter);
+        centerPanel.add(labelType, gcCenter);
         
         gcCenter.gridx = 0; gcCenter.gridy = 4;
-        centerPanel.add(resultLabel, gcCenter);
+        centerPanel.add(labelResult, gcCenter);
 
         gcCenter.gridx = 0; gcCenter.gridy = 5;
-        centerPanel.add(weightPercent, gcCenter);
+        centerPanel.add(labelWeightPercents, gcCenter);
 
         // COLUMN 2:        
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 0;
-        centerPanel.add(modulesList, gcCenter);                
+        centerPanel.add(dropdownModules, gcCenter);                
 
-        //Populating updated modulesList:
-        modulesList.removeAllItems();
+        dropdownModules.removeAllItems();
         ArrayList<Module> tempModulesList = userModulesManager.getAllModules();
         for(Module temp : tempModulesList)
         {
-            modulesList.addItem(temp.getName());
+            dropdownModules.addItem(temp.getName());
         }
-        modulesList.setSelectedIndex(-1);
-        modulesList.addActionListener(new ModulesListHandler());
+        dropdownModules.setSelectedIndex(-1);
+        dropdownModules.addActionListener(new ModulesListHandler());
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
-        centerPanel.add(assignmentsList, gcCenter);
-        assignmentsList.addActionListener(new AssignmentsListHandler());
-        assignmentsList.setSelectedIndex(-1);
+        centerPanel.add(dropdownAssignments, gcCenter);
+        dropdownAssignments.addActionListener(new AssignmentsListHandler());
+        dropdownAssignments.setSelectedIndex(-1);
              
         gcCenter.gridx = 1; gcCenter.gridy = 2;
-        centerPanel.add(titleInput, gcCenter);
-        titleInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(inputTitle, gcCenter);
+        inputTitle.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
-        centerPanel.add(assignmentTypesLists, gcCenter);   
-        assignmentTypesLists.setSelectedIndex(-1);
+        centerPanel.add(dropdownAssignmentTypes, gcCenter);   
+        dropdownAssignmentTypes.setSelectedIndex(-1);
 
         gcCenter.gridx = 1; gcCenter.gridy = 4;
-        centerPanel.add(resultInput, gcCenter);   
-        resultInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(inputResult, gcCenter);   
+        inputResult.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 5;
-        centerPanel.add(weightPercentInput, gcCenter);
-        weightPercentInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(inputWeightPercents, gcCenter);
+        inputWeightPercents.setPreferredSize(new Dimension(50, 25));
 
         // COLUMN 3:     
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 1; 
-        centerPanel.add(deleteAssignmentButton, gcCenter);
-        deleteAssignmentButton.addActionListener(new DeleteAssignmentButtonHandler());
+        centerPanel.add(buttonDeleteAssignment, gcCenter);
+        buttonDeleteAssignment.addActionListener(new DeleteAssignmentButtonHandler());
 
         gcCenter.gridx = 2; gcCenter.gridy = 4;
-        centerPanel.add(clearFieldsButton, gcCenter);
-        clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
+        centerPanel.add(buttonClearFields, gcCenter);
+        buttonClearFields.addActionListener(new ClearFieldsButtonHandler());
                 
         gcCenter.gridx = 2; gcCenter.gridy = 5;
-        centerPanel.add(updateModuleButton, gcCenter);
-        updateModuleButton.addActionListener(new UpdateAssignmentButtonHandler());
+        centerPanel.add(buttonUpdateModule, gcCenter);
+        buttonUpdateModule.addActionListener(new UpdateAssignmentButtonHandler());
         
-        myFrame.pack();
-        myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        myFrame.setAlwaysOnTop(false);
-        myFrame.setResizable(false);
-        myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen 
+        assignmentsManagerFrame.pack();
+        assignmentsManagerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        assignmentsManagerFrame.setAlwaysOnTop(false);
+        assignmentsManagerFrame.setResizable(false);
+        assignmentsManagerFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen 
     }
     
     // ---------------------------------------------------------------------------------------------------
     
-    // ***** BUTTON HANDLERS:
-    /*
-    * Handler for clearing the fields, including JComboBox()
-    */
     private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
         {
             clearFields();
-            modulesList.setSelectedIndex(-1);
-            assignmentsList.setSelectedIndex(-1);
-            assignmentTypesLists.setSelectedIndex(-1);
+            dropdownModules.setSelectedIndex(-1);
+            dropdownAssignments.setSelectedIndex(-1);
+            dropdownAssignmentTypes.setSelectedIndex(-1);
         }
     }
     
-    /**
-     * Handler for maintaining update of any assignment.
-     */
     private class UpdateAssignmentButtonHandler implements ActionListener
     {
         @Override
@@ -170,154 +158,149 @@ public class AssignmentsManagerGUI
         {
             boolean isResultDouble = false;
             boolean isWeightDouble = false;  
-            Module m = null;
+            Module selectedModule = null;
             Assignment selectedAssignment = null;
             String assignmentType = "";
             double resultNum = -1;
             double weightNum = -1;
             
-            if(modulesList.getItemCount() != 0 && modulesList.getSelectedIndex() != -1)
+            if(dropdownModules.getItemCount() != 0 && dropdownModules.getSelectedIndex() != -1)
             {
-                String selectedModule = (String) modulesList.getSelectedItem();
-                m = userModulesManager.getModule(selectedModule); 
+                selectedModule = userModulesManager.getModule(dropdownModules.getSelectedItem().toString()); 
                 
-                if(assignmentsList.getItemCount() != 0 && assignmentsList.getSelectedIndex() != -1)
+                if(dropdownAssignments.getItemCount() != 0 && dropdownAssignments.getSelectedIndex() != -1)
                 {
-                    assignmentType = assignmentTypesLists.getSelectedItem().toString();
-                    selectedAssignment = m.getAssignment(assignmentsList.getSelectedItem().toString());
-                    String result = resultInput.getText();
-                    String weight = weightPercentInput.getText();
+                    assignmentType = dropdownAssignmentTypes.getSelectedItem().toString();
+                    selectedAssignment = selectedModule.getAssignment(dropdownAssignments.getSelectedItem().toString());
+                    String result = inputResult.getText();
+                    String weight = inputWeightPercents.getText();
                     
                     isResultDouble = isDouble(result);
                     isWeightDouble = isDouble(weight);
                     
-                    if(isResultDouble == true && isWeightDouble == true)
+                    if(isResultDouble && isWeightDouble)
                     {
                         resultNum = Double.parseDouble(result);
                         weightNum = Double.parseDouble(weight);
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(myFrame, "Result and weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(assignmentsManagerFrame, "Result and weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                     } 
                 }
             }
             
-            if(modulesList.getItemCount() == 0)
+            if(dropdownModules.getItemCount() == 0)
             {
-                JOptionPane.showMessageDialog(myFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            else if (modulesList.getSelectedIndex() == -1)
+            else if (dropdownModules.getSelectedIndex() == -1)
             {
-                JOptionPane.showMessageDialog(myFrame, "No module selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No module selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            else if(assignmentsList.getItemCount() == 0)
+            else if(dropdownAssignments.getItemCount() == 0)
             {
-                JOptionPane.showMessageDialog(myFrame, "No assignments on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No assignments on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            else if(assignmentsList.getSelectedIndex() == -1)
+            else if(dropdownAssignments.getSelectedIndex() == -1)
             {
-                JOptionPane.showMessageDialog(myFrame, "No assignment selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No assignment selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             
-            else if(titleInput.getText().equals("") || assignmentTypesLists.getSelectedIndex() == -1 || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            else if(inputTitle.getText().equals("") || dropdownAssignmentTypes.getSelectedIndex() == -1 || inputResult.getText().equals("") || inputWeightPercents.getText().equals(""))
             {
-                JOptionPane.showMessageDialog(myFrame, "Some fields are empty.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "Some fields are empty.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            else if((titleInput.getText()).equals(selectedAssignment.getTitle()) &&
-                    (assignmentTypesLists.getSelectedItem().toString()).equals(selectedAssignment.getType()) &&
+            else if((inputTitle.getText()).equals(selectedAssignment.getTitle()) &&
+                    (dropdownAssignmentTypes.getSelectedItem().toString()).equals(selectedAssignment.getType()) &&
                     resultNum == selectedAssignment.getResult() &&
-                    weightNum == selectedAssignment.getWeightPercent()
-                    )
+                    weightNum == selectedAssignment.getWeightPercent())
             {
-                JOptionPane.showMessageDialog(myFrame, "No information has been changed.", "WARNING Info", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No information has been changed.", "WARNING Info", JOptionPane.WARNING_MESSAGE);
             }
             else
             {             
                 String oldTitle = getTempAssignmentTitle();
-                String newTitle = titleInput.getText();
-                double totalWeight = (m.getTotalAssignmentsWeight() - selectedAssignment.getWeightPercent()) + weightNum;
+                String newTitle = inputTitle.getText();
+                double totalWeight = (selectedModule.getTotalAssignmentsWeight() - selectedAssignment.getWeightPercent()) + weightNum;
                 
                 if(totalWeight > 100)
                 {
-                    JOptionPane.showMessageDialog(myFrame, "Your total weight of assignments cannot be more than 100. Please check your input data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
+                    JOptionPane.showMessageDialog(assignmentsManagerFrame, "Your total weight of assignments cannot be more than 100. Please check your input data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
                 }
                 else if(totalWeight == 100 && resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
                 {
-                    m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
-                    m.calculateAndSetGrade();
-                    populateAssignmentsList();
-                    JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                    selectedModule.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
+                    selectedModule.calculateAndSetGrade();
+                    reloadUpdatedAssignmentsListForSelectedModule();
+                    JOptionPane.showMessageDialog(assignmentsManagerFrame, "Assignment has been updated successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else if(totalWeight < 100 && resultNum > 0 && resultNum <= 100 && weightNum > 0 && resultNum <= 100)
                 {
-                    m.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
-                    m.setGrade(0);
-                    populateAssignmentsList();
-                    JOptionPane.showMessageDialog(myFrame, "Assignment has been updated successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                    selectedModule.updateAssignment(oldTitle, newTitle, assignmentType, resultNum, weightNum);   
+                    selectedModule.setGrade(0);
+                    reloadUpdatedAssignmentsListForSelectedModule();
+                    JOptionPane.showMessageDialog(assignmentsManagerFrame, "Assignment has been updated successfully.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(myFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(assignmentsManagerFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
     }    
     
-    /**
-     * Handler for deleting assignment if not needed anymore.
-     */
     private class DeleteAssignmentButtonHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if(assignmentsList.getItemCount()== 0)
+            if(dropdownAssignments.getItemCount()== 0)
             {
-                JOptionPane.showMessageDialog(myFrame, "No assignments on the list", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No assignments on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            else if(assignmentsList.getSelectedIndex() == -1)
+            else if(dropdownAssignments.getSelectedIndex() == -1)
             {
-                JOptionPane.showMessageDialog(myFrame, "No assignment  selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "No assignment  selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                Module tempModule = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-                String assignmentName = assignmentsList.getSelectedItem().toString();
+                Module tempModule = userModulesManager.getModule(dropdownModules.getSelectedItem().toString());
+                String assignmentName = dropdownAssignments.getSelectedItem().toString();
                                 
                 tempModule.removeAssignment(assignmentName);
                 tempModule.setGrade(0);
                                 
-                JOptionPane.showMessageDialog(myFrame, "Assignment has been removed successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
-                populateAssignmentsList();
+                JOptionPane.showMessageDialog(assignmentsManagerFrame, "Assignment has been removed successfully.", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                reloadUpdatedAssignmentsListForSelectedModule();
             }
         }
     }
 
     // ---------------------------------------------------------------------------------------------------
-    // ***** OTHER HANDLERS:
     
+    // ***** OTHER HANDLERS:
     private class ModulesListHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            assignmentsList.removeAllItems();
-            if(modulesList.getSelectedItem() != null)
+            dropdownAssignments.removeAllItems();
+            if(dropdownModules.getSelectedItem() != null)
             {
-                Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-                ArrayList<Assignment> tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
+                Module tempModule = userModulesManager.getModule(dropdownModules.getSelectedItem().toString());
+                ArrayList<Assignment> tempAssignmentsList = tempModule.getAllAssignments();
                 
                 for(Assignment tempAssignment : tempAssignmentsList)
                 {
                     if(tempAssignment != null)
                     {
-                        assignmentsList.addItem(tempAssignment.getTitle());
+                        dropdownAssignments.addItem(tempAssignment.getTitle());
                     }
                 } 
                 clearFields();
-                assignmentsList.setSelectedIndex(-1);
-                assignmentTypesLists.setSelectedIndex(-1);
+                dropdownAssignments.setSelectedIndex(-1);
+                dropdownAssignmentTypes.setSelectedIndex(-1);
                 
             }
         }
@@ -328,31 +311,31 @@ public class AssignmentsManagerGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            if(assignmentsList.getItemCount() != 0 && assignmentsList.getSelectedIndex() != -1)
+            if(dropdownAssignments.getItemCount() != 0 && dropdownAssignments.getSelectedIndex() != -1)
             {
-                Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString());
-                String selectedAssignment = assignmentsList.getSelectedItem().toString();
+                Module tempModule = userModulesManager.getModule(dropdownModules.getSelectedItem().toString());
+                String selectedAssignment = dropdownAssignments.getSelectedItem().toString();
                 ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
-                tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
+                tempAssignmentsList = tempModule.getAllAssignments();
                 for(Assignment tempAssignment : tempAssignmentsList)
                 {
-                    if(tempAssignment != null && (tempAssignment.getTitle()).equals(selectedAssignment))
+                    if(tempAssignment != null && ((tempAssignment.getTitle()).equals(selectedAssignment)))
                     {
                         setTempAssignmentTitle(tempAssignment.getTitle());
-                        titleInput.setText(tempAssignment.getTitle());
+                        inputTitle.setText(tempAssignment.getTitle());
                         
-                        for(int typeIndex = 0; typeIndex < assignmentTypesLists.getItemCount(); typeIndex++)
+                        for(int assignmentsIndex = 0; assignmentsIndex < dropdownAssignmentTypes.getItemCount(); assignmentsIndex++)
                         {
-                            if(assignmentTypesLists.getItemAt(typeIndex).equals(tempAssignment.getType()))
+                            if(dropdownAssignmentTypes.getItemAt(assignmentsIndex).equals(tempAssignment.getType()))
                             {
-                                assignmentTypesLists.setSelectedIndex(typeIndex);
+                                dropdownAssignmentTypes.setSelectedIndex(assignmentsIndex);
                             }
                         }
 
                         String result = String.valueOf(tempAssignment.getResult());
-                        resultInput.setText(result);
+                        inputResult.setText(result);
                         String weight = String.valueOf(tempAssignment.getWeightPercent());
-                        weightPercentInput.setText(weight);      
+                        inputWeightPercents.setText(weight);      
                         
                     }
                 }          
@@ -360,33 +343,32 @@ public class AssignmentsManagerGUI
         }
     }
     
-    public void populateAssignmentsList()
+    public void reloadUpdatedAssignmentsListForSelectedModule()
     {
-        //Populating updated assignmentsList:
-        assignmentsList.removeAllItems();
+        dropdownAssignments.removeAllItems();   
         
-        Module moduleToRetrieveInfo = userModulesManager.getModule(modulesList.getSelectedItem().toString()); 
+        Module tempModule = userModulesManager.getModule(dropdownModules.getSelectedItem().toString()); 
         ArrayList<Assignment> tempAssignmentsList = new ArrayList<Assignment>();
-        tempAssignmentsList = moduleToRetrieveInfo.getAllAssignments();
-        for(Assignment  temp : tempAssignmentsList)
+        tempAssignmentsList = tempModule.getAllAssignments();
+        for(Assignment  tempAssignment : tempAssignmentsList)
         {
-            assignmentsList.addItem(temp.getTitle());
+            dropdownAssignments.addItem(tempAssignment.getTitle());
         }
         clearFields();
-        assignmentsList.setSelectedIndex(-1);
+        dropdownAssignments.setSelectedIndex(-1);
     }
     
     public void clearFields()
     {
-        titleInput.setText("");
-        assignmentTypesLists.setSelectedIndex(-1);
-        resultInput.setText("");
-        weightPercentInput.setText("");
+        inputTitle.setText("");
+        dropdownAssignmentTypes.setSelectedIndex(-1);
+        inputResult.setText("");
+        inputWeightPercents.setText("");
     }
     
-    public void setVisible(boolean visibility)
+    public void setWindowVisible(boolean visibility)
     {
-        myFrame.setVisible(visibility);
+        assignmentsManagerFrame.setVisible(visibility);
     }
 
     public String getTempAssignmentTitle() 
@@ -394,18 +376,18 @@ public class AssignmentsManagerGUI
         return tempAssignmentTitle;
     }
 
-    public void setTempAssignmentTitle(String tempAssignmentTitle) 
+    public void setTempAssignmentTitle(String newtempAssignmentTitle) 
     {
-        this.tempAssignmentTitle = tempAssignmentTitle;
+        this.tempAssignmentTitle = newtempAssignmentTitle;
     }
 
-    private boolean isDouble(String numberToCheck)
+    private boolean isDouble(String numberToCheckIfDouble)
     {
         boolean isValidInteger = false;
         
         try
         {
-            Double.parseDouble(numberToCheck);
+            Double.parseDouble(numberToCheckIfDouble);
             isValidInteger = true;
         }
         catch (NumberFormatException e)
