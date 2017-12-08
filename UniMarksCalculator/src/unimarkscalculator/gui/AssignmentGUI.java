@@ -14,41 +14,36 @@ import unimarkscalculator.mainClasses.ModulesManager;
  */
 public class AssignmentGUI 
 {
-    private JFrame myFrame = new JFrame("Add Assignment");
+    private JFrame assignmentsFrame = new JFrame("Add Assignment");
     private JLabel addAssignmentLabel = new JLabel("ADD ASSIGNMENT", JLabel.CENTER);
-    private JLabel modulesLabel = new JLabel("module: ");
-    private JLabel titleLabel = new JLabel("title: ");
-    private JLabel typeLabel = new JLabel("type: ");
-    private JLabel resultLabel = new JLabel("result: ");
-    private JLabel weightPercentLabel = new JLabel("weight(%): ");
-    private JTextField titleInput = new JTextField("");
-    private JTextField typeInput = new JTextField("");
-    private JTextField resultInput = new JTextField("");
-    private JTextField weightPercentInput = new JTextField("");
-    private JButton addAssignmentButton = new JButton("Add");
-    private JButton clearFieldsButton = new JButton("Clear all fields");
-    private JComboBox modulesList = new JComboBox();
-    private JComboBox assignmentTypesLists = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
+    private JLabel labelModules = new JLabel("module: ");
+    private JLabel labelTitle = new JLabel("title: ");
+    private JLabel labelType = new JLabel("type: ");
+    private JLabel labelResult = new JLabel("result: ");
+    private JLabel labelWeightPercents = new JLabel("weight(%): ");
+    private JTextField inputTitle = new JTextField("");
+    private JTextField inputType = new JTextField("");
+    private JTextField inputResult = new JTextField("");
+    private JTextField inputWeightPercents = new JTextField("");
+    private JButton buttonAddAssignment = new JButton("Add");
+    private JButton buttonClearFields = new JButton("Clear all fields");
+    private JComboBox dropdownModules = new JComboBox();
+    private JComboBox dropdownAssignmentTypes = new JComboBox(new String[] {"coursework", "exam", "test", "other"});
 
-    private ModulesManager userModulesManager = ModulesManager.getInstance();   // getting instance of ModulesManager (instead of creating new object) - SINGLETON PATTERN
+    private ModulesManager userModulesManager = ModulesManager.getInstance();   // very important, getting instance of ModulesManager (instead of creating new object) - SINGLETON PATTERN
     
-    /**
-     * Setting constructor which sets frame for the Assignment GUI window.
-     */
     public AssignmentGUI()
     {
-        setFrame();
+        setWindowFrame();
     }
     
-    /**
-     * Actual method for setting the frame. Main layout managers (North and Centre) were created.
-     */
-    private void setFrame()
+
+    private void setWindowFrame()
     {
-        Container contentPane = myFrame.getContentPane();
+        Container contentPane = assignmentsFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(400, 300);
-        myFrame.setPreferredSize(preferredSize);
+        Dimension preferredWindowSize = new Dimension(400, 300);
+        assignmentsFrame.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H
         JPanel northPanel = new JPanel();
@@ -66,65 +61,65 @@ public class AssignmentGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_END;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(modulesLabel, gcCenter);
+        centerPanel.add(labelModules, gcCenter);
 
         gcCenter.gridx = 0; gcCenter.gridy = 1;
-        centerPanel.add(titleLabel, gcCenter);        
+        centerPanel.add(labelTitle, gcCenter);        
 
         gcCenter.gridx = 0; gcCenter.gridy = 2;
-        centerPanel.add(typeLabel, gcCenter);        
+        centerPanel.add(labelType, gcCenter);        
 
         gcCenter.gridx = 0; gcCenter.gridy = 3;
-        centerPanel.add(resultLabel, gcCenter);           
+        centerPanel.add(labelResult, gcCenter);           
 
         gcCenter.gridx = 0; gcCenter.gridy = 4;
-        centerPanel.add(weightPercentLabel, gcCenter); 
+        centerPanel.add(labelWeightPercents, gcCenter); 
         
         // COLUMN 2:    
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 0;
-        centerPanel.add(modulesList, gcCenter);
+        centerPanel.add(dropdownModules, gcCenter);
         
-        //Populating updated modulesList:
-        modulesList.removeAllItems();
+        //Populating updated dropdownModules:
+        dropdownModules.removeAllItems();
         ArrayList<Module> tempModulesList = userModulesManager.getAllModules();
         for(Module temp : tempModulesList)
         {
-            modulesList.addItem(temp.getName());
+            dropdownModules.addItem(temp.getName());
         }
-        modulesList.setSelectedIndex(-1);
+        dropdownModules.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
-        centerPanel.add(titleInput, gcCenter);
-        titleInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(inputTitle, gcCenter);
+        inputTitle.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
-        centerPanel.add(assignmentTypesLists, gcCenter);        
-        assignmentTypesLists.setSelectedIndex(-1);
+        centerPanel.add(dropdownAssignmentTypes, gcCenter);        
+        dropdownAssignmentTypes.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
-        centerPanel.add(resultInput, gcCenter);        
-        resultInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(inputResult, gcCenter);        
+        inputResult.setPreferredSize(new Dimension(50, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 4;
-        centerPanel.add(weightPercentInput, gcCenter);        
-        weightPercentInput.setPreferredSize(new Dimension(50, 25));
+        centerPanel.add(inputWeightPercents, gcCenter);        
+        inputWeightPercents.setPreferredSize(new Dimension(50, 25));
         
         // COLUMN 3:    
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
-        centerPanel.add(clearFieldsButton, gcCenter);       
-        clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
+        centerPanel.add(buttonClearFields, gcCenter);       
+        buttonClearFields.addActionListener(new ClearFieldsButtonHandler());
         
         gcCenter.gridx = 2; gcCenter.gridy = 4;
-        centerPanel.add(addAssignmentButton, gcCenter);                
-        addAssignmentButton.addActionListener(new AddAssignmentButtonHandler());
+        centerPanel.add(buttonAddAssignment, gcCenter);                
+        buttonAddAssignment.addActionListener(new AddAssignmentButtonHandler());
         
-        myFrame.pack();
-        myFrame.setAlwaysOnTop(false);
-        myFrame.setResizable(false);
-        myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen        
+        assignmentsFrame.pack();
+        assignmentsFrame.setAlwaysOnTop(false);
+        assignmentsFrame.setResizable(false);
+        assignmentsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        assignmentsFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen        
     }
     
     // ---------------------------------------------------------------------------------------------------
@@ -148,23 +143,23 @@ public class AssignmentGUI
         {
             boolean isResultDouble = false;
             boolean isWeightDouble = false;            
-            String selectedModule = (String) modulesList.getSelectedItem();
-            String title = titleInput.getText();
+            String selectedModule = (String) dropdownModules.getSelectedItem();
+            String title = inputTitle.getText();
             Module m = userModulesManager.getModule(selectedModule);
             
-            if(modulesList.getItemCount() == 0 || titleInput.getText().equals("") || assignmentTypesLists.getSelectedIndex() == -1 || resultInput.getText().equals("") || weightPercentInput.getText().equals(""))
+            if(dropdownModules.getItemCount() == 0 || inputTitle.getText().equals("") || dropdownAssignmentTypes.getSelectedIndex() == -1 || inputResult.getText().equals("") || inputWeightPercents.getText().equals(""))
             {
-                JOptionPane.showMessageDialog(myFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsFrame, "No modules on the list or some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else if(m.checkAssignmentExists(title) == true)
             {
-                JOptionPane.showMessageDialog(myFrame, "Assignment already exists.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(assignmentsFrame, "Assignment already exists.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                String type = assignmentTypesLists.getSelectedItem().toString();
-                String result = resultInput.getText(); 
-                String weightPercent = weightPercentInput.getText();
+                String type = dropdownAssignmentTypes.getSelectedItem().toString();
+                String result = inputResult.getText(); 
+                String weightPercent = inputWeightPercents.getText();
                 
                 isResultDouble = isDouble(result);
                 isWeightDouble = isDouble(weightPercent);
@@ -178,7 +173,7 @@ public class AssignmentGUI
                     if(totalWeight > 100)
                     {
 //                      
-                        JOptionPane.showMessageDialog(myFrame, "Total weights are more than 100. Please check your assignments' dates for mistakes.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
+                        JOptionPane.showMessageDialog(assignmentsFrame, "Total weights are more than 100. Please check your assignments' dates for mistakes.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
                         
                     }
                     else if(totalWeight == 100 && resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
@@ -188,22 +183,22 @@ public class AssignmentGUI
                         m.addAssignment(title, type, resultNum, weightPercentNum);
                         m.calculateAndSetGrade();
                         clearFields();  //Clearing the input fields for next data input
-                        JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(assignmentsFrame, "Assignment has been added successfully.\nTotal assignments' weight is equal 100. \nYour grade has been calculated and can be seen in 'View Results' tab.", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                     }
                     else if (totalWeight < 100 && resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
                     {
                         m.addAssignment(title, type, resultNum, weightPercentNum);
                         clearFields();  //Clearing the input fields for next data input
-                        JOptionPane.showMessageDialog(myFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(assignmentsFrame, "Assignment has been added successfully", "Success Info", JOptionPane.INFORMATION_MESSAGE);
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(myFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(assignmentsFrame, "Result and weight have to be greater than 0 and less or equal to 100. Please check your data.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(myFrame, "Result and weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(assignmentsFrame, "Result and weight data must be numbers.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -214,15 +209,15 @@ public class AssignmentGUI
      */
     public void clearFields()
     {
-        titleInput.setText("");
-        assignmentTypesLists.setSelectedIndex(-1);
-        resultInput.setText("");
-        weightPercentInput.setText("");
+        inputTitle.setText("");
+        dropdownAssignmentTypes.setSelectedIndex(-1);
+        inputResult.setText("");
+        inputWeightPercents.setText("");
     }
     
     public void setVisible(boolean visibility)
     {
-        myFrame.setVisible(visibility);
+        assignmentsFrame.setVisible(visibility);
     }
 
     /**

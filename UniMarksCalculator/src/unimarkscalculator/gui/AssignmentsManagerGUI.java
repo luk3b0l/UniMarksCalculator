@@ -15,7 +15,7 @@ import unimarkscalculator.mainClasses.ModulesManager;
 public class AssignmentsManagerGUI 
 {
     private JFrame assignmentsManagerFrame = new JFrame("Assignments Manager GUI");
-    private JLabel assignmentsManagerLabel = new JLabel("ASSIGNMENTS MANAGER", JLabel.CENTER);
+    private JLabel labelAssignmentsManager = new JLabel("ASSIGNMENTS MANAGER", JLabel.CENTER);
     private JLabel labelModules = new JLabel("modules: ");
     private JLabel labelAssignments = new JLabel("assignments: ");
     private JLabel labelTitle = new JLabel("title: ");
@@ -52,7 +52,7 @@ public class AssignmentsManagerGUI
         JPanel northPanel = new JPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
         northPanel.setLayout(new FlowLayout());
-        northPanel.add(assignmentsManagerLabel);
+        northPanel.add(labelAssignmentsManager);
         
         // ***** C E N T E R
         JPanel centerPanel = new JPanel();
