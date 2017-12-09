@@ -338,8 +338,8 @@ public class AssignmentsManagerGUI
             }
         }
     }
-    
-    // ***** M E T H O D S -------------------------------------------------------------------------------------  
+
+    // ***** M E T H O D S ---------------------------------------------------------------------------------------  
     public void reloadUpdatedAssignmentsListForSelectedModule()
     {
         dropdownAssignments.removeAllItems();   
@@ -388,4 +388,9 @@ public class AssignmentsManagerGUI
         }
         return isValidInteger;
     }   
+    
+    public void setWindowVisible(boolean visibility)
+    {
+        assignmentsManagerFrame.setVisible(visibility);
+    }
 }

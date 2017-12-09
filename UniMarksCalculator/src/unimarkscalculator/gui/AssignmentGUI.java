@@ -221,4 +221,9 @@ public class AssignmentGUI
         }
         return isValidInteger;
     }
+    
+    public void setWindowVisible(boolean visibility)
+    {
+        assignmentsFrame.setVisible(visibility);
+    }
 }

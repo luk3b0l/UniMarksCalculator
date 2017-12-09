@@ -7,45 +7,45 @@ import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
  *
- * @author Lukasz BOl
+ * @author Lukasz Bol
  */
 public class ModuleGUI 
 {
-    private JFrame myFrame = new JFrame("Add Module");
-    private JLabel addModuleLabel = new JLabel("ADD MODULE", JLabel.CENTER);
-    private JLabel levelLabel = new JLabel("level: ");
-    private JLabel semesterLabel = new JLabel("semester: ");
-    private JLabel nameLabel = new JLabel("name: ");
-    private JLabel creditsLabel = new JLabel("credits: ");
-    private JTextField levelInput = new JTextField("");
-    private JTextField semesterInput = new JTextField("");
-    private JTextField nameInput = new JTextField("");
-    private JTextField creditsInput = new JTextField("");
-    private JButton addModuleButton = new JButton("Add");
-    private JButton clearFieldsButton = new JButton("Clear all fields");
-    private JComboBox semestersList = new JComboBox(new String[] {"A", "B", "AB"});
-    private JComboBox levelsList = new JComboBox(new String[] {"4", "5", "6"});
-    private JComboBox creditsList = new JComboBox(new String[] {"15", "30"});
+    private JFrame modulesFrame = new JFrame("Add Module");
+    private JLabel labelAddModule = new JLabel("ADD MODULE", JLabel.CENTER);
+    private JLabel labelLabel = new JLabel("level: ");
+    private JLabel labelSemester = new JLabel("semester: ");
+    private JLabel labelName = new JLabel("name: ");
+    private JLabel labelCredits = new JLabel("credits: ");
+    private JTextField inputLevel = new JTextField("");
+    private JTextField inputSemester = new JTextField("");
+    private JTextField inputName = new JTextField("");
+    private JTextField inputCredits = new JTextField("");
+    private JButton buttonAddModule = new JButton("Add");
+    private JButton buttonClearFields = new JButton("Clear all fields");
+    private JComboBox dropdownSemesters = new JComboBox(new String[] {"A", "B", "AB"});
+    private JComboBox dropdownLevels = new JComboBox(new String[] {"4", "5", "6"});
+    private JComboBox dropdownCredits = new JComboBox(new String[] {"15", "30"});
     
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     
     public ModuleGUI()
     {
-        setFrame();
+        setGUIFrame();
     }
     
-    private void setFrame()
+    private void setGUIFrame()
     {
-        Container contentPane = myFrame.getContentPane();
+        Container contentPane = modulesFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
         Dimension preferredSize = new Dimension(400, 300);
-        myFrame.setPreferredSize(preferredSize);
+        modulesFrame.setPreferredSize(preferredSize);
         
         // ***** N O R T H
         JPanel northPanel = new JPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
         northPanel.setLayout(new FlowLayout());
-        northPanel.add(addModuleLabel);
+        northPanel.add(labelAddModule);
 
         // ***** C E N T E R
         JPanel centerPanel = new JPanel();
@@ -57,55 +57,53 @@ public class ModuleGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_END;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(levelLabel, gcCenter);
+        centerPanel.add(labelLabel, gcCenter);
 
         gcCenter.gridx = 0; gcCenter.gridy = 1;
-        centerPanel.add(semesterLabel, gcCenter);        
+        centerPanel.add(labelSemester, gcCenter);        
 
         gcCenter.gridx = 0; gcCenter.gridy = 2;
-        centerPanel.add(nameLabel, gcCenter);        
+        centerPanel.add(labelName, gcCenter);        
 
         gcCenter.gridx = 0; gcCenter.gridy = 3;
-        centerPanel.add(creditsLabel, gcCenter);   
+        centerPanel.add(labelCredits, gcCenter);   
         
         // COLUMN 2:        
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 0;
-        centerPanel.add(levelsList, gcCenter);
-        levelsList.setSelectedIndex(-1);
+        centerPanel.add(dropdownLevels, gcCenter);
+        dropdownLevels.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 1;
-        centerPanel.add(semestersList, gcCenter);
-        semestersList.setSelectedIndex(-1);
+        centerPanel.add(dropdownSemesters, gcCenter);
+        dropdownSemesters.setSelectedIndex(-1);
         
         gcCenter.gridx = 1; gcCenter.gridy = 2;
-        centerPanel.add(nameInput, gcCenter);
-        nameInput.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(inputName, gcCenter);
+        inputName.setPreferredSize(new Dimension(100, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
-        centerPanel.add(creditsList, gcCenter);   
-        creditsList.setSelectedIndex(-1);
+        centerPanel.add(dropdownCredits, gcCenter);   
+        dropdownCredits.setSelectedIndex(-1);
         
         // COLUMN 3:
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 2; gcCenter.gridy = 3;
-        centerPanel.add(clearFieldsButton, gcCenter);
-        clearFieldsButton.addActionListener(new ClearFieldsButtonHandler());
+        centerPanel.add(buttonClearFields, gcCenter);
+        buttonClearFields.addActionListener(new ClearFieldsButtonHandler());
                 
         gcCenter.gridx = 2; gcCenter.gridy = 4;
-        centerPanel.add(addModuleButton, gcCenter);
-        addModuleButton.addActionListener(new AddModuleButtonHandler());
+        centerPanel.add(buttonAddModule, gcCenter);
+        buttonAddModule.addActionListener(new AddModuleButtonHandler());
         
-        myFrame.pack();
-        myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        myFrame.setAlwaysOnTop(false);
-        myFrame.setResizable(false);
-        myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
+        modulesFrame.pack();
+        modulesFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        modulesFrame.setAlwaysOnTop(false);
+        modulesFrame.setResizable(false);
+        modulesFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }
     
-    // ---------------------------------------------------------------------------------------------------
-    
-    // ***** BUTTON HANDLERS:
+    // ***** H A N D L E R S -------------------------------------------------------------------------------------   
     private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
@@ -121,38 +119,39 @@ public class ModuleGUI
         public void actionPerformed(ActionEvent e) 
         {
             boolean isCreditsInteger = false;
-            if(levelsList.getSelectedIndex() == -1 || semestersList.getSelectedIndex() == -1 || nameInput.getText().equals("") || creditsList.getSelectedIndex() == -1)
+            if(dropdownLevels.getSelectedIndex() == -1 || dropdownSemesters.getSelectedIndex() == -1 || inputName.getText().equals("") || dropdownCredits.getSelectedIndex() == -1)
             {
-                JOptionPane.showMessageDialog(myFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(modulesFrame, "Some fields are empty", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            else if(userModulesManager.checkModuleExists(nameInput.getText()) == true)
+            else if(userModulesManager.checkModuleExists(inputName.getText()) == true)
             {
-                JOptionPane.showMessageDialog(myFrame, "Module already exists", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(modulesFrame, "Module already exists", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                String level = levelsList.getSelectedItem().toString();
-                String semester = semestersList.getSelectedItem().toString();
-                String name = nameInput.getText(); 
-                String credits = creditsList.getSelectedItem().toString();             
+                String level = dropdownLevels.getSelectedItem().toString();
+                String semester = dropdownSemesters.getSelectedItem().toString();
+                String name = inputName.getText(); 
+                String credits = dropdownCredits.getSelectedItem().toString();             
                 int creditsNum = Integer.parseInt(credits);
                 
                 userModulesManager.addModule(level, name, semester, creditsNum);
                 clearFields();  //Clearing the input fields for next data input
-                JOptionPane.showMessageDialog(myFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(modulesFrame, "Module has been added successfully", "SUCCESS info", JOptionPane.INFORMATION_MESSAGE);
             }           
         }
     }
-    
+ 
+    // ***** M E T H O D S ---------------------------------------------------------------------------------------      
     public void clearFields()
     {
-        levelsList.setSelectedIndex(-1);
-        semestersList.setSelectedIndex(-1);
-        creditsList.setSelectedIndex(-1);
-        nameInput.setText("");
+        dropdownLevels.setSelectedIndex(-1);
+        dropdownSemesters.setSelectedIndex(-1);
+        dropdownCredits.setSelectedIndex(-1);
+        inputName.setText("");
     }
-    public void setVisible(boolean visibility)
+    public void setWindowVisible(boolean visibility)
     {
-        myFrame.setVisible(visibility);
+        modulesFrame.setVisible(visibility);
     }
 }

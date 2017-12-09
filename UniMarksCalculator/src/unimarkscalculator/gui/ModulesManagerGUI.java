@@ -274,7 +274,7 @@ public class ModulesManagerGUI
         setCredits.setSelectedIndex(-1);
     }
     
-    public void setVisible(boolean visibility)
+    public void setWindowVisible(boolean visibility)
     {
         myFrame.setVisible(visibility);
     }
