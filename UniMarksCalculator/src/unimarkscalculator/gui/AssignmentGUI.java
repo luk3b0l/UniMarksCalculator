@@ -34,11 +34,11 @@ public class AssignmentGUI
     
     public AssignmentGUI()
     {
-        setWindowFrame();
+        setGUIFrame();
     }
     
 
-    private void setWindowFrame()
+    private void setGUIFrame()
     {
         Container contentPane = assignmentsFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -80,12 +80,11 @@ public class AssignmentGUI
         gcCenter.gridx = 1; gcCenter.gridy = 0;
         centerPanel.add(dropdownModules, gcCenter);
         
-        //Populating updated dropdownModules:
         dropdownModules.removeAllItems();
         ArrayList<Module> tempModulesList = userModulesManager.getAllModules();
-        for(Module temp : tempModulesList)
+        for(Module tempModule : tempModulesList)
         {
-            dropdownModules.addItem(temp.getName());
+            dropdownModules.addItem(tempModule.getName());
         }
         dropdownModules.setSelectedIndex(-1);
         
@@ -122,11 +121,7 @@ public class AssignmentGUI
         assignmentsFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen        
     }
     
-    // ---------------------------------------------------------------------------------------------------
-    
-    
-    
-    // ***** BUTTON HANDLERS:
+    // ***** H A N D L E R S -------------------------------------------------------------------------------------
      private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
@@ -171,15 +166,13 @@ public class AssignmentGUI
                     double totalWeight = m.getTotalAssignmentsWeight() + weightPercentNum;
                     
                     if(totalWeight > 100)
-                    {
-//                      
+                    {               
                         JOptionPane.showMessageDialog(assignmentsFrame, "Total weights are more than 100. Please check your assignments' dates for mistakes.", "ERROR Info", JOptionPane.ERROR_MESSAGE);    
                         
                     }
                     else if(totalWeight == 100 && resultNum > 0 && resultNum <= 100 && weightPercentNum > 0 && resultNum <= 100)
                     {
                         double calculatedGrade = 0;
-//                      m.setGrade(calculatedGrade);
                         m.addAssignment(title, type, resultNum, weightPercentNum);
                         m.calculateAndSetGrade();
                         clearFields();  //Clearing the input fields for next data input
@@ -204,9 +197,7 @@ public class AssignmentGUI
         }
     }
     
-    /**
-     * Clearing fields and JComboBox when needed.
-     */
+    // ***** M E T H O D S -------------------------------------------------------------------------------------
     public void clearFields()
     {
         inputTitle.setText("");
@@ -214,17 +205,7 @@ public class AssignmentGUI
         inputResult.setText("");
         inputWeightPercents.setText("");
     }
-    
-    public void setVisible(boolean visibility)
-    {
-        assignmentsFrame.setVisible(visibility);
-    }
 
-    /**
-     * Method for checking whether input number is Double or not.
-     * @param numberToCheck potential Double value
-     * @return boolean representation of whether input number is Double or not (true if it is).
-     */
     private boolean isDouble(String numberToCheck)
     {
         boolean isValidInteger = false;

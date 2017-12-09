@@ -9,7 +9,7 @@ import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
- *
+ * This class provides functionality on managing existing assignments and their data.
  * @author Lukasz Bol
  */
 public class AssignmentsManagerGUI 
@@ -137,8 +137,7 @@ public class AssignmentsManagerGUI
         assignmentsManagerFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen 
     }
     
-    // ---------------------------------------------------------------------------------------------------
-    
+    // ***** H A N D L E R S -------------------------------------------------------------------------------------
     private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
@@ -277,9 +276,6 @@ public class AssignmentsManagerGUI
         }
     }
 
-    // ---------------------------------------------------------------------------------------------------
-    
-    // ***** OTHER HANDLERS:
     private class ModulesListHandler implements ActionListener
     {
         @Override
@@ -343,6 +339,7 @@ public class AssignmentsManagerGUI
         }
     }
     
+    // ***** M E T H O D S -------------------------------------------------------------------------------------  
     public void reloadUpdatedAssignmentsListForSelectedModule()
     {
         dropdownAssignments.removeAllItems();   
@@ -364,11 +361,6 @@ public class AssignmentsManagerGUI
         dropdownAssignmentTypes.setSelectedIndex(-1);
         inputResult.setText("");
         inputWeightPercents.setText("");
-    }
-    
-    public void setWindowVisible(boolean visibility)
-    {
-        assignmentsManagerFrame.setVisible(visibility);
     }
 
     public String getTempAssignmentTitle() 
