@@ -6,7 +6,7 @@ import java.awt.event.*;
 import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
- *
+ * This class provides functionality on adding modules to the module manager.
  * @author Lukasz Bol
  */
 public class ModuleGUI 
@@ -38,8 +38,8 @@ public class ModuleGUI
     {
         Container contentPane = modulesFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(400, 300);
-        modulesFrame.setPreferredSize(preferredSize);
+        Dimension preferredWindowSize = new Dimension(400, 300);
+        modulesFrame.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H
         JPanel northPanel = new JPanel();
