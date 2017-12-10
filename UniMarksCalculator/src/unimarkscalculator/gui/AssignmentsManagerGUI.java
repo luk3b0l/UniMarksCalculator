@@ -9,7 +9,7 @@ import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
- * This class provides functionality on managing existing assignments and their data.
+* This class provides functionality on managing existing assignments and their data.
  * @author Lukasz Bol
  */
 public class AssignmentsManagerGUI 

@@ -13,56 +13,53 @@ import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
- *
+ * This class provides functionality on showing all added results (modules, assignments),
+ * allows to see separate modules' grades, and calculate Final Grade.
  * @author Lukasz Bol
  */
 public class ResultsGUI 
 {
-    private JFrame myFrame = new JFrame("View Results");
-    private JLabel resultsLabel = new JLabel("RESULTS", JLabel.CENTER);
-    private JLabel modulesListLabel = new JLabel("MODULES");
-    private JLabel assignmentsListLabel = new JLabel("ASSIGNMENTS");
-    private JLabel modulesForCalculationLabel = new JLabel("modules chosen for calculation: ");
-    private JLabel finalGradeLabel = new JLabel("Final Grade: ");
-    private JButton calculateFinalGradeButton = new JButton("Calculate FINAL GRADE");
-    private JButton printResultsButton = new JButton("Print all results");
-    private JTextField finalGradeOutput = new JTextField("");
-    private JTable modulesTable;
-    private JTable assignmentsTable;
-    private JCheckBox selectModuleCheckBox;
+    private JFrame resultsFrame = new JFrame("View Results");
+    private JLabel labelResults = new JLabel("RESULTS", JLabel.CENTER);
+    private JLabel labelModulesList = new JLabel("MODULES");
+    private JLabel labelAssignmentsList = new JLabel("ASSIGNMENTS");
+    private JLabel labelFinalGrade = new JLabel("Final Grade: ");
+    private JButton buttonCalculateFinalGrade = new JButton("Calculate FINAL GRADE");
+    private JButton buttonPrintResults = new JButton("Print all results");
+    private JTextField outputFinalGrade = new JTextField("");
+    private JTable tableModules;
+    private JTable tableAssignments;
     
-    private Object[][] modulesData;
-    private Object[][] assignmentsData;
-    private String[] modulesColumnNames;
-    private String[] assignmentsColumnNames;
-    private ModulesManager modulesCollectionInstance = ModulesManager.getInstance();
-    private ArrayList<Module> modulesList = new ArrayList<>();
-    private ArrayList<Assignment> assignmentsList = new ArrayList<>();
+    private Object[][] dataModules;
+    private Object[][] dataAssignments;
+    private String[] columnsOfModulesData;
+    private String[] columnsOfAssignmentsData;
+    private ModulesManager userModulesManager = ModulesManager.getInstance();
+    private ArrayList<Module> listModules = new ArrayList<>();
+    private ArrayList<Assignment> listAssignments = new ArrayList<>();
     
-    private DefaultTableModel modulesTableModel;
-    private DefaultTableModel assignmentsTableModel;
+    private DefaultTableModel modelModulesTable;
+    private DefaultTableModel modelAssignmentsTable;
     
     private int tempModuleRow = -1;
     
     public ResultsGUI()
     {
-        setFrame();
+        setGUIFrame();
     }
     
-
-    //Setting frame to create 'View Results' tab
-    private void setFrame()
+    private void setGUIFrame()
     {
-        Container contentPane = myFrame.getContentPane();
+        Container contentPane = resultsFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredSize = new Dimension(511, 600);
-        myFrame.setPreferredSize(preferredSize);
+        Dimension preferredWindowSize = new Dimension(511, 600);
+        resultsFrame.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H
         JPanel northPanel = new JPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
         northPanel.setLayout(new FlowLayout());
-        northPanel.add(resultsLabel);
+        northPanel.add(labelResults);
  
         // ***** C E N T E R
         JPanel centerPanel = new JPanel();
@@ -74,23 +71,21 @@ public class ResultsGUI
         // COLUMN 1:
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
-        centerPanel.add(printResultsButton, gcCenter);
+        centerPanel.add(buttonPrintResults, gcCenter);
 
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 0; gcCenter.gridy = 2;
         gcCenter.weighty = 5;
-        centerPanel.add(modulesListLabel, gcCenter);
+        centerPanel.add(labelModulesList, gcCenter);
 
-        /**
-         * Creating MODULES table
-         */
+        // ***** MODULES TABLE ---------------------------------------------------------------------------------
         gcCenter.gridx = 0; gcCenter.gridy = 3;
-        String[] modulesColumnNames = {"Module title", "Credits", "Semester", "Grade", "Level", "Selected"}; 
-        modulesTableModel = new DefaultTableModel(modulesData, modulesColumnNames)
+        String[] columnsOfModulesData = {"Module Title", "Credits", "Semester", "Grade", "Level", "Selected"}; 
+        modelModulesTable = new DefaultTableModel(dataModules, columnsOfModulesData)
         {
             public Class<?> getColumnClass(int column)
             {
-                switch(column)  //added switch to paste different types of values into a JTable row
+                switch(column)
                 {
                     case 0:
                         return String.class;
@@ -122,15 +117,15 @@ public class ResultsGUI
 //                return returnValue;
             }
         };
-        Object[] newModule;
-        modulesList = modulesCollectionInstance.getAllModules();
-        for(Module tempModule : modulesList)
+        Object[] newModuleToBeAdded;
+        listModules = userModulesManager.getAllModules();
+        for(Module tempModule : listModules)
         {
-            newModule = new Object[]{tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel(), false};
-            modulesTableModel.addRow(newModule);
+            newModuleToBeAdded = new Object[]{tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel(), false};
+            modelModulesTable.addRow(newModuleToBeAdded);
         }
         
-        modulesTable = new JTable(modulesTableModel)
+        tableModules = new JTable(modelModulesTable)
         {
             @Override
             public boolean isCellEditable(int data, int columns)
@@ -138,16 +133,13 @@ public class ResultsGUI
                 return false;
             }            
         };
-        modulesTable.setPreferredScrollableViewportSize(new Dimension(500,150));
-        modulesTable.setFillsViewportHeight(true);
-        modulesTable.setAutoCreateRowSorter(true);      //allows to sort through the information
-        JScrollPane modulesScrollPane = new JScrollPane(modulesTable);
+        tableModules.setPreferredScrollableViewportSize(new Dimension(500,150));
+        tableModules.setFillsViewportHeight(true);
+        tableModules.setAutoCreateRowSorter(true);      
+        JScrollPane modulesScrollPane = new JScrollPane(tableModules);
         centerPanel.add(modulesScrollPane, gcCenter);     
-        modulesTable.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
-
-        /**
-         * --------------------------------------------------------------------------------------------
-         */
+        tableModules.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
+        // -----------------------------------------------------------------------------------------------------
         
         // added two empty JLabels to make space between two JTables (for better clarity) [TO IMPROVE]
         gcCenter.gridx = 0; gcCenter.gridy = 4;
@@ -157,17 +149,16 @@ public class ResultsGUI
         gcCenter.gridx = 0; gcCenter.gridy = 5;
         gcCenter.weighty = 5;
         centerPanel.add(new JLabel(""), gcCenter);
+        // -----------------------------------------------------------------------------------------------------
         
         gcCenter.gridx = 0; gcCenter.gridy = 6;
         gcCenter.weighty = 5;
-        centerPanel.add(assignmentsListLabel, gcCenter);
+        centerPanel.add(labelAssignmentsList, gcCenter);
         
-        /**
-         * Creating ASSIGNMENTS table
-         */
+        // ***** ASSIGNMENTS TABLE ---------------------------------------------------------------------------------
         gcCenter.gridx = 0; gcCenter.gridy = 7;               
-        String[] assignmentsColumnNames = {"Title", "Type", "Weight(%)", "Result"};
-        assignmentsTableModel = new DefaultTableModel(assignmentsData, assignmentsColumnNames)
+        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
+        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
         {
             public Class getColumnClass(int column)
             {
@@ -189,7 +180,7 @@ public class ResultsGUI
                 }
 //                Class returnValue= null;
 //                
-//                if((column >= 0) && (column < getColumnCount()) && !assignmentsList.isEmpty())
+//                if((column >= 0) && (column < getColumnCount()) && !listAssignments.isEmpty())
 //                {
 //                    returnValue = getValueAt(0, column).getClass();
 //                }
@@ -200,7 +191,7 @@ public class ResultsGUI
 //                return returnValue;                    
             }
         };        
-        assignmentsTable = new JTable(assignmentsTableModel)
+        tableAssignments = new JTable(modelAssignmentsTable)
         {
             @Override
             public boolean isCellEditable(int data, int columns)
@@ -208,82 +199,45 @@ public class ResultsGUI
                 return false;
             }
         };
-
-        assignmentsTable.setPreferredScrollableViewportSize(new Dimension(500,100));
-        assignmentsTable.setFillsViewportHeight(true);
-        assignmentsTable.setAutoCreateRowSorter(true);
-        JScrollPane assignmentsScrollPane = new JScrollPane(assignmentsTable);
+        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
+        tableAssignments.setFillsViewportHeight(true);
+        tableAssignments.setAutoCreateRowSorter(true);
+        JScrollPane assignmentsScrollPane = new JScrollPane(tableAssignments);
         centerPanel.add(assignmentsScrollPane, gcCenter);      
-        
-        /**
-         * -----------------------------------------------------------------------------
-         */
+        // -----------------------------------------------------------------------------------------------------
         
         // ***** S O U T H
         JPanel southPanel = new JPanel();
         contentPane.add(southPanel, BorderLayout.SOUTH);
         southPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        southPanel.add(calculateFinalGradeButton);
-        calculateFinalGradeButton.addActionListener(new CalculateFinalGradeButtonHandler());
+        southPanel.add(buttonCalculateFinalGrade);
+        buttonCalculateFinalGrade.addActionListener(new CalculateFinalGradeButtonHandler());
         southPanel.add(new JLabel("         "));    // to make space between button and JTextField [TO IMPROVE]
         southPanel.add(new JLabel("         "));    // to make space between button and JTextField [TO IMPROVE]
-        southPanel.add(finalGradeLabel);
-        southPanel.add(finalGradeOutput);
-        finalGradeOutput.setPreferredSize(new Dimension(50, 25));
+        southPanel.add(labelFinalGrade);
+        southPanel.add(outputFinalGrade);
+        outputFinalGrade.setPreferredSize(new Dimension(50, 25));
 
-        
-        myFrame.pack();
-        myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        myFrame.setAlwaysOnTop(false);
-        //myFrame.setResizable(false);
-        myFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
+        resultsFrame.pack();
+        resultsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        resultsFrame.setAlwaysOnTop(false);
+        //resultsFrame.setResizable(false);
+        resultsFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }
     
-    private class ModulesListSelectionListener implements ListSelectionListener
-    {
-        @Override
-        public void valueChanged(ListSelectionEvent event) 
-        {   
-            if(event.getValueIsAdjusting())     // 'true' if this is one in a series of multiple events, where changes are still being made 
-                                                // (important for showing ONLY 1 instance of each assignment)
-            {
-                Module selectedModule = null;
-                int viewRow = modulesTable.getSelectedRow();
-                setTempModuleRow(viewRow);
-                String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
-                selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
-                assignmentsList = selectedModule.getAllAssignments();
-
-                if(assignmentsList.isEmpty())
-                {
-                    assignmentsTableModel.getDataVector().removeAllElements();
-                    assignmentsTableModel.fireTableDataChanged(); // notifies the JTable that the model has changed
-                }
-                else
-                {
-                    Object[] newAssignment;
-                    for(Assignment tempAssignment : assignmentsList)
-                    {
-                        newAssignment = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
-                        assignmentsTableModel.addRow(newAssignment);
-                    }    
-                } 
-            }
-        }     
-    }
-    
+    // ***** H A N D L E R S -------------------------------------------------------------------------------------   
     private class CalculateFinalGradeButtonHandler implements ActionListener // [TO DO]
     {
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            for(int i=0; i<modulesTable.getRowCount(); i++)
+            for(int i=0; i<tableModules.getRowCount(); i++)
             {
-                Boolean checked = Boolean.valueOf(modulesTable.getValueAt(i, 5).toString());
-                String column = modulesTable.getValueAt(i, 0).toString();
+                Boolean isCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 5).toString());
+                String column = tableModules.getValueAt(i, 0).toString();
                 
-                if(checked)
+                if(isCheckboxTicked)
                 {
                     JOptionPane.showMessageDialog(null, column);
                 }
@@ -298,20 +252,55 @@ public class ResultsGUI
 //            if(viewRow > -1)
 //            {
 //                Module selectedModule = null;
-//                String selectedModuleName = modulesTable.getValueAt(viewRow, 0).toString();
-//                selectedModule = modulesCollectionInstance.getModule(selectedModuleName);
-//                JOptionPane.showMessageDialog(myFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+//                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
+//                selectedModule = userModulesManager.getModule(selectedModuleName);
+//                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
 //            }
 //            else
 //            {
-//                JOptionPane.showMessageDialog(myFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
 //            }
         }
     }
     
-    public void setVisible(boolean visibility)
+    // ***** L I S T E N E R S -------------------------------------------------------------------------------------   
+    private class ModulesListSelectionListener implements ListSelectionListener
     {
-        myFrame.setVisible(visibility);
+        @Override
+        public void valueChanged(ListSelectionEvent event) 
+        {   
+            if(event.getValueIsAdjusting())     // 'true' if this is one in a series of multiple events, where changes are still being made 
+                                                // (very important for showing ONLY 1 instance of each assignment)
+            {
+                Module selectedModule = null;
+                int selectedTableRow = tableModules.getSelectedRow();
+                setTempModuleRow(selectedTableRow);
+                String selectedModuleName = tableModules.getValueAt(selectedTableRow, 0).toString();
+                selectedModule = userModulesManager.getModule(selectedModuleName);
+                listAssignments = selectedModule.getAllAssignments();
+
+                if(listAssignments.isEmpty())
+                {
+                    modelAssignmentsTable.getDataVector().removeAllElements();
+                    modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
+                }
+                else
+                {
+                    Object[] newAssignmentToBeAdded;
+                    for(Assignment tempAssignment : listAssignments)
+                    {
+                        newAssignmentToBeAdded = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
+                        modelAssignmentsTable.addRow(newAssignmentToBeAdded);
+                    }    
+                } 
+            }
+        }     
+    }
+    
+    // ***** M E T H O D S -------------------------------------------------------------------------------------   
+    public void setWindowVisible(boolean visibility)
+    {
+        resultsFrame.setVisible(visibility);
     }
 
     public int getTempModuleRow() 
@@ -319,8 +308,8 @@ public class ResultsGUI
         return tempModuleRow;
     }
 
-    public void setTempModuleRow(int tempModuleRow) 
+    public void setTempModuleRow(int newTempModuleRow) 
     {
-        this.tempModuleRow = tempModuleRow;
+        this.tempModuleRow = newTempModuleRow;
     } 
 }
