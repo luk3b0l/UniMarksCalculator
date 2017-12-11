@@ -137,7 +137,7 @@ public class AssignmentsManagerGUI
         assignmentsManagerFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen 
     }
     
-    // ***** H A N D L E R S -------------------------------------------------------------------------------------
+    // ***** L I S T E N E R S -------------------------------------------------------------------------------------
     private class ClearFieldsButtonHandler implements ActionListener
     {
         @Override
