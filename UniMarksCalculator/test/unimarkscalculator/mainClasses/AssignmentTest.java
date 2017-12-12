@@ -90,7 +90,7 @@ public class AssignmentTest
     public void testSetWeight()
     {
         double newWeight = 100;
-        testAssignment.setWeightPercent(newWeight);
+        testAssignment.setWeightPercentage(newWeight);
         assertTrue(testAssignment.getWeightPercent() == newWeight);
     }
     

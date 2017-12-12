@@ -17,8 +17,7 @@ public class MarksGUI
     private JButton buttonAddAssignment = new JButton("Add assignment");
     private JButton buttonModulesManager = new JButton("Modules manager");
     private JButton buttonAssignmentsManager = new JButton("Assignments manager");
-    private JButton buttonResults = new JButton("View Results");
-        
+    private JButton buttonResults = new JButton("View Results");      
     private JComboBox dropdownModules = new JComboBox();
     
     public MarksGUI()
@@ -127,7 +126,7 @@ public class MarksGUI
         //aboutItem.addActionListener(new aboutHandler());
     }
     
-    // ***** H A N D L E R S -------------------------------------------------------------------------------------
+    // ***** L I S T E N E R S -------------------------------------------------------------------------------------
     
     // File:
     // - Exit    
@@ -227,7 +226,7 @@ public class MarksGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            new ResultsGUI().setVisible(true);
+            new ResultsGUI().setWindowVisible(true);
         }
         
     }

@@ -7,20 +7,21 @@ package unimarkscalculator.mainClasses;
 public class Assignment 
 {
     private String title;
-    private String type;    // test/exam/coursework
+    private String type;
     private double result;
-    private double weightPercent;
+    private double weightPercentage;
     private final static int TOTAL_WEIGHT = 100;
     
-    public Assignment(String newTitle, String newType, double newResult, double newWeightPercent)
+    public Assignment(String newTitle, String newType, double newResult, double newWeightPercentage)
     {
         this.title = newTitle;
         this.type = newType;
         this.result = newResult;
-        this.weightPercent = newWeightPercent;
+        this.weightPercentage = newWeightPercentage;
     }
 
-    public String getTitle() {
+    public String getTitle() 
+    {
         return title;
     }
 
@@ -36,36 +37,36 @@ public class Assignment
     
     public double getWeightPercent() 
     {
-        return weightPercent;
+        return weightPercentage;
     }    
 
-    public void setTitle(String title) 
+    public void setTitle(String newTitle) 
     {
-        this.title = title;
+        this.title = newTitle;
     }
 
-    public void setType(String type) 
+    public void setType(String newType) 
     {
-        this.type = type;
+        this.type = newType;
     }
 
-    public void setResult(double result) 
+    public void setResult(double newResult) 
     {
-        this.result = result;
+        this.result = newResult;
     }
 
-    public void setWeightPercent(double weightPercent) 
+    public void setWeightPercentage(double newWeightPercentage) 
     {
-        this.weightPercent = weightPercent;
+        this.weightPercentage = newWeightPercentage;
     }
     
     public String toString()
     {
-        String s = ":: Assignment INFO ::" + 
+        String assignmentInfo = ":: Assignment INFO ::" + 
                    "\nTitle:" + title + 
                    "\nType: " + type + 
                    "\nResult: " + result + 
-                   "\nWeight(%): " + weightPercent;
-        return s;
+                   "\nWeight(%): " + weightPercentage;
+        return assignmentInfo;
     }
 }
