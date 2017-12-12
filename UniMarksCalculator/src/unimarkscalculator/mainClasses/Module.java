@@ -14,7 +14,7 @@ public class Module
     private int credits;
     private double grade;
     private double totalAssignmentsWeight;
-    private ArrayList<Assignment> assignments; 
+    private ArrayList<Assignment> listAssignments; 
     
     public Module(String newLevel, String newName, String newSemester, int newCredits)
     {
@@ -23,89 +23,88 @@ public class Module
         this.semester = newSemester;
         this.credits = newCredits;
         this.totalAssignmentsWeight = 0;
-        assignments = new ArrayList<Assignment>();
+        listAssignments = new ArrayList<Assignment>();
     }
     
     public void addAssignment(String name, String type, double result, double weight)
     {
         double newTotalWeight = getTotalAssignmentsWeight() + weight;
         setTotalAssignmentsWeight(newTotalWeight);
-        System.out.println("TOTAL WEIGHT:" + getTotalAssignmentsWeight());
         Assignment tempAssignment = new Assignment(name, type, result, weight);
-        assignments.add(tempAssignment);
+        listAssignments.add(tempAssignment);
     }
     
-    public void removeAssignment(String name)
+    public void removeAssignment(String nameOfAssignmentToBeRemoved)
     {
-        for(Assignment tempAssignment : assignments)
+        for(Assignment tempAssignment : listAssignments)
         {
-            if((tempAssignment.getTitle()).equals(name))
+            if((tempAssignment.getTitle()).equals(nameOfAssignmentToBeRemoved))
             {
                 double newTotalWeight = getTotalAssignmentsWeight() - tempAssignment.getWeightPercent();
                 setTotalAssignmentsWeight(newTotalWeight);
-                System.out.println("TOTAL WEIGHT:" + getTotalAssignmentsWeight());
-                assignments.remove(tempAssignment);
+                listAssignments.remove(tempAssignment);
                 break;
             }
         }
     }
     
-    public void updateAssignment(String oldTitle, String newTitle, String type, double result, double weight)
+    public void updateAssignment(String oldTitle, String newTitle, String newType, double newResult, double newWeight)
     {
-        for(Assignment tempAssignment : assignments)
+        for(Assignment tempAssignment : listAssignments)
         {
             if((tempAssignment.getTitle()).equals(oldTitle))
             {
-                double newTotalWeight = (getTotalAssignmentsWeight() - tempAssignment.getWeightPercent()) + weight;
+                double newTotalWeight = (getTotalAssignmentsWeight() - tempAssignment.getWeightPercent()) + newWeight;
                 setTotalAssignmentsWeight(newTotalWeight);
                 tempAssignment.setTitle(newTitle);
-                tempAssignment.setType(type);
-                tempAssignment.setResult(result);
-                tempAssignment.setWeightPercent(weight);
-                System.out.println("TOTAL WEIGHT:" + getTotalAssignmentsWeight());
+                tempAssignment.setType(newType);
+                tempAssignment.setResult(newResult);
+                tempAssignment.setWeightPercentage(newWeight);
                 break;
             }
         }
     }
     
-    
     public String listAllAssignments()
     {
-        String s = "";
-        for(Assignment temp : assignments)
+        String existingAssignmentsInfo = "";
+        if(!listAssignments.isEmpty())
         {
-            s = s + temp.toString() + "\n";
-        }
-        return s;
-    }
-    public Assignment getAssignment(String name)
-    {
-        Assignment returnAssignment = null;
-        for(Assignment tempAssignment : assignments)
-        {
-            if((tempAssignment.getTitle()).equals(name))
+            for(Assignment tempAssignment : listAssignments)
             {
-                return returnAssignment = tempAssignment;
+                existingAssignmentsInfo = existingAssignmentsInfo + tempAssignment.toString() + "\n";
             }
         }
-        return returnAssignment;
+        return existingAssignmentsInfo;
+    }
+    
+    public Assignment getAssignment(String nameOfassignmentToBeRetrieved)
+    {
+        Assignment returnedAssignment = null;
+        for(Assignment tempAssignment : listAssignments)
+        {
+            if((tempAssignment.getTitle()).equals(nameOfassignmentToBeRetrieved))
+            {
+                return returnedAssignment = tempAssignment;
+            }
+        }
+        return returnedAssignment;
     }
     
     public ArrayList<Assignment> getAllAssignments()
     {
-        return assignments;
+        return listAssignments;
     }
     
     public void calculateAndSetGrade()
     {
-        ArrayList<Assignment> allAssignments = getAllAssignments();
-        double result = 0;
-        for(Assignment tempAssignment : allAssignments)
+        ArrayList<Assignment> currentAssignments = getAllAssignments();
+        double newResult = 0;
+        for(Assignment tempAssignment : currentAssignments)
         {
-            result = result + tempAssignment.getResult() * (tempAssignment.getWeightPercent() * 0.01);
+            newResult = newResult + (tempAssignment.getResult() * (tempAssignment.getWeightPercent() * 0.01));
         }       
-        setGrade(result);
-        
+        setGrade(newResult);
     }
 
     public String getLevel() 
@@ -133,9 +132,9 @@ public class Module
         this.semester = semester;
     }
 
-    public void setCredits(int credits) 
+    public void setCredits(int newCredits) 
     {
-        this.credits = credits;
+        this.credits = newCredits;
     }
     
     public String getName() 
@@ -143,9 +142,9 @@ public class Module
         return name;
     }
 
-    public void setName(String name) 
+    public void setName(String newName) 
     {
-        this.name = name;
+        this.name = newName;
     }
 
     public double getGrade() 
@@ -153,31 +152,31 @@ public class Module
         return grade;
     }
 
-    public void setGrade(double grade) 
+    public void setGrade(double newGrade) 
     {
-        this.grade = grade;
+        this.grade = newGrade;
     }
     
-    public void updateModuleInfo(String level, String name, String semester, int credits)
+    public void updateModuleInfo(String newLevel, String newName, String newSemester, int newCredits)
     {
-        setLevel(level);
-        setName(name);
-        setSemester(semester);
-        setCredits(credits);
+        setLevel(newLevel);
+        setName(newName);
+        setSemester(newSemester);
+        setCredits(newCredits);
     }
     
     public boolean checkAssignmentExists(String assignmentName)
     {
-        boolean result = false;
-        for(Assignment tempAssignment : assignments)
+        boolean assignmentExists = false;
+        for(Assignment tempAssignment : listAssignments)
         {
             if(((tempAssignment.getTitle()).toLowerCase()).equals(assignmentName.toLowerCase()))
             {
-                result = true;
+                assignmentExists = true;
                 break;
             }
         }
-        return result;
+        return assignmentExists;
     }
 
     public double getTotalAssignmentsWeight() 
@@ -192,16 +191,16 @@ public class Module
     
     public String toString()
     {
-        String s = "***** MODULE INFO *****" + 
+        String moduleInfo = "***** MODULE INFO *****" + 
                    "\nModule: " + name + 
                    "\nLevel: " + level + 
                    "\nSemester: " + semester + 
                    "\nCredits: " + credits + 
                    "\nGrade: " + grade;
-        for(Assignment temp : assignments)
+        for(Assignment tempAssignment : listAssignments)
         {
-            s = s + "\nAssignment: " + temp.toString();
+            moduleInfo = moduleInfo + "\nAssignment: " + tempAssignment.toString();
         }
-        return s;
+        return moduleInfo;
     }
 }

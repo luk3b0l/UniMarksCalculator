@@ -11,12 +11,12 @@ public class ModulesManager
 {
     private static ModulesManager theManager;
     private String description;
-    private ArrayList<Module> allUserModules;
+    private ArrayList<Module> listUserModules;
     
     private ModulesManager()
     {
         this.description = "USER MODULES MANAGER";
-        allUserModules = new ArrayList<Module>();
+        listUserModules = new ArrayList<Module>();
     }
     
     /*
@@ -59,18 +59,18 @@ public class ModulesManager
     public void addModule(String newLevel, String newName, String newSemester, int newCredits)
     {
         Module tempModule = new Module(newLevel, newName, newSemester, newCredits);
-        allUserModules.add(tempModule);
+        listUserModules.add(tempModule);
     }
     
     public void removeModule(String name)
     {   
         try
         {
-            for(Module temp : allUserModules)
+            for(Module temp : listUserModules)
             {
                 if(temp.getName().equals(name))
                 {
-                    allUserModules.remove(temp);
+                    listUserModules.remove(temp);
                     break;
                 }
             }
@@ -84,7 +84,7 @@ public class ModulesManager
     public Module getModule(String name)
     {
         Module moduleToReturn = null;
-        for(Module temp : allUserModules)
+        for(Module temp : listUserModules)
         {
             if(temp.getName().equals(name))
             {
@@ -96,12 +96,12 @@ public class ModulesManager
     
     public void removeAllModulesList()
     {
-        allUserModules.removeAll(allUserModules);
+        listUserModules.removeAll(listUserModules);
     }
     
     public void removeAssignment(String name)
     {
-        for(Module tempModule : allUserModules)
+        for(Module tempModule : listUserModules)
         {
             tempModule.removeAssignment(name);
         }
@@ -110,7 +110,7 @@ public class ModulesManager
     public ArrayList<Module> getAllModules()
     {
         ArrayList<Module> modulesList = new ArrayList<Module>();
-        for(Module temp : allUserModules)
+        for(Module temp : listUserModules)
         {
             modulesList.add(temp);
         }
@@ -120,7 +120,7 @@ public class ModulesManager
     public String getAllModulesString()
     {
         String s = "";
-        for(Module temp : allUserModules)
+        for(Module temp : listUserModules)
         {
             s = s + temp.toString() + "\n";
         }
@@ -128,14 +128,14 @@ public class ModulesManager
     }
     
     /**
-     * Checks if an input module exists in allUserModules list. Returns false if not.
+     * Checks if an input module exists in listUserModules list. Returns false if not.
      * @param moduleName
      * @return boolean representation of module existence
      */
     public boolean checkModuleExists(String moduleName)
     {
         boolean result = false;
-        for(Module tempModule : allUserModules)
+        for(Module tempModule : listUserModules)
         {
             if((tempModule.getName().toLowerCase()).equals(moduleName.toLowerCase()))
             {
