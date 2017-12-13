@@ -21,5 +21,10 @@ public class AssignmentsManagerGUITest
     public void setUp(){}
     
     @After
-    public void tearDown(){}        
+    public void tearDown(){}     
+    
+    // @Test delete assignment
+    // @Test clear fields
+    // @Test update 
+    // @Test error handlig when inputting wrong fields.
 }

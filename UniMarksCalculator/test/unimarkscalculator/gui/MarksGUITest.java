@@ -22,4 +22,13 @@ public class MarksGUITest
     
     @After
     public void tearDown(){}       
+    
+    //@Test open 'Add module'
+    //@Test open 'Add assignment'
+    //@Test open 'Modules manager'
+    //@Test open 'Assignments manager'
+    //@Test open 'View Results'
+    //@Test exit program
+    //@Test open Help/How to use
+    //@Test open Help/About
 }

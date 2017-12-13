@@ -14,10 +14,10 @@ public class MarksGUI
         
 {
     private JFrame programMainFrame = new JFrame("Uni Marks Calculator");
-    private JButton buttonAddModule = new JButton("Add module");
-    private JButton buttonAddAssignment = new JButton("Add assignment");
-    private JButton buttonModulesManager = new JButton("Modules manager");
-    private JButton buttonAssignmentsManager = new JButton("Assignments manager");
+    private JButton buttonAddModule = new JButton("Add Module");
+    private JButton buttonAddAssignment = new JButton("Add Assignment");
+    private JButton buttonModulesManager = new JButton("Modules Manager");
+    private JButton buttonAssignmentsManager = new JButton("Assignments Manager");
     private JButton buttonResults = new JButton("View Results");      
     private JComboBox dropdownModules = new JComboBox();
     
