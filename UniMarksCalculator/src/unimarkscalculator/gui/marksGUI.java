@@ -11,6 +11,7 @@ import javax.swing.*;
  * @author Lukasz Bol
  */
 public class MarksGUI 
+        
 {
     private JFrame programMainFrame = new JFrame("Uni Marks Calculator");
     private JButton buttonAddModule = new JButton("Add module");

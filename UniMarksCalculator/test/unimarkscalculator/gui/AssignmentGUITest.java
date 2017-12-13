@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
@@ -11,8 +12,13 @@ import org.junit.BeforeClass;
  */
 public class AssignmentGUITest 
 {
+    private static AssignmentGUI temp;
+    
     @BeforeClass
-    public static void setUpClass(){}
+    public static void setUpClass()
+    {
+        temp = new AssignmentGUI();
+    }
     
     @AfterClass
     public static void tearDownClass(){}
@@ -22,4 +28,9 @@ public class AssignmentGUITest
     
     @After
     public void tearDown(){}       
+    
+    // @Test for setting up the frame
+    // @Test add assignment
+    // @Test clear fields
+    // @Test error handling
 }
