@@ -191,15 +191,32 @@ public class Module
     
     public String toString()
     {
-        String moduleInfo = "***** MODULE INFO *****" + 
-                   "\nModule: " + name + 
-                   "\nLevel: " + level + 
-                   "\nSemester: " + semester + 
-                   "\nCredits: " + credits + 
-                   "\nGrade: " + grade;
-        for(Assignment tempAssignment : listAssignments)
+        String moduleInfo = "===== MODULE: " + name + 
+                   "\n--Level: " + level + 
+                   "\n--Semester: " + semester + 
+                   "\n--Credits: " + credits;
+        
+        if(totalAssignmentsWeight < 100)
         {
-            moduleInfo = moduleInfo + "\nAssignment: " + tempAssignment.toString();
+            moduleInfo = moduleInfo + "\n--Completed(%): " + totalAssignmentsWeight + "\n"; 
+        }
+        else
+        {
+            moduleInfo = moduleInfo + "\n--Grade(%): " + grade + "\n";
+        }
+        
+        moduleInfo = moduleInfo + "\n\t=== ASSIGNMENTS";
+        if(!listAssignments.isEmpty())
+        {
+            for(Assignment tempAssignment : listAssignments)
+            {
+                moduleInfo = moduleInfo + tempAssignment.toString();
+            }
+            moduleInfo = moduleInfo + "\n";
+        }
+        else
+        {
+            moduleInfo = moduleInfo + "\n\t<none>\n\n";
         }
         return moduleInfo;
     }

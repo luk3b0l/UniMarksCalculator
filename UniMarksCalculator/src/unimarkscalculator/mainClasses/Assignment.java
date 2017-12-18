@@ -62,11 +62,10 @@ public class Assignment
     
     public String toString()
     {
-        String assignmentInfo = ":: Assignment INFO ::" + 
-                   "\nTitle:" + title + 
-                   "\nType: " + type + 
-                   "\nResult: " + result + 
-                   "\nWeight(%): " + weightPercentage;
+        String assignmentInfo = "\n\tTitle: " + title + 
+                                "\n\tType: " + type + 
+                                "\n\tResult(%): " + result + 
+                                "\n\tWeight(%): " + weightPercentage + "\n";
         return assignmentInfo;
     }
 }
