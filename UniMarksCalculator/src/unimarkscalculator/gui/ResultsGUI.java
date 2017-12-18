@@ -24,9 +24,11 @@ public class ResultsGUI
     private JLabel labelModulesList = new JLabel("MODULES");
     private JLabel labelAssignmentsList = new JLabel("ASSIGNMENTS");
     private JLabel labelFinalGrade = new JLabel("Final Grade: ");
+    private JLabel labelSelectModulesToCalculate = new JLabel("Select modules to calculate");
     private JButton buttonCalculateFinalGrade = new JButton("Calculate FINAL GRADE");
     private JButton buttonPrintResults = new JButton("Print all results");
     private JTextField outputFinalGrade = new JTextField("");
+    private JCheckBox checboxSelectModulesToCalculate = new JCheckBox();
     private JTable tableModules;
     private JTable tableAssignments;
     
@@ -42,6 +44,8 @@ public class ResultsGUI
     private DefaultTableModel modelAssignmentsTable;
     
     private int tempModuleRow = -1;
+    private boolean multipleRowSelection = false;
+    private boolean isTicked = false;
     
     public ResultsGUI()
     {
@@ -52,8 +56,8 @@ public class ResultsGUI
     {
         Container contentPane = resultsFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredWindowSize = new Dimension(511, 600);
-        resultsFrame.setPreferredSize(preferredWindowSize);
+        //Dimension preferredWindowSize = new Dimension(511, 600);
+        //resultsFrame.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H
         JPanel northPanel = new JPanel();
@@ -72,6 +76,11 @@ public class ResultsGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 0; gcCenter.gridy = 0;
         centerPanel.add(buttonPrintResults, gcCenter);
+        buttonPrintResults.addActionListener(new PrintResultsButtonHandler());
+
+        gcCenter.anchor = GridBagConstraints.LINE_END;
+        gcCenter.gridx = 0; gcCenter.gridy = 1;
+        centerPanel.add(labelSelectModulesToCalculate, gcCenter);
 
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 0; gcCenter.gridy = 2;
@@ -80,7 +89,7 @@ public class ResultsGUI
 
         // ***** MODULES TABLE ---------------------------------------------------------------------------------
         gcCenter.gridx = 0; gcCenter.gridy = 3;
-        String[] columnsOfModulesData = {"Module Title", "Credits", "Semester", "Grade", "Level", "Selected"}; 
+        String[] columnsOfModulesData = {"Selected", "Module Title", "Credits", "Semester", "Grade", "Level"}; 
         modelModulesTable = new DefaultTableModel(dataModules, columnsOfModulesData)
         {
             public Class<?> getColumnClass(int column)
@@ -88,7 +97,7 @@ public class ResultsGUI
                 switch(column)
                 {
                     case 0:
-                        return String.class;
+                        return Boolean.class;
                     case 1:
                         return String.class;
                     case 2:
@@ -98,7 +107,7 @@ public class ResultsGUI
                     case 4:
                         return String.class;
                     case 5:
-                        return Boolean.class;
+                        return String.class;
                     default:
                         return String.class;
                 }
@@ -117,11 +126,12 @@ public class ResultsGUI
 //                return returnValue;
             }
         };
+        
         Object[] newModuleToBeAdded;
         listModules = userModulesManager.getAllModules();
         for(Module tempModule : listModules)
         {
-            newModuleToBeAdded = new Object[]{tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel(), false};
+            newModuleToBeAdded = new Object[]{false, tempModule.getName(), tempModule.getCredits(), tempModule.getSemester(), tempModule.getGrade(), tempModule.getLevel()};
             modelModulesTable.addRow(newModuleToBeAdded);
         }
         
@@ -130,12 +140,21 @@ public class ResultsGUI
             @Override
             public boolean isCellEditable(int data, int columns)
             {
-                return false;
+                if(isTicked == false)
+                {
+                    return false;
+                }
+                else
+                {
+                    return(columns == 0 ? true : false); // only column 0 will be editable
+                }
+                
             }            
         };
         tableModules.setPreferredScrollableViewportSize(new Dimension(500,150));
         tableModules.setFillsViewportHeight(true);
         tableModules.setAutoCreateRowSorter(true);      
+        
         JScrollPane modulesScrollPane = new JScrollPane(tableModules);
         centerPanel.add(modulesScrollPane, gcCenter);     
         tableModules.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
@@ -149,35 +168,35 @@ public class ResultsGUI
         gcCenter.gridx = 0; gcCenter.gridy = 5;
         gcCenter.weighty = 5;
         centerPanel.add(new JLabel(""), gcCenter);
-        // -----------------------------------------------------------------------------------------------------
+        // ---------------------------------------------------------------------------------------------------------
         
         gcCenter.gridx = 0; gcCenter.gridy = 6;
         gcCenter.weighty = 5;
         centerPanel.add(labelAssignmentsList, gcCenter);
         
         // ***** ASSIGNMENTS TABLE ---------------------------------------------------------------------------------
-        gcCenter.gridx = 0; gcCenter.gridy = 7;               
-        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
-        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
-        {
-            public Class getColumnClass(int column)
-            {
-                switch(column)
-                {
-                    case 0:
-                        return String.class;
-                    case 1:
-                        return String.class;
-                    case 2:
-                        return String.class;
-                    case 3:
-                        return String.class;
-                    case 4:
-                        return Boolean.class;
-                    default:
-                        return String.class;
-                        
-                }
+//        gcCenter.gridx = 0; gcCenter.gridy = 7;               
+//        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
+//        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
+//        {
+//            public Class getColumnClass(int column)
+//            {
+//                switch(column)
+//                {
+//                    case 0:
+//                        return String.class;
+//                    case 1:
+//                        return String.class;
+//                    case 2:
+//                        return String.class;
+//                    case 3:
+//                        return String.class;
+//                    case 4:
+//                        return Boolean.class;
+//                    default:
+//                        return String.class;
+//                        
+//                }
 //                Class returnValue= null;
 //                
 //                if((column >= 0) && (column < getColumnCount()) && !listAssignments.isEmpty())
@@ -189,22 +208,28 @@ public class ResultsGUI
 //                    returnValue = Object.class;
 //                }
 //                return returnValue;                    
-            }
-        };        
-        tableAssignments = new JTable(modelAssignmentsTable)
-        {
-            @Override
-            public boolean isCellEditable(int data, int columns)
-            {
-                return false;
-            }
-        };
-        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
-        tableAssignments.setFillsViewportHeight(true);
-        tableAssignments.setAutoCreateRowSorter(true);
-        JScrollPane assignmentsScrollPane = new JScrollPane(tableAssignments);
-        centerPanel.add(assignmentsScrollPane, gcCenter);      
+//            }
+//        };        
+//        tableAssignments = new JTable(modelAssignmentsTable)
+//        {
+//            @Override
+//            public boolean isCellEditable(int data, int columns)
+//            {
+//                return false;
+//            }
+//        };
+//        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
+//        tableAssignments.setFillsViewportHeight(true);
+//        tableAssignments.setAutoCreateRowSorter(true);
+//        JScrollPane assignmentsScrollPane = new JScrollPane(tableAssignments);
+//        centerPanel.add(assignmentsScrollPane, gcCenter);      
         // -----------------------------------------------------------------------------------------------------
+        
+        // COLUMN 2:
+        gcCenter.anchor = GridBagConstraints.LINE_START;
+        gcCenter.gridx = 1; gcCenter.gridy = 1;
+        centerPanel.add(checboxSelectModulesToCalculate, gcCenter);
+        //checboxSelectModulesToCalculate.addActionListener(new CheckboxSelectModulesToCalculateHandler());
         
         // ***** S O U T H
         JPanel southPanel = new JPanel();
@@ -226,7 +251,7 @@ public class ResultsGUI
         resultsFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }
     
-    // ***** H A N D L E R S -------------------------------------------------------------------------------------   
+    // ***** L I S T E N E R S -------------------------------------------------------------------------------------   
     private class CalculateFinalGradeButtonHandler implements ActionListener // [TO DO]
     {
         @Override
@@ -234,7 +259,7 @@ public class ResultsGUI
         {
             for(int i=0; i<tableModules.getRowCount(); i++)
             {
-                Boolean isCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 5).toString());
+                Boolean isCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
                 String column = tableModules.getValueAt(i, 0).toString();
                 
                 if(isCheckboxTicked)
@@ -263,7 +288,6 @@ public class ResultsGUI
         }
     }
     
-    // ***** L I S T E N E R S -------------------------------------------------------------------------------------   
     private class ModulesListSelectionListener implements ListSelectionListener
     {
         @Override
@@ -275,26 +299,98 @@ public class ResultsGUI
                 Module selectedModule = null;
                 int selectedTableRow = tableModules.getSelectedRow();
                 setTempModuleRow(selectedTableRow);
-                String selectedModuleName = tableModules.getValueAt(selectedTableRow, 0).toString();
+                String selectedModuleName = tableModules.getValueAt(selectedTableRow, 1).toString();
                 selectedModule = userModulesManager.getModule(selectedModuleName);
-                listAssignments = selectedModule.getAllAssignments();
-
-                if(listAssignments.isEmpty())
-                {
-                    modelAssignmentsTable.getDataVector().removeAllElements();
-                    modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
-                }
-                else
-                {
-                    Object[] newAssignmentToBeAdded;
-                    for(Assignment tempAssignment : listAssignments)
-                    {
-                        newAssignmentToBeAdded = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
-                        modelAssignmentsTable.addRow(newAssignmentToBeAdded);
-                    }    
-                } 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+//                try
+//                {
+//                    listAssignments = selectedModule.getAllAssignments();
+//                }
+//                catch(NullPointerException e)
+//                {
+//                    System.out.println(e.toString());
+//                }
+//                
+//
+//                if(listAssignments.isEmpty() || listAssignments == null)
+//                {
+//                    try
+//                    {
+//                        modelAssignmentsTable.getDataVector().removeAllElements();
+//                        modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
+//                    }
+//                    catch(NullPointerException e)
+//                    {
+//                        System.out.println(e.toString());
+//                    }
+//                }
+//                else
+//                {
+//                    Object[] newAssignmentToBeAdded;
+//                    for(Assignment tempAssignment : listAssignments)
+//                    {
+//                        newAssignmentToBeAdded = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
+//                        modelAssignmentsTable.addRow(newAssignmentToBeAdded);
+//                    }    
+//                } 
             }
         }     
+    }
+            
+    private class CheckboxSelectModulesToCalculateHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            if(checboxSelectModulesToCalculate.isSelected())
+            {
+                setIsTicked(true);
+                modelAssignmentsTable.getDataVector().removeAllElements();
+                modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
+                // enable first column (change from greyed out to editable)
+                
+//                setMultipleRowSelection(true);
+//                tableModules.setRowSelectionAllowed(multipleRowSelection);
+//                tableModules.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                
+                System.out.println("Checkbox selected. You can choose your modules to be calculated.");
+            }
+            else
+            {
+                setIsTicked(false);
+                modelAssignmentsTable.getDataVector().removeAllElements();
+                modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
+                setMultipleRowSelection(false);
+//                tableModules.setRowSelectionAllowed(multipleRowSelection);
+//                tableModules.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                System.out.println("Checkbox unselected.");
+            }
+        }
+    }
+    
+    private class PrintResultsButtonHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            Module moduleObject = null;
+            for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+            {
+                String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
+                moduleObject = userModulesManager.getModule(moduleName);
+                System.out.println(moduleObject.toString());
+            }
+            
+        }
     }
     
     // ***** M E T H O D S -------------------------------------------------------------------------------------   
@@ -312,4 +408,14 @@ public class ResultsGUI
     {
         this.tempModuleRow = newTempModuleRow;
     } 
+
+    public void setMultipleRowSelection(boolean newMultipleRowSelection) 
+    {
+        this.multipleRowSelection = multipleRowSelection;
+    }
+
+    public void setIsTicked(boolean isTicked) 
+    {
+        this.isTicked = isTicked;
+    }
 }
