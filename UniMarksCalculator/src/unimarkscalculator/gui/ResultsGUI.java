@@ -3,7 +3,12 @@ package unimarkscalculator.gui;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -383,12 +388,25 @@ public class ResultsGUI
         public void actionPerformed(ActionEvent e) 
         {
             Module moduleObject = null;
-            for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+            try 
             {
-                String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
-                moduleObject = userModulesManager.getModule(moduleName);
-                System.out.println(moduleObject.toString());
+                FileWriter fileOutput = new FileWriter("userModuleInfo.txt");
+                
+                for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+                {
+                    String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
+                    moduleObject = userModulesManager.getModule(moduleName);
+                    fileOutput.write(moduleObject.toString());
+                }
+                fileOutput.close();
+                System.out.println("Save sucessfully!");
+            } 
+            catch (IOException ex) 
+            {
+                System.out.println(ex.toString());
             }
+            
+            
             
         }
     }
