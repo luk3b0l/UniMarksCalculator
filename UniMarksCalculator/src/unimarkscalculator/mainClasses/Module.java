@@ -1,5 +1,7 @@
 package unimarkscalculator.mainClasses;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -154,7 +156,9 @@ public class Module
 
     public void setGrade(double newGrade) 
     {
-        this.grade = newGrade;
+        BigDecimal tempGrade = new BigDecimal(newGrade);
+        BigDecimal roundOff = tempGrade.setScale(2, RoundingMode.HALF_UP);
+        this.grade = roundOff.doubleValue();
     }
     
     public void updateModuleInfo(String newLevel, String newName, String newSemester, int newCredits)
