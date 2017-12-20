@@ -1,9 +1,14 @@
 package unimarkscalculator.gui;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -387,27 +392,32 @@ public class ResultsGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
+            Document pdfDocument = new Document();
+            
+            
             Module moduleObject = null;
             try 
             {
-                FileWriter fileOutput = new FileWriter("userModuleInfo.txt");
+                PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
+                pdfDocument.open();
                 
                 for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
                 {
                     String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
                     moduleObject = userModulesManager.getModule(moduleName);
-                    fileOutput.write(moduleObject.toString());
+                    pdfDocument.add(new Paragraph(moduleObject.toString()));
                 }
-                fileOutput.close();
-                System.out.println("Save sucessfully!");
+                pdfDocument.close();
+                System.out.println("Saved sucessfully!");
             } 
             catch (IOException ex) 
             {
                 System.out.println(ex.toString());
+            } 
+            catch (DocumentException ex) 
+            {
+                Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
-            
         }
     }
     
