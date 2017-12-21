@@ -1,0 +1,29 @@
+===== MODULE: CSDE
+--Level: 4
+--Semester: A
+--Credits: 15
+--Completed(%): 30.0
+
+	=== ASSIGNMENTS
+	Title: c1
+	Type: coursework
+	Result(%): 79.9
+	Weight(%): 30.0
+
+===== MODULE: Artificial Intelligence
+--Level: 5
+--Semester: B
+--Credits: 30
+--Grade(%): 62.17
+
+	=== ASSIGNMENTS
+	Title: a1
+	Type: exam
+	Result(%): 55.0
+	Weight(%): 70.0
+
+	Title: a2
+	Type: test
+	Result(%): 78.9
+	Weight(%): 30.0
+
