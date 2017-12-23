@@ -394,21 +394,27 @@ public class ResultsGUI
         {
             Document pdfDocument = new Document();
             
-            
             Module moduleObject = null;
             try 
             {
-                PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
-                pdfDocument.open();
-                
-                for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+                if(modelModulesTable.getRowCount() > 0)
                 {
-                    String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
-                    moduleObject = userModulesManager.getModule(moduleName);
-                    pdfDocument.add(new Paragraph(moduleObject.toString()));
+                    PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
+                    pdfDocument.open();
+
+                    for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+                    {
+                        String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
+                        moduleObject = userModulesManager.getModule(moduleName);
+                        pdfDocument.add(new Paragraph(moduleObject.toString()));
+                    }
+                    pdfDocument.close();
+                    System.out.println("Saved sucessfully!");
                 }
-                pdfDocument.close();
-                System.out.println("Saved sucessfully!");
+                else
+                {
+                    JOptionPane.showMessageDialog(resultsFrame, "No modules available.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                }
             } 
             catch (IOException ex) 
             {
