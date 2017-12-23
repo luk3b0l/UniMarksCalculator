@@ -410,6 +410,13 @@ public class ResultsGUI
                     }
                     pdfDocument.close();
                     System.out.println("Saved sucessfully!");
+                    
+                    if(Desktop.isDesktopSupported())
+                    {
+                        File createdPDFFile = new File("tempDocument.pdf");
+                        Desktop.getDesktop().open(createdPDFFile);
+                    }
+                    
                 }
                 else
                 {
