@@ -1,8 +1,12 @@
 package unimarkscalculator.gui;
 
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 import javax.swing.*;
 import java.awt.event.*;
@@ -392,8 +396,9 @@ public class ResultsGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            Document pdfDocument = new Document();
-            
+            Document pdfDocument = new Document(PageSize.A4, 14, 14, 14, 14);
+            float fontSize = 6.7f;
+            float lineSpacing = 10f;
             Module moduleObject = null;
             try 
             {
@@ -406,7 +411,7 @@ public class ResultsGUI
                     {
                         String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
                         moduleObject = userModulesManager.getModule(moduleName);
-                        pdfDocument.add(new Paragraph(moduleObject.toString()));
+                        pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.COURIER, fontSize))));
                     }
                     pdfDocument.close();
                     System.out.println("Saved sucessfully!");
@@ -416,7 +421,6 @@ public class ResultsGUI
                         File createdPDFFile = new File("tempDocument.pdf");
                         Desktop.getDesktop().open(createdPDFFile);
                     }
-                    
                 }
                 else
                 {
