@@ -1,19 +1,15 @@
 package unimarkscalculator.gui;
 
-import com.itextpdf.io.font.FontConstants;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,7 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import unimarkscalculator.mainClasses.Assignment;
 import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
@@ -400,19 +395,37 @@ public class ResultsGUI
             float fontSize = 6.7f;
             float lineSpacing = 10f;
             Module moduleObject = null;
+            Font headingFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);      
+            Paragraph documentHeading = new Paragraph("MODULE RESULTS\n ", headingFont);
+            documentHeading.setAlignment(Element.ALIGN_CENTER);
+            
+            PdfPTable documentTable = new PdfPTable(new float[]{1, 1, 1, 1, 1});
+            documentTable.setWidthPercentage(100);
+            documentTable.addCell("11111");
+            documentTable.addCell("22222");
+            documentTable.addCell("33333");
+            documentTable.addCell("44444");
+            documentTable.addCell("55555");
+            documentTable.addCell("66666");
+            documentTable.addCell("77777");
+            documentTable.addCell("88888");
+            documentTable.addCell("99999");
+            documentTable.addCell("00000");
+            
             try 
             {
                 if(modelModulesTable.getRowCount() > 0)
                 {
                     PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
                     pdfDocument.open();
-
+                    pdfDocument.add(documentHeading);
                     for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
                     {
                         String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
                         moduleObject = userModulesManager.getModule(moduleName);
-                        pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.COURIER, fontSize))));
+                        pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.TIMES_ROMAN, fontSize))));
                     }
+                    pdfDocument.add(documentTable);
                     pdfDocument.close();
                     System.out.println("Saved sucessfully!");
                     
