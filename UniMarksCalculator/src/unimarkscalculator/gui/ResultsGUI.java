@@ -3,6 +3,7 @@ package unimarkscalculator.gui;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javax.swing.*;
@@ -395,22 +396,35 @@ public class ResultsGUI
             float fontSize = 6.7f;
             float lineSpacing = 10f;
             Module moduleObject = null;
-            Font headingFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);      
-            Paragraph documentHeading = new Paragraph("MODULE RESULTS\n ", headingFont);
+            Font documentHeaderFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);      
+            Font tableHeaderFont = new Font(Font.FontFamily.TIMES_ROMAN, -1, Font.BOLD);
+            Paragraph documentHeading = new Paragraph("MODULE RESULTS\n ", documentHeaderFont);
             documentHeading.setAlignment(Element.ALIGN_CENTER);
             
-            PdfPTable documentTable = new PdfPTable(new float[]{1, 1, 1, 1, 1});
+            PdfPTable documentTable = new PdfPTable(5);
             documentTable.setWidthPercentage(100);
-            documentTable.addCell("11111");
-            documentTable.addCell("22222");
-            documentTable.addCell("33333");
-            documentTable.addCell("44444");
-            documentTable.addCell("55555");
-            documentTable.addCell("66666");
-            documentTable.addCell("77777");
-            documentTable.addCell("88888");
-            documentTable.addCell("99999");
-            documentTable.addCell("00000");
+            
+            
+            PdfPCell cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            documentTable.addCell(cell1);
+            
+            cell1 = new PdfPCell(new Phrase("Credits", tableHeaderFont));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            documentTable.addCell(cell1);
+            
+            cell1 = new PdfPCell(new Phrase("Semester", tableHeaderFont));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            documentTable.addCell(cell1);
+            
+            cell1 = new PdfPCell(new Phrase("Grade", tableHeaderFont));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            documentTable.addCell(cell1);
+
+            cell1 = new PdfPCell(new Phrase("Level", tableHeaderFont));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            documentTable.addCell(cell1);
+            //documentTable.setHeaderRows(1);
             
             try 
             {
