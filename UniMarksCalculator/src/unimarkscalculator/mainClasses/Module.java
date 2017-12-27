@@ -224,4 +224,22 @@ public class Module
         }
         return moduleInfo;
     }
+    
+    public String[] toStringDataArray()
+    {
+        String[] moduleInfo = new String[5];
+        moduleInfo[0] = name;
+        moduleInfo[1] = level;
+        moduleInfo[2] = semester;
+        moduleInfo[3] = String.valueOf(credits);
+        if(totalAssignmentsWeight < 100)
+        {
+            moduleInfo[4] = "Completed(%): " + String.valueOf(totalAssignmentsWeight); 
+        }
+        else
+        {
+            moduleInfo[4] = "Grade(%): " + grade; 
+        }      
+        return moduleInfo;
+    }
 }
