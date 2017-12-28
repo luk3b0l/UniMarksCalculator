@@ -397,7 +397,8 @@ public class ResultsGUI
             float lineSpacing = 10f;
             Module moduleObject = null;
             Font documentHeaderFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);      
-            Font tableHeaderFont = new Font(Font.FontFamily.TIMES_ROMAN, -1, Font.BOLD);
+            Font tableHeaderFont = new Font(Font.FontFamily.TIMES_ROMAN, 11, Font.BOLD);
+            Font cellFont = new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.NORMAL);
             Paragraph documentHeading = new Paragraph("MODULE RESULTS\n ", documentHeaderFont);
             documentHeading.setAlignment(Element.ALIGN_CENTER);
             
@@ -417,7 +418,7 @@ public class ResultsGUI
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
             
-            cell1 = new PdfPCell(new Phrase("Grade", tableHeaderFont));
+            cell1 = new PdfPCell(new Phrase("Grade/Completed (%)", tableHeaderFont));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
 
@@ -437,7 +438,28 @@ public class ResultsGUI
                     {
                         String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
                         moduleObject = userModulesManager.getModule(moduleName);
-                        pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.TIMES_ROMAN, fontSize))));
+                        String[] moduleInfo = moduleObject.toStringDataArray();
+                        //pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.TIMES_ROMAN, fontSize))));
+                        
+                        // NAME
+                        PdfPCell cell2 = new PdfPCell(new Phrase(moduleInfo[0], cellFont));
+                        documentTable.addCell(cell2);
+
+                        // CREDITS
+                        cell2 = new PdfPCell(new Phrase(moduleInfo[3], cellFont));
+                        documentTable.addCell(cell2);
+
+                        // SEMESTER
+                        cell2 = new PdfPCell(new Phrase(moduleInfo[2], cellFont));
+                        documentTable.addCell(cell2);
+
+                        // COMPLETED(%) / GRADE(%)
+                        cell2 = new PdfPCell(new Phrase(moduleInfo[4], cellFont));
+                        documentTable.addCell(cell2);
+                        
+                        // LEVEL
+                        cell2 = new PdfPCell(new Phrase(moduleInfo[1], cellFont));
+                        documentTable.addCell(cell2);
                     }
                     pdfDocument.add(documentTable);
                     pdfDocument.close();

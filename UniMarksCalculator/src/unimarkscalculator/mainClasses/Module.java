@@ -234,11 +234,11 @@ public class Module
         moduleInfo[3] = String.valueOf(credits);
         if(totalAssignmentsWeight < 100)
         {
-            moduleInfo[4] = "Completed(%): " + String.valueOf(totalAssignmentsWeight); 
+            moduleInfo[4] = "Completed: " + String.valueOf(totalAssignmentsWeight); 
         }
         else
         {
-            moduleInfo[4] = "Grade(%): " + grade; 
+            moduleInfo[4] = "Grade: " + grade; 
         }      
         return moduleInfo;
     }
