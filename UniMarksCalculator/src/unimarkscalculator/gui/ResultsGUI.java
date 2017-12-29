@@ -6,6 +6,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Image;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -432,7 +433,10 @@ public class ResultsGUI
                 if(modelModulesTable.getRowCount() > 0)
                 {
                     PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
+                    Image uniLogoImage = Image.getInstance("uniMarksCalculatorLogo.jpg");
+                    uniLogoImage.scaleAbsolute(100f, 60f);
                     pdfDocument.open();
+                    pdfDocument.add(uniLogoImage);
                     pdfDocument.add(documentHeading);
                     for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
                     {
