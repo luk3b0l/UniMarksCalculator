@@ -433,8 +433,8 @@ public class ResultsGUI
                 if(modelModulesTable.getRowCount() > 0)
                 {
                     PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
-                    Image uniLogoImage = Image.getInstance("uniMarksCalculatorLogo.jpg");
-                    uniLogoImage.scaleAbsolute(100f, 60f);
+                    Image uniLogoImage = Image.getInstance("images/uniMarksCalculatorLogo.jpg");
+                    uniLogoImage.scaleAbsolute(160f, 60f);
                     pdfDocument.open();
                     pdfDocument.add(uniLogoImage);
                     pdfDocument.add(documentHeading);
