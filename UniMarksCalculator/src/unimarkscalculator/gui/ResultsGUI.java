@@ -403,27 +403,35 @@ public class ResultsGUI
             Paragraph documentHeading = new Paragraph("MODULE RESULTS\n ", documentHeaderFont);
             documentHeading.setAlignment(Element.ALIGN_CENTER);
             
+            Paragraph spaceBetweenLines = new Paragraph(" ");
+            spaceBetweenLines.setLeading(0, 5);
+            
             PdfPTable documentTable = new PdfPTable(5);
             documentTable.setWidthPercentage(100);
             
             
             PdfPCell cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             documentTable.addCell(cell1);
             
             cell1 = new PdfPCell(new Phrase("Credits", tableHeaderFont));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             documentTable.addCell(cell1);
             
             cell1 = new PdfPCell(new Phrase("Semester", tableHeaderFont));
+            cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
             
             cell1 = new PdfPCell(new Phrase("Grade/Completed (%)", tableHeaderFont));
+            cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
 
             cell1 = new PdfPCell(new Phrase("Level", tableHeaderFont));
+            cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
             //documentTable.setHeaderRows(1);
@@ -437,6 +445,7 @@ public class ResultsGUI
                     uniLogoImage.scaleAbsolute(160f, 60f);
                     pdfDocument.open();
                     pdfDocument.add(uniLogoImage);
+                    pdfDocument.add(spaceBetweenLines);
                     pdfDocument.add(documentHeading);
                     for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
                     {
