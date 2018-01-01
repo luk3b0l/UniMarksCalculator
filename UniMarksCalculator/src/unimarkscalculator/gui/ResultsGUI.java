@@ -313,15 +313,7 @@ public class ResultsGUI
                 String selectedModuleName = tableModules.getValueAt(selectedTableRow, 1).toString();
                 selectedModule = userModulesManager.getModule(selectedModuleName);
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
 //                try
 //                {
 //                    listAssignments = selectedModule.getAllAssignments();
@@ -440,7 +432,10 @@ public class ResultsGUI
             {
                 if(modelModulesTable.getRowCount() > 0)
                 {
-                    PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
+                    PdfWriter writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream("tempDocument.pdf"));
+                    PdfPageFooter footer = new PdfPageFooter();
+                    writer.setPageEvent(footer);
+                    
                     Image uniLogoImage = Image.getInstance("images/uniMarksCalculatorLogo.jpg");
                     uniLogoImage.scaleAbsolute(160f, 60f);
                     pdfDocument.open();
