@@ -240,7 +240,7 @@ public class ResultsGUI
         gcCenter.anchor = GridBagConstraints.LINE_START;
         gcCenter.gridx = 1; gcCenter.gridy = 1;
         centerPanel.add(checboxSelectModulesToCalculate, gcCenter);
-        //checboxSelectModulesToCalculate.addActionListener(new CheckboxSelectModulesToCalculateHandler());
+        checboxSelectModulesToCalculate.addActionListener(new CheckboxSelectModulesToCalculateHandler());
         
         // ***** S O U T H
         JPanel southPanel = new JPanel();
@@ -263,41 +263,6 @@ public class ResultsGUI
     }
     
     // ***** L I S T E N E R S -------------------------------------------------------------------------------------   
-    private class CalculateFinalGradeButtonHandler implements ActionListener // [TO DO]
-    {
-        @Override
-        public void actionPerformed(ActionEvent e) 
-        {
-            for(int i=0; i<tableModules.getRowCount(); i++)
-            {
-                Boolean isCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
-                String column = tableModules.getValueAt(i, 0).toString();
-                
-                if(isCheckboxTicked)
-                {
-                    JOptionPane.showMessageDialog(null, column);
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, column + "false value");
-                }
-            }
-            
-//            int viewRow = getTempModuleRow();
-//            
-//            if(viewRow > -1)
-//            {
-//                Module selectedModule = null;
-//                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
-//                selectedModule = userModulesManager.getModule(selectedModuleName);
-//                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
-//            }
-//            else
-//            {
-//                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-//            }
-        }
-    }
     
     private class ModulesListSelectionListener implements ListSelectionListener
     {
@@ -357,13 +322,13 @@ public class ResultsGUI
             if(checboxSelectModulesToCalculate.isSelected())
             {
                 setIsTicked(true);
-                modelAssignmentsTable.getDataVector().removeAllElements();
-                modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
+                //modelAssignmentsTable.getDataVector().removeAllElements();
+                //modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
                 // enable first column (change from greyed out to editable)
                 
-//                setMultipleRowSelection(true);
-//                tableModules.setRowSelectionAllowed(multipleRowSelection);
-//                tableModules.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                setMultipleRowSelection(true);
+                tableModules.setRowSelectionAllowed(multipleRowSelection);
+                tableModules.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 
                 System.out.println("Checkbox selected. You can choose your modules to be calculated.");
             }
@@ -377,6 +342,40 @@ public class ResultsGUI
 //                tableModules.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 System.out.println("Checkbox unselected.");
             }
+        }
+    }
+    
+    private class CalculateFinalGradeButtonHandler implements ActionListener // [TO DO]
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            for(int i=0; i<tableModules.getRowCount(); i++)
+            {
+                Boolean isCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
+                String column = tableModules.getValueAt(i, 0).toString();
+                
+                if(isCheckboxTicked)
+                {
+                    String selectedModuleName = tableModules.getValueAt(i,1).toString();
+                    Module selectedModule = userModulesManager.getModule(selectedModuleName);
+                    System.out.println(selectedModule.getName());
+                }
+            }
+            
+//            int viewRow = getTempModuleRow();
+//            
+//            if(viewRow > -1)
+//            {
+//                Module selectedModule = null;
+//                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
+//                selectedModule = userModulesManager.getModule(selectedModuleName);
+//                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+//            }
+//            else
+//            {
+//                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+//            }
         }
     }
     
