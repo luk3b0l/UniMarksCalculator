@@ -57,6 +57,7 @@ public class ResultsGUI
     private int tempModuleRow = -1;
     private boolean multipleRowSelection = false;
     private boolean isTicked = false;
+    private double finalGrade = 0;
     
     public ResultsGUI()
     {
@@ -354,38 +355,43 @@ public class ResultsGUI
             {
                 if(tableModules.getRowCount() > 0)
                 {
-                    for(int i=0; i<tableModules.getRowCount(); i++)
+                    boolean modulesSelectedFromList = checkAnyModulesSelectedForCalculation(tableModules);
+                    if(modulesSelectedFromList)
                     {
-                        Boolean isCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
-                        String column = tableModules.getValueAt(i, 0).toString();
-
-                        if(isCheckboxTicked)
+                        for(int i=0; i<tableModules.getRowCount(); i++)
                         {
-                            String selectedModuleName = tableModules.getValueAt(i,1).toString();
-                            Module selectedModule = userModulesManager.getModule(selectedModuleName);
-                            System.out.println(selectedModule.getName());
-                            
-                            
-                            
-                            // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
-                            
-                            
-                        }
-                    }
+                            Boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
+                            if(isModuleCheckboxTicked)
+                            {
+                                String selectedModuleName = tableModules.getValueAt(i,1).toString();
+                                Module selectedModule = userModulesManager.getModule(selectedModuleName);
+                                System.out.println(selectedModule.getName());
 
-    //            int viewRow = getTempModuleRow();
-    //            
-    //            if(viewRow > -1)
-    //            {
-    //                Module selectedModule = null;
-    //                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
-    //                selectedModule = userModulesManager.getModule(selectedModuleName);
-    //                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
-    //            }
-    //            else
-    //            {
-    //                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-    //            }
+                                outputFinalGrade.setText(String.valueOf(finalGrade));
+                                // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
+
+
+                            }
+                        }
+
+        //            int viewRow = getTempModuleRow();
+        //            
+        //            if(viewRow > -1)
+        //            {
+        //                Module selectedModule = null;
+        //                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
+        //                selectedModule = userModulesManager.getModule(selectedModuleName);
+        //                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+        //            }
+        //            else
+        //            {
+        //                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+        //            }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(resultsFrame, "Please select at least 2 modules for calculation.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else
                 {
@@ -500,7 +506,7 @@ public class ResultsGUI
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(resultsFrame, "No modules available.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(resultsFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                 }
             } 
             catch (IOException ex) 
@@ -538,5 +544,24 @@ public class ResultsGUI
     public void setIsTicked(boolean isTicked) 
     {
         this.isTicked = isTicked;
+    }
+    
+    private boolean checkAnyModulesSelectedForCalculation(JTable tableModules)
+    {
+        boolean selectedModulesExist = false;
+        int countModulesSelectedForCalculation = 0;
+        for(int i = 0; i < tableModules.getRowCount(); i++)
+        {
+            if((tableModules.getValueAt(i, 0).toString()).equals("true"))
+            {
+                countModulesSelectedForCalculation += 1;
+            }
+        }
+        
+        if(countModulesSelectedForCalculation > 1)
+        {
+            selectedModulesExist = true;
+        }
+        return selectedModulesExist;
     }
 }
