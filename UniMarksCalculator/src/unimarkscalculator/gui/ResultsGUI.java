@@ -356,41 +356,48 @@ public class ResultsGUI
                 if(tableModules.getRowCount() > 0)
                 {
                     boolean modulesSelectedFromList = checkAnyModulesSelectedForCalculation(tableModules);
+                    boolean modulesAboveLevel4Threshold = checkSelectedModulesAboveLevel4(tableModules);
                     if(modulesSelectedFromList)
                     {
-                        for(int i=0; i<tableModules.getRowCount(); i++)
+                        if(modulesAboveLevel4Threshold)
                         {
-                            Boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
-                            if(isModuleCheckboxTicked)
+                            for(int i=0; i<tableModules.getRowCount(); i++)
                             {
-                                String selectedModuleName = tableModules.getValueAt(i,1).toString();
-                                Module selectedModule = userModulesManager.getModule(selectedModuleName);
-                                System.out.println(selectedModule.getName());
+                                boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
+                                if(isModuleCheckboxTicked)
+                                {
+                                    System.out.println("calculating...");
+                                    String selectedModuleName = tableModules.getValueAt(i,1).toString();
+                                    Module selectedModule = userModulesManager.getModule(selectedModuleName);
+                                    System.out.println(selectedModule.getName());
 
-                                outputFinalGrade.setText(String.valueOf(finalGrade));
-                                // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
-
-
+                                    outputFinalGrade.setText(String.valueOf(finalGrade));
+                                    // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
+                                }
                             }
-                        }
 
-        //            int viewRow = getTempModuleRow();
-        //            
-        //            if(viewRow > -1)
-        //            {
-        //                Module selectedModule = null;
-        //                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
-        //                selectedModule = userModulesManager.getModule(selectedModuleName);
-        //                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
-        //            }
-        //            else
-        //            {
-        //                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-        //            }
+            //            int viewRow = getTempModuleRow();
+            //            
+            //            if(viewRow > -1)
+            //            {
+            //                Module selectedModule = null;
+            //                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
+            //                selectedModule = userModulesManager.getModule(selectedModuleName);
+            //                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
+            //            }
+            //            else
+            //            {
+            //                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+            //            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(resultsFrame, "Only modules from Level 5 or above count towards the Final Degree Classification.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(resultsFrame, "Please select at least 2 modules for calculation.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(resultsFrame, "Please select at least 2 modules from the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else
@@ -563,5 +570,24 @@ public class ResultsGUI
             selectedModulesExist = true;
         }
         return selectedModulesExist;
+    }
+    
+    private boolean checkSelectedModulesAboveLevel4(JTable tableModules)
+    {
+        boolean modulesAboveThreshold = true;
+        for(int i = 0; i < tableModules.getRowCount(); i++)
+        {
+            boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
+            int moduleLevel = Integer.valueOf(tableModules.getValueAt(i, 5).toString());
+            if(isModuleCheckboxTicked)
+            {
+                if(moduleLevel < 5)
+                {
+                    modulesAboveThreshold = false;
+                    return modulesAboveThreshold;
+                }
+            }
+        }
+        return modulesAboveThreshold;
     }
 }
