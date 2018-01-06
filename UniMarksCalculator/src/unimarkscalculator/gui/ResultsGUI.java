@@ -357,38 +357,32 @@ public class ResultsGUI
                 {
                     boolean modulesSelectedFromList = checkAnyModulesSelectedForCalculation(tableModules);
                     boolean modulesAboveLevel4Threshold = checkSelectedModulesAboveLevel4(tableModules);
+                    boolean modulesAreCompleted = checkSelectedModulesAreCompleted(tableModules);
                     if(modulesSelectedFromList)
                     {
                         if(modulesAboveLevel4Threshold)
                         {
-                            for(int i=0; i<tableModules.getRowCount(); i++)
+                            if(modulesAreCompleted)
                             {
-                                boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
-                                if(isModuleCheckboxTicked)
+                                for(int i=0; i<tableModules.getRowCount(); i++)
                                 {
-                                    System.out.println("calculating...");
-                                    String selectedModuleName = tableModules.getValueAt(i,1).toString();
-                                    Module selectedModule = userModulesManager.getModule(selectedModuleName);
-                                    System.out.println(selectedModule.getName());
+                                    boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
+                                    if(isModuleCheckboxTicked)
+                                    {
+                                        System.out.println("calculating...");
+                                        String selectedModuleName = tableModules.getValueAt(i,1).toString();
+                                        Module selectedModule = userModulesManager.getModule(selectedModuleName);
+                                        System.out.println(selectedModule.getName());
 
-                                    outputFinalGrade.setText(String.valueOf(finalGrade));
-                                    // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
+                                        outputFinalGrade.setText(String.valueOf(finalGrade));
+                                        // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
+                                    }
                                 }
                             }
-
-            //            int viewRow = getTempModuleRow();
-            //            
-            //            if(viewRow > -1)
-            //            {
-            //                Module selectedModule = null;
-            //                String selectedModuleName = tableModules.getValueAt(viewRow, 0).toString();
-            //                selectedModule = userModulesManager.getModule(selectedModuleName);
-            //                JOptionPane.showMessageDialog(resultsFrame, "Your Final Grade is ...", "Success Info", JOptionPane.INFORMATION_MESSAGE);
-            //            }
-            //            else
-            //            {
-            //                JOptionPane.showMessageDialog(resultsFrame, "No modules selected.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-            //            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(resultsFrame, "Some of the modules selected are not completed yet.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                         else
                         {
@@ -573,12 +567,12 @@ public class ResultsGUI
     }
     
     private boolean checkSelectedModulesAboveLevel4(JTable tableModules)
-    {
+    { 
         boolean modulesAboveThreshold = true;
-        for(int i = 0; i < tableModules.getRowCount(); i++)
+        for(int row = 0; row < tableModules.getRowCount(); row++)
         {
-            boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
-            int moduleLevel = Integer.valueOf(tableModules.getValueAt(i, 5).toString());
+            boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(row, 0).toString());
+            int moduleLevel = Integer.valueOf(tableModules.getValueAt(row, 5).toString());
             if(isModuleCheckboxTicked)
             {
                 if(moduleLevel < 5)
@@ -589,5 +583,25 @@ public class ResultsGUI
             }
         }
         return modulesAboveThreshold;
+    }
+    // Added a method to check selected modules have a grade calculated already.
+    private boolean checkSelectedModulesAreCompleted(JTable tableModules)
+    {
+        boolean modulesAreCompleted = true;
+        for(int row = 0; row < tableModules.getRowCount(); row++)
+        {
+            boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(row, 0).toString());
+            double moduleGrade = Double.valueOf(tableModules.getValueAt(row, 4).toString());
+            if(isModuleCheckboxTicked)
+            {
+                System.out.println("Module GRADE: " + moduleGrade);
+                if(moduleGrade <= 0)
+                {
+                    modulesAreCompleted = false;
+                    return modulesAreCompleted;
+                }
+            }
+        }
+        return modulesAreCompleted;
     }
 }
