@@ -51,6 +51,8 @@ public class ResultsGUI
     private ArrayList<Module> listModules = new ArrayList<>();
     private ArrayList<Assignment> listAssignments = new ArrayList<>();
     
+    private ArrayList<Module> allModulesSelectedForCalculation = new ArrayList<>();
+    
     private DefaultTableModel modelModulesTable;
     private DefaultTableModel modelAssignmentsTable;
     
@@ -369,13 +371,15 @@ public class ResultsGUI
                                     boolean isModuleCheckboxTicked = Boolean.valueOf(tableModules.getValueAt(i, 0).toString());
                                     if(isModuleCheckboxTicked)
                                     {
-                                        System.out.println("calculating...");
-                                        String selectedModuleName = tableModules.getValueAt(i,1).toString();
-                                        Module selectedModule = userModulesManager.getModule(selectedModuleName);
-                                        System.out.println(selectedModule.getName());
-
-                                        outputFinalGrade.setText(String.valueOf(finalGrade));
-                                        // ADD MODULES + ASSIGNMENTS TO BE CALCULATED
+                                        String selectedModuleName = tableModules.getValueAt(i, 1).toString();
+                                        Module selectedModuleObject = userModulesManager.getModule(selectedModuleName);
+                                        allModulesSelectedForCalculation.add(selectedModuleObject);
+                                        
+                                        System.out.println(">> " + selectedModuleName + " module added.");
+                                    }
+                                    else
+                                    {
+                                        System.out.println("Module not ticked");
                                     }
                                 }
                             }
@@ -403,6 +407,7 @@ public class ResultsGUI
             {
                 JOptionPane.showMessageDialog(resultsFrame, "Checkbox 'select modules' not ticked.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
+            System.out.println("Next method call...");
         }
     }
     
@@ -497,7 +502,7 @@ public class ResultsGUI
                     }
                     pdfDocument.add(documentTable);
                     pdfDocument.close();
-                    System.out.println("Saved sucessfully!");
+                    System.out.println("PDF file saved sucessfully!");
                     
                     if(Desktop.isDesktopSupported())
                     {
