@@ -8,7 +8,7 @@ import java.util.*;
  *
  * @author Lukasz Bol
  */
-public class Module 
+public class Module implements Comparable
 {
     private String level;
     private String name;
@@ -241,5 +241,20 @@ public class Module
             moduleInfo[4] = "Grade: " + grade; 
         }      
         return moduleInfo;
+    }
+    
+    @Override
+    public int compareTo(Object compareModule) 
+    {
+        double compareModuleGrade = ((Module)compareModule).getGrade();
+        if(this.grade < compareModuleGrade)
+        {
+            return 1;
+        }
+        else if(compareModuleGrade < this.grade)
+        {
+            return -1;
+        }
+        return 0;
     }
 }
