@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
@@ -374,12 +375,6 @@ public class ResultsGUI
                                         String selectedModuleName = tableModules.getValueAt(i, 1).toString();
                                         Module selectedModuleObject = userModulesManager.getModule(selectedModuleName);
                                         allModulesSelectedForCalculation.add(selectedModuleObject);
-                                        
-                                        System.out.println(">> " + selectedModuleName + " module added.");
-                                    }
-                                    else
-                                    {
-                                        System.out.println("Module not ticked");
                                     }
                                 }
                             }
@@ -407,7 +402,10 @@ public class ResultsGUI
             {
                 JOptionPane.showMessageDialog(resultsFrame, "Checkbox 'select modules' not ticked.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            System.out.println("Next method call...");
+            calculateFinalGrade();
+            String finalGradeCalculated = String.valueOf(getFinalGrade());
+            outputFinalGrade.setText(finalGradeCalculated);
+            
         }
     }
     
@@ -599,7 +597,6 @@ public class ResultsGUI
             double moduleGrade = Double.valueOf(tableModules.getValueAt(row, 4).toString());
             if(isModuleCheckboxTicked)
             {
-                System.out.println("Module GRADE: " + moduleGrade);
                 if(moduleGrade <= 0)
                 {
                     modulesAreCompleted = false;
@@ -608,5 +605,70 @@ public class ResultsGUI
             }
         }
         return modulesAreCompleted;
+    }
+    
+    private void calculateFinalGrade()
+    {
+        ArrayList<Module> chosenModulesLevel5 = new ArrayList<>();
+        ArrayList<Module> chosenModulesLevel6 = new ArrayList<>();
+        ArrayList<Module> bestLevel6Modules = new ArrayList<>();
+        
+        if(allModulesSelectedForCalculation.isEmpty())
+        {
+            JOptionPane.showMessageDialog(resultsFrame, "No modules to be calculated.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            for(Module tempModule : allModulesSelectedForCalculation)
+            {
+                if(tempModule.getLevel().equals("5"))
+                {
+                    chosenModulesLevel5.add(tempModule);
+                }
+                else if(tempModule.getLevel().equals("6"))
+                {
+                    chosenModulesLevel6.add(tempModule);
+                }
+            }
+            
+            chosenModulesLevel6 = sortModules(chosenModulesLevel6);
+            
+            System.out.println(chosenModulesLevel6.size());
+            
+            int arrayListIndex = 0;
+//            while(arrayListIndex < chosenModulesLevel6.size())
+//            {
+//                Module
+//            }
+//            for(int arrayListIndex = 0; arrayListIndex < 5; arrayListIndex++)
+//            {
+//                bestLevel6Modules.add(
+//            }
+            
+            
+            
+            
+            
+            
+        }       
+    }
+
+    public double getFinalGrade() 
+    {
+        return finalGrade;
+    }
+
+    public void setFinalGrade(double finalGrade) 
+    {
+        this.finalGrade = finalGrade;
+    }
+    
+    private ArrayList<Module> sortModules(ArrayList<Module> arrayListToBeSorted)
+    {
+        ArrayList<Module> sortedArray = new ArrayList<>();
+        ArrayList<Integer> tempArrayList = new ArrayList<>();
+        Collections.sort(arrayListToBeSorted);   
+        
+        return sortedArray;
     }
 }
