@@ -636,20 +636,23 @@ public class ResultsGUI
             System.out.println(chosenModulesLevel6.size());
             
             int arrayListIndex = 0;
-//            while(arrayListIndex < chosenModulesLevel6.size())
-//            {
-//                Module
-//            }
-//            for(int arrayListIndex = 0; arrayListIndex < 5; arrayListIndex++)
-//            {
-//                bestLevel6Modules.add(
-//            }
+            while(arrayListIndex < 5)
+            {
+                Module tempModule = chosenModulesLevel6.get(arrayListIndex);
+                bestLevel6Modules.add(tempModule);
+                arrayListIndex++;      
+            }
             
+            // remove modules moved from chosenModulesLeve6 to bestLevel6Modules
+            // move all chosenModulesLeve5 and remaining chosenModulesLevel6 to one collection - mixedLevelModulesLeft
+            // sort mixedLevelModulesLeft
+            // calculate averageMarkBestLevel6Modules (averageMark * 0.75
+            // take best 6 modules from mixedLevelModulesLeft to bestMixedLevelModules
+            // calculate averageMarkBestMixedModules (averageMark * 0.25)
+            // add averageMarkBestLevel6Modules to averageMarkBestMixedModules
+            // display result in the field
             
-            
-            
-            
-            
+            //*make sure to count 30 credit modules as 2 x 15 modules
         }       
     }
 
