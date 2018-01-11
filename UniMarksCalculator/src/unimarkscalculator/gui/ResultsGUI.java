@@ -612,6 +612,7 @@ public class ResultsGUI
         ArrayList<Module> chosenModulesLevel5 = new ArrayList<>();
         ArrayList<Module> chosenModulesLevel6 = new ArrayList<>();
         ArrayList<Module> bestLevel6Modules = new ArrayList<>();
+        ArrayList<Module> mixedLevelModulesLeft = new ArrayList<>();
         
         if(allModulesSelectedForCalculation.isEmpty())
         {
@@ -643,10 +644,34 @@ public class ResultsGUI
                 arrayListIndex++;      
             }
             
-            // remove modules moved from chosenModulesLeve6 to bestLevel6Modules
-            // move all chosenModulesLeve5 and remaining chosenModulesLevel6 to one collection - mixedLevelModulesLeft
+            // remove modules moved from chosenModulesLevel6 to bestLevel6Modules
+            for(Module tempModule : bestLevel6Modules)
+            {
+                if(chosenModulesLevel6.contains(tempModule))
+                {
+                    chosenModulesLevel6.remove(tempModule);
+                }
+                System.out.println("chosenModulesLevel6 list has been cleared...");
+            }            
+            
+            // move all chosenModulesLevel5 and remaining chosenModulesLevel6 to one collection - mixedLevelModulesLeft
+            for(Module tempModule : chosenModulesLevel5)
+            {
+                mixedLevelModulesLeft.add(tempModule);
+            }
+            
+            for(Module tempModule : chosenModulesLevel6)
+            {
+                mixedLevelModulesLeft.add(tempModule);
+            }
+            
             // sort mixedLevelModulesLeft
+            mixedLevelModulesLeft = sortModules(mixedLevelModulesLeft);
+            
+            
             // calculate averageMarkBestLevel6Modules (averageMark * 0.75
+            
+            
             // take best 6 modules from mixedLevelModulesLeft to bestMixedLevelModules
             // calculate averageMarkBestMixedModules (averageMark * 0.25)
             // add averageMarkBestLevel6Modules to averageMarkBestMixedModules
