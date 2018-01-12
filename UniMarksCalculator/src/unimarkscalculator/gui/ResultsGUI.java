@@ -611,8 +611,13 @@ public class ResultsGUI
     {
         ArrayList<Module> chosenModulesLevel5 = new ArrayList<>();
         ArrayList<Module> chosenModulesLevel6 = new ArrayList<>();
-        ArrayList<Module> bestLevel6Modules = new ArrayList<>();
         ArrayList<Module> mixedLevelModulesLeft = new ArrayList<>();
+        ArrayList<Module> bestLevel6Modules = new ArrayList<>();
+        ArrayList<Module> bestMixedLevelModules = new ArrayList<>();
+        double averageMarkBestLevel6Modules;
+        double averageMarkBestMixedModules;
+        double totalModulesGrades = 0;
+        double finalDegreeClassification = 0;
         
         if(allModulesSelectedForCalculation.isEmpty())
         {
@@ -669,15 +674,37 @@ public class ResultsGUI
             mixedLevelModulesLeft = sortModules(mixedLevelModulesLeft);
             
             
-            // calculate averageMarkBestLevel6Modules (averageMark * 0.75
-            
+            // calculate averageMarkBestLevel6Modules (averageMark * 0.75)
+            for(Module tempModule : bestLevel6Modules)
+            {
+                totalModulesGrades = totalModulesGrades + tempModule.getGrade();                
+            }
+            averageMarkBestLevel6Modules = (totalModulesGrades / 6) * 0.75;
             
             // take best 6 modules from mixedLevelModulesLeft to bestMixedLevelModules
-            // calculate averageMarkBestMixedModules (averageMark * 0.25)
-            // add averageMarkBestLevel6Modules to averageMarkBestMixedModules
-            // display result in the field
+            arrayListIndex = 0;
+            while(arrayListIndex < 5)
+            {
+                Module tempModule = mixedLevelModulesLeft.get(arrayListIndex);
+                bestMixedLevelModules.add(tempModule);
+                arrayListIndex++;      
+            }
             
-            //*make sure to count 30 credit modules as 2 x 15 modules
+            // calculate averageMarkBestMixedModules (averageMark * 0.25)
+            totalModulesGrades = 0;
+            for(Module tempModule : bestMixedLevelModules)
+            {
+                totalModulesGrades = totalModulesGrades + tempModule.getGrade();
+            }
+            averageMarkBestMixedModules = (totalModulesGrades / 6) * 0.25;
+            
+            // add averageMarkBestLevel6Modules to averageMarkBestMixedModules
+            finalDegreeClassification = averageMarkBestLevel6Modules + averageMarkBestMixedModules;
+            
+            // display result in the field
+            System.out.println("FINAL DEGREE CLASSIFICATION: " + finalDegreeClassification);
+            
+            //*make sure to count 30 credit modules as 2 x (15 credits) modules
         }       
     }
 
