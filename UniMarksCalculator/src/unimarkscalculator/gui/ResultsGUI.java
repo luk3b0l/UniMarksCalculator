@@ -377,6 +377,9 @@ public class ResultsGUI
                                         allModulesSelectedForCalculation.add(selectedModuleObject);
                                     }
                                 }
+                                calculateFinalGrade();
+                                String finalGradeCalculated = String.valueOf(getFinalGrade());
+                                outputFinalGrade.setText(finalGradeCalculated);
                             }
                             else
                             {
@@ -390,7 +393,7 @@ public class ResultsGUI
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(resultsFrame, "Please select at least 2 modules from the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(resultsFrame, "Please select all modules on Level 5 and Level 6 from the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else
@@ -402,9 +405,7 @@ public class ResultsGUI
             {
                 JOptionPane.showMessageDialog(resultsFrame, "Checkbox 'select modules' not ticked.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-            calculateFinalGrade();
-            String finalGradeCalculated = String.valueOf(getFinalGrade());
-            outputFinalGrade.setText(finalGradeCalculated);
+
             
         }
     }
@@ -554,15 +555,27 @@ public class ResultsGUI
     {
         boolean selectedModulesExist = false;
         int countModulesSelectedForCalculation = 0;
-        for(int i = 0; i < tableModules.getRowCount(); i++)
+        int allModulesOnLevel5and6 = 0;
+        
+        for(int row = 0; row < tableModules.getRowCount(); row++)
         {
-            if((tableModules.getValueAt(i, 0).toString()).equals("true"))
+            String moduleLevel = tableModules.getValueAt(row, 5).toString();
+            if(moduleLevel.equals("5") || moduleLevel.equals("6"))
+            {
+                allModulesOnLevel5and6 += 1;
+            }
+        }
+        System.out.println("Modules on level5/level6: " + allModulesOnLevel5and6);
+        
+        for(int row = 0; row < tableModules.getRowCount(); row++)
+        {
+            if((tableModules.getValueAt(row, 0).toString()).equals("true"))
             {
                 countModulesSelectedForCalculation += 1;
             }
         }
         
-        if(countModulesSelectedForCalculation > 1)
+        if(countModulesSelectedForCalculation > 5)
         {
             selectedModulesExist = true;
         }
