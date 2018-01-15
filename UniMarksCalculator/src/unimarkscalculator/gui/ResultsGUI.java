@@ -375,6 +375,7 @@ public class ResultsGUI
                                         String selectedModuleName = tableModules.getValueAt(i, 1).toString();
                                         Module selectedModuleObject = userModulesManager.getModule(selectedModuleName);
                                         allModulesSelectedForCalculation.add(selectedModuleObject);
+                                        System.out.println("Added: " + selectedModuleObject.getName());
                                     }
                                 }
                                 calculateFinalGrade();
@@ -575,7 +576,7 @@ public class ResultsGUI
             }
         }
         
-        if(countModulesSelectedForCalculation > 5)
+        if((countModulesSelectedForCalculation == allModulesOnLevel5and6) && (countModulesSelectedForCalculation >= 12))
         {
             selectedModulesExist = true;
         }
@@ -652,12 +653,15 @@ public class ResultsGUI
             
             chosenModulesLevel6 = sortModules(chosenModulesLevel6);
             
-            System.out.println(chosenModulesLevel6.size());
+            System.out.println("chosenModulesLevel6.size(): " + chosenModulesLevel6.size());            
+            
+            
+            
             
             int arrayListIndex = 0;
             while(arrayListIndex < 5)
             {
-                Module tempModule = chosenModulesLevel6.get(arrayListIndex);
+                Module tempModule = chosenModulesLevel6.get(arrayListIndex); // do FOR loop to check if there are any modules in the arraylist
                 bestLevel6Modules.add(tempModule);
                 arrayListIndex++;      
             }
