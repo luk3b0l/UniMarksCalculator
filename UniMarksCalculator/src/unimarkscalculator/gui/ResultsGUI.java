@@ -51,7 +51,6 @@ public class ResultsGUI
     private ModulesManager userModulesManager = ModulesManager.getInstance();
     private ArrayList<Module> listModules = new ArrayList<>();
     private ArrayList<Assignment> listAssignments = new ArrayList<>();
-    
     private ArrayList<Module> allModulesSelectedForCalculation = new ArrayList<>();
     
     private DefaultTableModel modelModulesTable;
@@ -377,6 +376,10 @@ public class ResultsGUI
                                         allModulesSelectedForCalculation.add(selectedModuleObject);
                                         System.out.println("Added: " + selectedModuleObject.getName());
                                     }
+                                    else
+                                    {
+                                        System.out.println("Something wrong with modules tick...");
+                                    }
                                 }
                                 calculateFinalGrade();
                                 String finalGradeCalculated = String.valueOf(getFinalGrade());
@@ -633,6 +636,12 @@ public class ResultsGUI
         double totalModulesGrades = 0;
         double finalDegreeClassification = 0;
         
+        for(Module temp : allModulesSelectedForCalculation)
+        {
+            System.out.println("Module: " + temp.getName());
+        }
+        
+        
         if(allModulesSelectedForCalculation.isEmpty())
         {
             JOptionPane.showMessageDialog(resultsFrame, "No modules to be calculated.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
@@ -649,19 +658,27 @@ public class ResultsGUI
                 {
                     chosenModulesLevel6.add(tempModule);
                 }
+                else
+                {
+                    System.out.println("EXACT LEVEL:" + tempModule.getLevel());
+                }
             }
-            
+            System.out.println("chosenModulesLevel6.size() BEFORE SORT: " + chosenModulesLevel6.size());   
             chosenModulesLevel6 = sortModules(chosenModulesLevel6);
             
-            System.out.println("chosenModulesLevel6.size(): " + chosenModulesLevel6.size());            
+            System.out.println("chosenModulesLevel6.size() AFTER SORT: " + chosenModulesLevel6.size());            
             
-            
+            for(Module tempModule : chosenModulesLevel6)
+            {
+                System.out.println("CHOSEN L6: " + tempModule.getName());
+            }
             
             
             int arrayListIndex = 0;
             while(arrayListIndex < 5)
             {
                 Module tempModule = chosenModulesLevel6.get(arrayListIndex); // do FOR loop to check if there are any modules in the arraylist
+
                 bestLevel6Modules.add(tempModule);
                 arrayListIndex++;      
             }
