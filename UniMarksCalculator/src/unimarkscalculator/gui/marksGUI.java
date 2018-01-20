@@ -5,6 +5,8 @@ import java.awt.Event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener; 
 import javax.swing.*;
+import unimarkscalculator.mainClasses.Module;
+import unimarkscalculator.mainClasses.ModulesManager;
 
 /**
  *
@@ -20,10 +22,13 @@ public class MarksGUI
     private JButton buttonAssignmentsManager = new JButton("Assignments Manager");
     private JButton buttonResults = new JButton("View Results");      
     private JComboBox dropdownModules = new JComboBox();
+    private ModulesManager userModulesManager = ModulesManager.getInstance();
     
     public MarksGUI()
     {
         setGUIFrame();
+        setTestData();      //temporary TEST DATA METHOD
+        
     }
     
     private void setGUIFrame()
@@ -230,5 +235,122 @@ public class MarksGUI
             new ResultsGUI().setWindowVisible(true);
         }
         
+    }
+    
+    private void setTestData()
+    {
+        Module tempModule;
+        
+        //ADD MODULES:
+        userModulesManager.addModule("4", "Human Dimensions of Computing", "AB", 30);
+        userModulesManager.addModule("4", "Models and Methods in Computing", "AB", 30);
+        userModulesManager.addModule("4", "Platforms for Computing", "AB", 30);
+        userModulesManager.addModule("4", "Programming", "AB", 30);
+        
+        userModulesManager.addModule("5", "Algorithms and Data Structures", "A", 15);
+        userModulesManager.addModule("5", "Artificial Intelligence", "A", 15);
+        userModulesManager.addModule("5", "Computer Science Development Exercise", "AB", 30);
+        userModulesManager.addModule("5", "Contemporary Issues", "A", 15);
+        userModulesManager.addModule("5", "Database Concepts", "B", 15);
+        userModulesManager.addModule("5", "Operating Systems and Networks", "B", 15);
+        userModulesManager.addModule("5", "The C Family", "B", 15);
+        
+        userModulesManager.addModule("6", "Computer Systems Security", "A", 15);
+        userModulesManager.addModule("6", "Machine Learning and Neural Computing", "B", 15);
+        userModulesManager.addModule("6", "Object Oriented Development", "A", 15);
+        userModulesManager.addModule("6", "Programming Paradigms", "A", 15);
+        userModulesManager.addModule("6", "Project Planning", "A", 15);
+        userModulesManager.addModule("6", "Software Engineering Practice", "B", 15);
+        userModulesManager.addModule("6", "Software Engineering Project", "B", 15);
+        
+        //ADD ASSIGNMENTS:
+        //Level 4
+        tempModule = userModulesManager.getModule("Human Dimensions of Computing");
+        tempModule.addAssignment("Test 1", "test", 58, 10);
+        tempModule.addAssignment("Test 2", "test", 69, 20);
+        tempModule.addAssignment("Test 3", "test", 80, 30);
+        tempModule.addAssignment("Presentation", "other", 65.63, 40);
+        tempModule.calculateAndSetGrade();
+        
+        tempModule = userModulesManager.getModule("Models and Methods in Computing");
+        tempModule.addAssignment("Coursework 1", "coursework", 92, 100);
+        tempModule.calculateAndSetGrade();
+        
+        tempModule = userModulesManager.getModule("Platforms for Computing");
+        tempModule.addAssignment("Coursework 1", "coursework", 84, 100);
+        tempModule.calculateAndSetGrade();
+        
+        tempModule = userModulesManager.getModule("Programming");
+        tempModule.addAssignment("Coursework 1", "coursework", 91, 60);
+        tempModule.addAssignment("Exam 1", "exam", 89, 40);
+        tempModule.calculateAndSetGrade();
+        
+        //Level 5
+        tempModule = userModulesManager.getModule("Algorithms and Data Structures");
+        tempModule.addAssignment("Exam 1", "exam", 97, 100);
+        tempModule.calculateAndSetGrade();
+        
+        tempModule = userModulesManager.getModule("Artificial Intelligence");
+        tempModule.addAssignment("Practical", "coursework", 90, 20);
+        tempModule.addAssignment("Coursework 1", "coursework", 100, 30);
+        tempModule.addAssignment("Exam 1", "exam", 73, 50);
+        tempModule.calculateAndSetGrade();
+        
+        tempModule = userModulesManager.getModule("Computer Science Development Exercise");
+        tempModule.addAssignment("Coursework 1", "coursework", 75, 100);
+        tempModule.calculateAndSetGrade();
+        
+        tempModule = userModulesManager.getModule("Contemporary Issues");
+        tempModule.addAssignment("Coursework 1", "coursework", 75, 100);
+        tempModule.calculateAndSetGrade();        
+        
+        tempModule = userModulesManager.getModule("Database Concepts");
+        tempModule.addAssignment("Coursework 1", "coursework", 75, 50);
+        tempModule.addAssignment("Exam 1", "exam", 62, 50);
+        tempModule.calculateAndSetGrade();          
+        
+        tempModule = userModulesManager.getModule("Operating Systems and Networks");
+        tempModule.addAssignment("Coursework 1", "coursework", 90, 10);
+        tempModule.addAssignment("Exam 1", "exam", 96, 90);
+        tempModule.calculateAndSetGrade();            
+
+        tempModule = userModulesManager.getModule("The C Family");
+        tempModule.addAssignment("Practical", "coursework", 93, 15);
+        tempModule.addAssignment("Exam 1", "exam", 84, 85);
+        tempModule.calculateAndSetGrade();         
+        
+        //Level 6
+        tempModule = userModulesManager.getModule("Computer Systems Security");
+        tempModule.addAssignment("Coursework 1", "coursework", 90, 100);
+        tempModule.calculateAndSetGrade();   
+        
+        tempModule = userModulesManager.getModule("Machine Learning and Neural Computing");
+        tempModule.addAssignment("Coursework 1", "coursework", 83, 100);
+        tempModule.calculateAndSetGrade();          
+
+        tempModule = userModulesManager.getModule("Object Oriented Development");
+        tempModule.addAssignment("Coursework 1", "coursework", 84, 33);
+        tempModule.addAssignment("Exam 1", "exam", 63, 67);
+        tempModule.calculateAndSetGrade();   
+        
+        tempModule = userModulesManager.getModule("Programming Paradigms");
+        tempModule.addAssignment("Coursework 1", "coursework", 87, 40);
+        tempModule.addAssignment("Exam 1", "exam", 56, 60);
+        tempModule.calculateAndSetGrade();   
+        
+        tempModule = userModulesManager.getModule("Project Planning");
+        tempModule.addAssignment("Coursework 1", "coursework", 84, 50);
+        tempModule.addAssignment("Coursework 2", "coursework", 83, 50);
+        tempModule.calculateAndSetGrade();  
+        
+        tempModule = userModulesManager.getModule("Software Engineering Practice");
+        tempModule.addAssignment("Coursework 1", "coursework", 61, 33);
+        tempModule.addAssignment("Coursework 2", "coursework", 46, 67);
+        tempModule.calculateAndSetGrade();          
+        
+        tempModule = userModulesManager.getModule("Software Engineering Project");
+        tempModule.addAssignment("Practical", "coursework", 93, 20);
+        tempModule.addAssignment("Coursework 1", "coursework", 80, 80);
+        tempModule.calculateAndSetGrade();     
     }
 }
