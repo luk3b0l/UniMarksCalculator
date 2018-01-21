@@ -102,11 +102,18 @@ public class Module implements Comparable
     {
         ArrayList<Assignment> currentAssignments = getAllAssignments();
         double newResult = 0;
-        for(Assignment tempAssignment : currentAssignments)
+        if(totalAssignmentsWeight == 100)
         {
-            newResult = newResult + (tempAssignment.getResult() * (tempAssignment.getWeightPercent() * 0.01));
-        }       
-        setGrade(newResult);
+           for(Assignment tempAssignment : currentAssignments)
+            {
+                newResult = newResult + (tempAssignment.getResult() * (tempAssignment.getWeightPercent() * 0.01));
+            }       
+            setGrade(newResult); 
+        }
+        else
+        {
+            System.out.println("---ERROR: Module \'" + this.name + "\' - total weight below 100%. Module grade not calculated.");
+        }
     }
 
     public String getLevel() 

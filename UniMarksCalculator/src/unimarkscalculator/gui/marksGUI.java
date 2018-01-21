@@ -261,7 +261,7 @@ public class MarksGUI
         userModulesManager.addModule("6", "Programming Paradigms", "A", 15);
         userModulesManager.addModule("6", "Project Planning", "A", 15);
         userModulesManager.addModule("6", "Software Engineering Practice", "B", 15);
-        userModulesManager.addModule("6", "Software Engineering Project", "B", 15);
+        userModulesManager.addModule("6", "Software Engineering Project", "B", 30);
         
         //ADD ASSIGNMENTS:
         //Level 4

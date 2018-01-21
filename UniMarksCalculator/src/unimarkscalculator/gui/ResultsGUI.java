@@ -13,6 +13,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
@@ -355,7 +357,7 @@ public class ResultsGUI
         {
             if(checboxSelectModulesToCalculate.isSelected())
             {
-                if(tableModules.getRowCount() > 0)
+                if(tableModules.getRowCount() > 0)  // check if table not empty
                 {
                     boolean modulesSelectedFromList = checkAnyModulesSelectedForCalculation(tableModules);
                     boolean modulesAboveLevel4Threshold = checkSelectedModulesAboveLevel4(tableModules);
@@ -372,13 +374,31 @@ public class ResultsGUI
                                     if(isModuleCheckboxTicked)
                                     {
                                         String selectedModuleName = tableModules.getValueAt(i, 1).toString();
+                                        String selectedModuleCredits = tableModules.getValueAt(i, 2).toString();
                                         Module selectedModuleObject = userModulesManager.getModule(selectedModuleName);
-                                        allModulesSelectedForCalculation.add(selectedModuleObject);
-                                        System.out.println("Added: " + selectedModuleObject.getName());
+                                        
+                                        if(selectedModuleCredits.equals("30"))      // if module has 30 credits, it is added twice (but with different name) as it was 2 x 15 credits modules, as per calculation requirements
+                                        {
+                                            allModulesSelectedForCalculation.add(selectedModuleObject); 
+                                            Module module30CreditsPart2 = new Module(selectedModuleObject.getLevel(), selectedModuleObject.getName() +"(2)", selectedModuleObject.getSemester(), selectedModuleObject.getCredits());
+                                            module30CreditsPart2.setGrade(selectedModuleObject.getGrade());
+                                            allModulesSelectedForCalculation.add(module30CreditsPart2);
+                                        }
+                                        else
+                                        {
+                                            allModulesSelectedForCalculation.add(selectedModuleObject); 
+                                        } 
                                     }
                                     else
                                     {
-                                        System.out.println("Something wrong with modules tick...");
+                                        if(Integer.valueOf(tableModules.getValueAt(i, 5).toString()) < 5)
+                                        {
+                                            System.out.println("Module level below Final Degree Classification threshold.");
+                                        }
+                                        else
+                                        {
+                                            System.out.println("-----ERROR Module: " + tableModules.getValueAt(i, 1).toString() + " not chosen.");
+                                        }
                                     }
                                 }
                                 calculateFinalGrade();
@@ -409,8 +429,6 @@ public class ResultsGUI
             {
                 JOptionPane.showMessageDialog(resultsFrame, "Checkbox 'select modules' not ticked.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
             }
-
-            
         }
     }
     
@@ -557,7 +575,7 @@ public class ResultsGUI
     
     private boolean checkAnyModulesSelectedForCalculation(JTable tableModules)
     {
-        boolean selectedModulesExist = false;
+        boolean modulesAvailableForCalculation = false;
         int countModulesSelectedForCalculation = 0;
         int allModulesOnLevel5and6 = 0;
         
@@ -581,9 +599,9 @@ public class ResultsGUI
         
         if((countModulesSelectedForCalculation == allModulesOnLevel5and6) && (countModulesSelectedForCalculation >= 12))
         {
-            selectedModulesExist = true;
+            modulesAvailableForCalculation = true;
         }
-        return selectedModulesExist;
+        return modulesAvailableForCalculation;
     }
     
     private boolean checkSelectedModulesAboveLevel4(JTable tableModules)
@@ -636,11 +654,11 @@ public class ResultsGUI
         double totalModulesGrades = 0;
         double finalDegreeClassification = 0;
         
+        System.out.println("\n-----All modules selected for calculation:");
         for(Module temp : allModulesSelectedForCalculation)
         {
-            System.out.println("Module: " + temp.getName());
+            System.out.println("Module: " + temp.getName() + "|  Level: " + temp.getLevel() + "| Credits: " + temp.getCredits());
         }
-        
         
         if(allModulesSelectedForCalculation.isEmpty())
         {
@@ -648,6 +666,7 @@ public class ResultsGUI
         }
         else
         {
+            // segregate modules into Level5 and Level6 modules
             for(Module tempModule : allModulesSelectedForCalculation)
             {
                 if(tempModule.getLevel().equals("5"))
@@ -660,24 +679,29 @@ public class ResultsGUI
                 }
                 else
                 {
-                    System.out.println("EXACT LEVEL:" + tempModule.getLevel());
+                    System.out.println("Ambiguous LEVEL:" + tempModule.getLevel());
                 }
             }
-            System.out.println("chosenModulesLevel6.size() BEFORE SORT: " + chosenModulesLevel6.size());   
-            chosenModulesLevel6 = sortModules(chosenModulesLevel6);
-            
-            System.out.println("chosenModulesLevel6.size() AFTER SORT: " + chosenModulesLevel6.size());            
-            
+  
+            // sort chosenModulesLevel6
+            System.out.println("\n----- LEVEL 6 before sorting:");
             for(Module tempModule : chosenModulesLevel6)
             {
-                System.out.println("CHOSEN L6: " + tempModule.getName());
+                System.out.println(tempModule.getName() + "| Level: " + tempModule.getLevel() + " | Grade: " + tempModule.getGrade());
             }
             
+            chosenModulesLevel6 = sortModules(chosenModulesLevel6);
+
+            System.out.println("\n----- LEVEL 6 after sorting:");
+            for(Module tempModule : chosenModulesLevel6)
+            {
+                System.out.println(tempModule.getName() + " | Level: " + tempModule.getLevel() + " | Grade: " + tempModule.getGrade());
+            }           
             
             int arrayListIndex = 0;
-            while(arrayListIndex < 5)
+            while(arrayListIndex <= 5)
             {
-                Module tempModule = chosenModulesLevel6.get(arrayListIndex); // do FOR loop to check if there are any modules in the arraylist
+                Module tempModule = chosenModulesLevel6.get(arrayListIndex);
 
                 bestLevel6Modules.add(tempModule);
                 arrayListIndex++;      
@@ -689,9 +713,11 @@ public class ResultsGUI
                 if(chosenModulesLevel6.contains(tempModule))
                 {
                     chosenModulesLevel6.remove(tempModule);
+                    System.out.println("Removed: " + tempModule.getName());
                 }
-                System.out.println("chosenModulesLevel6 list has been cleared...");
-            }            
+                
+            }      
+            System.out.println("chosenModulesLevel6 list has been cleared...");
             
             // move all chosenModulesLevel5 and remaining chosenModulesLevel6 to one collection - mixedLevelModulesLeft
             for(Module tempModule : chosenModulesLevel5)
@@ -704,9 +730,20 @@ public class ResultsGUI
                 mixedLevelModulesLeft.add(tempModule);
             }
             
+            System.out.println("-----Checking mixedLevelModulesLeft contents [before sort]:");
+            for(Module tempModule : mixedLevelModulesLeft)
+            {
+                System.out.println(tempModule.getName() + " | Level: " + tempModule.getLevel() + " | Grade: " + tempModule.getGrade());
+            }
+            System.out.println("----------------------------------------------------");
             // sort mixedLevelModulesLeft
             mixedLevelModulesLeft = sortModules(mixedLevelModulesLeft);
             
+            System.out.println("-----Checking mixedLevelModulesLeft contents [after sort]:");
+            for(Module tempModule : mixedLevelModulesLeft)
+            {
+                System.out.println(tempModule.getName() + " | Level: " + tempModule.getLevel() + " | Grade: " + tempModule.getGrade());
+            }
             
             // calculate averageMarkBestLevel6Modules (averageMark * 0.75)
             for(Module tempModule : bestLevel6Modules)
@@ -714,6 +751,7 @@ public class ResultsGUI
                 totalModulesGrades = totalModulesGrades + tempModule.getGrade();                
             }
             averageMarkBestLevel6Modules = (totalModulesGrades / 6) * 0.75;
+            System.out.println("-----averageMarkBestLevel6Modules: " + averageMarkBestLevel6Modules);
             
             // take best 6 modules from mixedLevelModulesLeft to bestMixedLevelModules
             arrayListIndex = 0;
@@ -731,14 +769,14 @@ public class ResultsGUI
                 totalModulesGrades = totalModulesGrades + tempModule.getGrade();
             }
             averageMarkBestMixedModules = (totalModulesGrades / 6) * 0.25;
+            System.out.println("-----averageMarkBestMixedModules: " + averageMarkBestMixedModules);
             
             // add averageMarkBestLevel6Modules to averageMarkBestMixedModules
             finalDegreeClassification = averageMarkBestLevel6Modules + averageMarkBestMixedModules;
             
-            // display result in the field
-            System.out.println("FINAL DEGREE CLASSIFICATION: " + finalDegreeClassification);
-            
-            //*make sure to count 30 credit modules as 2 x (15 credits) modules
+            // round and set final grade:
+            finalDegreeClassification = roundFinalGrade(finalDegreeClassification);
+            setFinalGrade(finalDegreeClassification);
         }       
     }
 
@@ -754,10 +792,17 @@ public class ResultsGUI
     
     private ArrayList<Module> sortModules(ArrayList<Module> arrayListToBeSorted)
     {
-        ArrayList<Module> sortedArray = new ArrayList<>();
-        ArrayList<Integer> tempArrayList = new ArrayList<>();
         Collections.sort(arrayListToBeSorted);   
         
-        return sortedArray;
+        System.out.println("*INFO: sorted");
+
+        return arrayListToBeSorted;
+    }
+    
+    private double roundFinalGrade(double newGrade) 
+    {
+        BigDecimal tempGrade = new BigDecimal(newGrade);
+        BigDecimal roundOff = tempGrade.setScale(2, RoundingMode.HALF_UP);
+        return roundOff.doubleValue();
     }
 }
