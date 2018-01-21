@@ -43,7 +43,7 @@ public class ModulesManagerGUI
     {
         Container contentPane = modulesManagerFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredWindowSize = new Dimension(400,300);
+        Dimension preferredWindowSize = new Dimension(500,300);
         contentPane.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H
@@ -93,7 +93,7 @@ public class ModulesManagerGUI
         
         gcCenter.gridx = 1; gcCenter.gridy = 3;
         centerPanel.add(inputName, gcCenter);
-        inputName.setPreferredSize(new Dimension(100, 25));
+        inputName.setPreferredSize(new Dimension(200, 25));
         
         gcCenter.gridx = 1; gcCenter.gridy = 4;
         centerPanel.add(dropdownCredits, gcCenter);        

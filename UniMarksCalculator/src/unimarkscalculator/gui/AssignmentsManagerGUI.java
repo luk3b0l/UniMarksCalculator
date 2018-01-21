@@ -45,7 +45,7 @@ public class AssignmentsManagerGUI
     {
         Container contentPane = assignmentsManagerFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
-        Dimension preferredWindowSize = new Dimension(400,300);
+        Dimension preferredWindowSize = new Dimension(500,300);
         contentPane.setPreferredSize(preferredWindowSize);
         
         // ***** N O R T H

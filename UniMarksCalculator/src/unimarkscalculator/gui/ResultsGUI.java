@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import unimarkscalculator.mainClasses.Assignment;
 import unimarkscalculator.mainClasses.Module;
@@ -167,9 +168,20 @@ public class ResultsGUI
                 
             }            
         };
-        tableModules.setPreferredScrollableViewportSize(new Dimension(500,150));
+        tableModules.setPreferredScrollableViewportSize(new Dimension(600,300));
         tableModules.setFillsViewportHeight(true);
         tableModules.setAutoCreateRowSorter(true);      
+        tableModules.setShowGrid(false);
+        tableModules.getColumnModel().getColumn(1).setPreferredWidth(250);      // sets Modules' titles more visible
+        
+        // center data in cells:
+        DefaultTableCellRenderer centerCellDataRenderer = new DefaultTableCellRenderer();
+        centerCellDataRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        for(int tableColumn = 2; tableColumn < tableModules.getColumnCount(); tableColumn++)
+        {
+            tableModules.getColumnModel().getColumn(tableColumn).setCellRenderer(centerCellDataRenderer);
+        }
         
         JScrollPane modulesScrollPane = new JScrollPane(tableModules);
         centerPanel.add(modulesScrollPane, gcCenter);     
@@ -263,7 +275,7 @@ public class ResultsGUI
         resultsFrame.pack();
         resultsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         resultsFrame.setAlwaysOnTop(false);
-        //resultsFrame.setResizable(false);
+        resultsFrame.setResizable(false);
         resultsFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }
     
