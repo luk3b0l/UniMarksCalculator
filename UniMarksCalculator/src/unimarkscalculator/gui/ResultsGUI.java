@@ -463,7 +463,14 @@ public class ResultsGUI
             spaceBetweenLines.setLeading(0, 5);
             
             PdfPTable documentTable = new PdfPTable(5);
-            documentTable.setWidthPercentage(100);
+            try 
+            {
+                documentTable.setWidths(new float[] {8,2,2,3,2});
+            } 
+            catch (DocumentException ex) 
+            {
+                Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             
             PdfPCell cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
@@ -481,7 +488,7 @@ public class ResultsGUI
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
             
-            cell1 = new PdfPCell(new Phrase("Grade/Completed (%)", tableHeaderFont));
+            cell1 = new PdfPCell(new Phrase("Grade(%)", tableHeaderFont));
             cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             documentTable.addCell(cell1);
@@ -519,18 +526,22 @@ public class ResultsGUI
 
                         // CREDITS
                         cell2 = new PdfPCell(new Phrase(moduleInfo[3], cellFont));
+                        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                         documentTable.addCell(cell2);
 
                         // SEMESTER
                         cell2 = new PdfPCell(new Phrase(moduleInfo[2], cellFont));
+                        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                         documentTable.addCell(cell2);
 
-                        // COMPLETED(%) / GRADE(%)
+                        // GRADE(%)
                         cell2 = new PdfPCell(new Phrase(moduleInfo[4], cellFont));
+                        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                         documentTable.addCell(cell2);
                         
                         // LEVEL
                         cell2 = new PdfPCell(new Phrase(moduleInfo[1], cellFont));
+                        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                         documentTable.addCell(cell2);
                     }
                     pdfDocument.add(documentTable);

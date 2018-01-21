@@ -241,11 +241,11 @@ public class Module implements Comparable
         moduleInfo[3] = String.valueOf(credits);
         if(totalAssignmentsWeight < 100)
         {
-            moduleInfo[4] = "Completed: " + String.valueOf(totalAssignmentsWeight); 
+            moduleInfo[4] = String.valueOf(totalAssignmentsWeight) + "% completed"; 
         }
         else
         {
-            moduleInfo[4] = "Grade: " + grade; 
+            moduleInfo[4] = String.valueOf(grade); 
         }      
         return moduleInfo;
     }
