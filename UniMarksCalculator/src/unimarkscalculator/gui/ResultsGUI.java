@@ -43,6 +43,7 @@ public class ResultsGUI
     private JButton buttonCalculateFinalGrade = new JButton("Calculate FINAL GRADE");
     private JButton buttonPrintResults = new JButton("Print all results");
     private JTextField outputFinalGrade = new JTextField("");
+    private JTextField outputDegreeClassificationName = new JTextField("");
     private JCheckBox checboxSelectModulesToCalculate = new JCheckBox();
     private JTable tableModules;
     private JTable tableAssignments;
@@ -270,7 +271,10 @@ public class ResultsGUI
         southPanel.add(new JLabel("         "));    // to make space between button and JTextField [TO IMPROVE]
         southPanel.add(labelFinalGrade);
         southPanel.add(outputFinalGrade);
+        southPanel.add(new JLabel("         "));    // to make space between button and JTextField [TO IMPROVE]
+        southPanel.add(outputDegreeClassificationName);
         outputFinalGrade.setPreferredSize(new Dimension(50, 25));
+        outputDegreeClassificationName.setPreferredSize(new Dimension(150, 25));
 
         resultsFrame.pack();
         resultsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -414,8 +418,10 @@ public class ResultsGUI
                                     }
                                 }
                                 calculateFinalGrade();
-                                String finalGradeCalculated = String.valueOf(getFinalGrade());
-                                outputFinalGrade.setText(finalGradeCalculated);
+                                displayFinalDegreeClassification();
+                                // add text field with Degree Classification
+                                // make final grade fields setEditable(false)
+                                
                             }
                             else
                             {
@@ -827,5 +833,35 @@ public class ResultsGUI
         BigDecimal tempGrade = new BigDecimal(newGrade);
         BigDecimal roundOff = tempGrade.setScale(2, RoundingMode.HALF_UP);
         return roundOff.doubleValue();
+    }
+    
+    private void displayFinalDegreeClassification()
+    {
+        double finalGrade = getFinalGrade();
+        String finalGradeCalculated = String.valueOf(finalGrade);
+        outputFinalGrade.setText(finalGradeCalculated);
+        
+        String degreeClassificationName = "";
+        if(finalGrade >= 70)
+        {
+            degreeClassificationName = "First Class";
+        }
+        else if(finalGrade >= 60)
+        {
+            degreeClassificationName = "Upper Second Class";
+        }
+        else if(finalGrade >= 50)
+        {
+            degreeClassificationName = "Lower Second Class";
+        }
+        else if(finalGrade >= 40)
+        {
+            degreeClassificationName = "Third Class";
+        }
+        else
+        {
+            degreeClassificationName = "Fail";
+        }              
+        outputDegreeClassificationName.setText(degreeClassificationName);
     }
 }
