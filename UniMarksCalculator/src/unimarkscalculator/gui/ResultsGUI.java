@@ -468,18 +468,22 @@ public class ResultsGUI
             Paragraph spaceBetweenLines = new Paragraph(" ");
             spaceBetweenLines.setLeading(0, 5);
             
-            PdfPTable documentTable = new PdfPTable(5);
+            PdfPTable documentTable = new PdfPTable(6);
             try 
             {
-                documentTable.setWidths(new float[] {8,2,2,3,2});
+                documentTable.setWidths(new float[] {1,8,2,2,3,2});
             } 
             catch (DocumentException ex) 
             {
                 Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            PdfPCell cell1 = new PdfPCell(new Phrase("No.", tableHeaderFont));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+            documentTable.addCell(cell1);
             
-            PdfPCell cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
+            cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell1.setBackgroundColor(new BaseColor(136, 159, 251));
             documentTable.addCell(cell1);
@@ -526,8 +530,12 @@ public class ResultsGUI
                         String[] moduleInfo = moduleObject.toStringDataArray();
                         //pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.TIMES_ROMAN, fontSize))));
                         
+                        // NUMBER
+                        PdfPCell cell2 = new PdfPCell(new Phrase(String.valueOf(tableRow+1), cellFont));
+                        documentTable.addCell(cell2);
+                        
                         // NAME
-                        PdfPCell cell2 = new PdfPCell(new Phrase(moduleInfo[0], cellFont));
+                        cell2 = new PdfPCell(new Phrase(moduleInfo[0], cellFont));
                         documentTable.addCell(cell2);
 
                         // CREDITS
