@@ -68,4 +68,16 @@ public class Assignment
                                 "\n\tWeight(%): " + weightPercentage + "\n";
         return assignmentInfo;
     }
+    
+    public String[] toStringDataArray()
+    {
+        String[] assignmentInfo = new String[4];
+        
+        assignmentInfo[0] = title;
+        assignmentInfo[1] = type;
+        assignmentInfo[2] = String.valueOf(result);
+        assignmentInfo[3] = String.valueOf(weightPercentage);
+              
+        return assignmentInfo;
+    }
 }
