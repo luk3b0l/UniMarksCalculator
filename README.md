@@ -43,7 +43,10 @@ The below are screenshots from the initial version of the program:
 ## 2.8 Help Menu --> About
 ![Help-about](systemPictures/8-helpAbout.jpg)
 
-## 2.9 Example of a PDF file created using 'Print all results' button
+## 2.9 Example of a PDF file created using 'Print' button and choosing 'Modules' option
+![PDF-file-example](systemPictures/9-moduleResultsPDF.jpg)
+
+## 2.10  Example of a PDF file created using 'Print' button and choosing 'Modules with Assignments' option
 ![PDF-file-example](systemPictures/9-moduleResultsPDF.jpg)
 
 ## 3. The Repository  
