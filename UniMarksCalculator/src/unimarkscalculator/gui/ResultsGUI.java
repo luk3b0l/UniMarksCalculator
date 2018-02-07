@@ -68,6 +68,10 @@ public class ResultsGUI
     private boolean isTicked = false;
     private double finalGrade = 0;
     
+    private JPanel tempPanel = null;
+    private GridBagConstraints tempGridBag = null;
+    
+    
     public ResultsGUI()
     {
         setGUIFrame();
@@ -91,6 +95,7 @@ public class ResultsGUI
         contentPane.add(centerPanel, BorderLayout.CENTER);
         centerPanel.setLayout(new GridBagLayout());
         GridBagConstraints gcCenter = new GridBagConstraints();
+        sendTableInfo(gcCenter, centerPanel);
         gcCenter.weightx = 0.5; gcCenter.weighty = 50;
         
         // COLUMN 1:
@@ -382,6 +387,90 @@ public class ResultsGUI
         }
     }
     
+    private class CheckBoxShowAssignmentsHandler implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            if(checkboxShowAssignments.isSelected())
+            {
+                // add ASSIGNMENTS label
+                // add Assignments table
+                
+                
+
+                GridBagConstraints gcCenter = getTempGridBag();
+                JPanel centerPanel = getTempPanel();
+                
+                
+                gcCenter.gridx = 0; gcCenter.gridy = 6;
+                gcCenter.weighty = 5;
+                centerPanel.add(labelAssignmentsList, gcCenter);
+        
+        // ***** ASSIGNMENTS TABLE ---------------------------------------------------------------------------------
+//        gcCenter.gridx = 0; gcCenter.gridy = 7;               
+//        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
+//        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
+//        {
+//            public Class getColumnClass(int column)
+//            {
+//                switch(column)
+//                {
+//                    case 0:
+//                        return String.class;
+//                    case 1:
+//                        return String.class;
+//                    case 2:
+//                        return String.class;
+//                    case 3:
+//                        return String.class;
+//                    case 4:
+//                        return Boolean.class;
+//                    default:
+//                        return String.class;
+//                        
+//                }
+//                Class returnValue= null;
+//                
+//                if((column >= 0) && (column < getColumnCount()) && !listAssignments.isEmpty())
+//                {
+//                    returnValue = getValueAt(0, column).getClass();
+//                }
+//                else
+//                {
+//                    returnValue = Object.class;
+//                }
+//                return returnValue;                    
+//            }
+//        };        
+//        tableAssignments = new JTable(modelAssignmentsTable)
+//        {
+//            @Override
+//            public boolean isCellEditable(int data, int columns)
+//            {
+//                return false;
+//            }
+//        };
+//        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
+//        tableAssignments.setFillsViewportHeight(true);
+//        tableAssignments.setAutoCreateRowSorter(true);
+//        JScrollPane assignmentsScrollPane = new JScrollPane(tableAssignments);
+//        centerPanel.add(assignmentsScrollPane, gcCenter);      
+        // -----------------------------------------------------------------------------------------------------
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            }
+        }   
+    }
+    
     private class CalculateFinalGradeButtonHandler implements ActionListener // [TO DO]
     {
         @Override
@@ -465,17 +554,7 @@ public class ResultsGUI
             }
         }
     }
-    
-    private class CheckBoxShowAssignmentsHandler implements ActionListener
-    {
-
-        @Override
-        public void actionPerformed(ActionEvent e) 
-        {
-            //TODO
-        }   
-    }
-    
+        
     private class PrintModulesButtonHandler implements ActionListener
     {
         @Override
@@ -1316,4 +1395,22 @@ public class ResultsGUI
         }              
         outputDegreeClassificationName.setText(degreeClassificationName);
     }
+    
+    private void sendTableInfo(GridBagConstraints tempGridBag, JPanel newTempPanel)
+    {
+        this.tempGridBag = tempGridBag;
+        this.tempPanel = newTempPanel;
+    }
+
+    public JPanel getTempPanel() 
+    {
+        return tempPanel;
+    }
+
+    public GridBagConstraints getTempGridBag() 
+    {
+        return tempGridBag;
+    }
+    
+    
 }
