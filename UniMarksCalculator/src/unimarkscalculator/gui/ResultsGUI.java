@@ -66,11 +66,9 @@ public class ResultsGUI
     private int tempModuleRow = -1;
     private boolean multipleRowSelection = false;
     private boolean isTicked = false;
-    private double finalGrade = 0;
+    private double finalGrade = 0;  
     
-    private JPanel tempPanel = null;
-    private GridBagConstraints tempGridBag = null;
-    
+    JScrollPane assignmentsScrollPane;
     
     public ResultsGUI()
     {
@@ -95,7 +93,6 @@ public class ResultsGUI
         contentPane.add(centerPanel, BorderLayout.CENTER);
         centerPanel.setLayout(new GridBagLayout());
         GridBagConstraints gcCenter = new GridBagConstraints();
-        sendTableInfo(gcCenter, centerPanel);
         gcCenter.weightx = 0.5; gcCenter.weighty = 50;
         
         // COLUMN 1:
@@ -124,7 +121,7 @@ public class ResultsGUI
         gcCenter.gridx = 0; gcCenter.gridy = 4;
         gcCenter.weighty = 6;
         centerPanel.add(checkboxShowAssignments, gcCenter);        
-        checkboxShowAssignments.addActionListener(new CheckBoxShowAssignmentsHandler());
+        checkboxShowAssignments.addActionListener(new CheckboxShowAssignmentsHandler());
 
         // ***** MODULES TABLE ---------------------------------------------------------------------------------
         gcCenter.gridx = 0; gcCenter.gridy = 5;
@@ -150,19 +147,6 @@ public class ResultsGUI
                     default:
                         return String.class;
                 }
-//            public Class getColumnClass(int column)
-//            {
-//                Class returnValue;
-//
-//                if((column >= 0) && (column < getColumnCount()))
-//                {
-//                    returnValue = getValueAt(0, column).getClass();
-//                }
-//                else
-//                {
-//                    returnValue = Object.class;
-//                }
-//                return returnValue;
             }
         };
         
@@ -220,34 +204,36 @@ public class ResultsGUI
         centerPanel.add(new JLabel(""), gcCenter);
         // ---------------------------------------------------------------------------------------------------------
         
-        //gcCenter.gridx = 0; gcCenter.gridy = 6;
-        //gcCenter.weighty = 5;
-        //centerPanel.add(labelAssignmentsList, gcCenter);
+        gcCenter.gridx = 0; gcCenter.gridy = 6;
+        gcCenter.weighty = 5;
+        centerPanel.add(labelAssignmentsList, gcCenter);
+        labelAssignmentsList.setVisible(false);
         
         // ***** ASSIGNMENTS TABLE ---------------------------------------------------------------------------------
-//        gcCenter.gridx = 0; gcCenter.gridy = 7;               
-//        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
-//        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
-//        {
-//            public Class getColumnClass(int column)
-//            {
-//                switch(column)
-//                {
-//                    case 0:
-//                        return String.class;
-//                    case 1:
-//                        return String.class;
-//                    case 2:
-//                        return String.class;
-//                    case 3:
-//                        return String.class;
-//                    case 4:
-//                        return Boolean.class;
-//                    default:
-//                        return String.class;
-//                        
-//                }
-//                Class returnValue= null;
+        gcCenter.gridx = 0; gcCenter.gridy = 7;               
+        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
+        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
+        {
+            public Class getColumnClass(int column)
+            {
+                switch(column)
+                {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return Boolean.class;
+                    default:
+                        return String.class;
+                        
+                }
+                
+//                Class returnValue = null;
 //                
 //                if((column >= 0) && (column < getColumnCount()) && !listAssignments.isEmpty())
 //                {
@@ -258,21 +244,23 @@ public class ResultsGUI
 //                    returnValue = Object.class;
 //                }
 //                return returnValue;                    
-//            }
-//        };        
-//        tableAssignments = new JTable(modelAssignmentsTable)
-//        {
-//            @Override
-//            public boolean isCellEditable(int data, int columns)
-//            {
-//                return false;
-//            }
-//        };
-//        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
-//        tableAssignments.setFillsViewportHeight(true);
-//        tableAssignments.setAutoCreateRowSorter(true);
-//        JScrollPane assignmentsScrollPane = new JScrollPane(tableAssignments);
-//        centerPanel.add(assignmentsScrollPane, gcCenter);      
+            }
+        };        
+        
+        tableAssignments = new JTable(modelAssignmentsTable)
+        {
+            @Override
+            public boolean isCellEditable(int data, int columns)
+            {
+                return false;
+            }
+        };
+        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
+        tableAssignments.setFillsViewportHeight(true);
+        tableAssignments.setAutoCreateRowSorter(true);
+        assignmentsScrollPane = new JScrollPane(tableAssignments);
+        centerPanel.add(assignmentsScrollPane, gcCenter);      
+        assignmentsScrollPane.setVisible(false);
         // -----------------------------------------------------------------------------------------------------
         
         // COLUMN 2:
@@ -300,7 +288,7 @@ public class ResultsGUI
         resultsFrame.pack();
         resultsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         resultsFrame.setAlwaysOnTop(false);
-        resultsFrame.setResizable(false);
+        resultsFrame.setResizable(true);
         resultsFrame.setLocationRelativeTo(null);    // setting the program in the centre of the screen
     }
     
@@ -387,7 +375,7 @@ public class ResultsGUI
         }
     }
     
-    private class CheckBoxShowAssignmentsHandler implements ActionListener
+    private class CheckboxShowAssignmentsHandler implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e) 
@@ -396,75 +384,16 @@ public class ResultsGUI
             {
                 // add ASSIGNMENTS label
                 // add Assignments table
+                labelAssignmentsList.setVisible(true);
+                assignmentsScrollPane.setVisible(true);
                 
                 
-
-                GridBagConstraints gcCenter = getTempGridBag();
-                JPanel centerPanel = getTempPanel();
                 
                 
-                gcCenter.gridx = 0; gcCenter.gridy = 6;
-                gcCenter.weighty = 5;
-                centerPanel.add(labelAssignmentsList, gcCenter);
+                resultsFrame.revalidate();
+                resultsFrame.pack();
+                resultsFrame.repaint();
         
-        // ***** ASSIGNMENTS TABLE ---------------------------------------------------------------------------------
-//        gcCenter.gridx = 0; gcCenter.gridy = 7;               
-//        String[] columnsOfAssignmentsData = {"Title", "Type", "Weight(%)", "Result"};
-//        modelAssignmentsTable = new DefaultTableModel(dataAssignments, columnsOfAssignmentsData)
-//        {
-//            public Class getColumnClass(int column)
-//            {
-//                switch(column)
-//                {
-//                    case 0:
-//                        return String.class;
-//                    case 1:
-//                        return String.class;
-//                    case 2:
-//                        return String.class;
-//                    case 3:
-//                        return String.class;
-//                    case 4:
-//                        return Boolean.class;
-//                    default:
-//                        return String.class;
-//                        
-//                }
-//                Class returnValue= null;
-//                
-//                if((column >= 0) && (column < getColumnCount()) && !listAssignments.isEmpty())
-//                {
-//                    returnValue = getValueAt(0, column).getClass();
-//                }
-//                else
-//                {
-//                    returnValue = Object.class;
-//                }
-//                return returnValue;                    
-//            }
-//        };        
-//        tableAssignments = new JTable(modelAssignmentsTable)
-//        {
-//            @Override
-//            public boolean isCellEditable(int data, int columns)
-//            {
-//                return false;
-//            }
-//        };
-//        tableAssignments.setPreferredScrollableViewportSize(new Dimension(500,100));
-//        tableAssignments.setFillsViewportHeight(true);
-//        tableAssignments.setAutoCreateRowSorter(true);
-//        JScrollPane assignmentsScrollPane = new JScrollPane(tableAssignments);
-//        centerPanel.add(assignmentsScrollPane, gcCenter);      
-        // -----------------------------------------------------------------------------------------------------
-                
-                
-                
-                
-                
-                
-                
-                
                 
                 
             }
@@ -1395,22 +1324,4 @@ public class ResultsGUI
         }              
         outputDegreeClassificationName.setText(degreeClassificationName);
     }
-    
-    private void sendTableInfo(GridBagConstraints tempGridBag, JPanel newTempPanel)
-    {
-        this.tempGridBag = tempGridBag;
-        this.tempPanel = newTempPanel;
-    }
-
-    public JPanel getTempPanel() 
-    {
-        return tempPanel;
-    }
-
-    public GridBagConstraints getTempGridBag() 
-    {
-        return tempGridBag;
-    }
-    
-    
 }
