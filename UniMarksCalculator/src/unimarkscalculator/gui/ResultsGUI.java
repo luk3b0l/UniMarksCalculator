@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import unimarkscalculator.mainClasses.Assignment;
 import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
@@ -62,6 +63,7 @@ public class ResultsGUI
     
     private DefaultTableModel modelModulesTable;
     private DefaultTableModel modelAssignmentsTable;
+    private ListSelectionModel assignmentsSelectionModel;
     
     private int tempModuleRow = -1;
     private boolean multipleRowSelection = false;
@@ -122,7 +124,13 @@ public class ResultsGUI
         gcCenter.weighty = 6;
         centerPanel.add(checkboxShowAssignments, gcCenter);        
         checkboxShowAssignments.addActionListener(new CheckboxShowAssignmentsHandler());
+        assignmentsSelectionModel = tableAssignments.getSelectionModel();
+        assignmentsSelectionModel.addListSelectionListener(new SharedListSelectionHandler());
 
+                
+        labelAssignmentsList.setVisible(true);
+        assignmentsScrollPane.setVisible(true);
+                
         // ***** MODULES TABLE ---------------------------------------------------------------------------------
         gcCenter.gridx = 0; gcCenter.gridy = 5;
         String[] columnsOfModulesData = {"Selected", "Module Title", "Credits", "Semester", "Grade", "Level"}; 
@@ -384,6 +392,7 @@ public class ResultsGUI
             {
                 // add ASSIGNMENTS label
                 // add Assignments table
+                System.out.println("SELECTED");
                 labelAssignmentsList.setVisible(true);
                 assignmentsScrollPane.setVisible(true);
                 
@@ -396,6 +405,20 @@ public class ResultsGUI
         
                 
                 
+            }
+            else if (!checkboxShowAssignments.isSelected())
+            {
+                System.out.println("UNSELECTED");
+                labelAssignmentsList.setVisible(false);
+                assignmentsScrollPane.setVisible(false);
+                
+                
+                
+                
+                resultsFrame.revalidate();
+                resultsFrame.pack();
+                resultsFrame.repaint();
+                      
             }
         }   
     }
