@@ -19,22 +19,22 @@ NOTE: The project is under construction.
 The below are screenshots from the initial version of the program:
 
 
-## 2.1 Application start
+## 2.1 Main Menu
 ![App start](systemPictures/1-appStart.jpg)
 
-## 2.2 Add module
+## 2.2 Add Module
 ![Add module](systemPictures/2-addModule.jpg)
 
-## 2.3 Add assignment
+## 2.3 Add Assignment
 ![Add assignment](systemPictures/3-addAssignment.jpg)
 
-## 2.4 Modules manager
+## 2.4 Modules Manager
 ![Modules manager](systemPictures/4-modulesManager.jpg)
 
-## 2.5 Assignments manager
+## 2.5 Assignments Manager
 ![Assignments manager](systemPictures/5-assignmentsManager.jpg)
 
-## 2.6 View results
+## 2.6 View Results
 ![View results](systemPictures/6-viewResults.jpg)
 
 ## 2.7 Help Menu --> How_to_use
