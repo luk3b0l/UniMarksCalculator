@@ -19,35 +19,38 @@ NOTE: The project is under construction.
 The below are screenshots from the initial version of the program:
 
 
-## 2.1 Application start
-![App start](systemPictures/1-appStart.jpg)
+## 2.1 Main Menu
+![Main Menu](systemPictures/1-mainMenu.jpg)
 
-## 2.2 Add module
-![Add module](systemPictures/2-addModule.jpg)
+## 2.2 Add Module
+![Add Module](systemPictures/2-addModule.jpg)
 
-## 2.3 Add assignment
-![Add assignment](systemPictures/3-addAssignment.jpg)
+## 2.3 Add Assignment
+![Add Assignment](systemPictures/3-addAssignment.jpg)
 
-## 2.4 Modules manager
-![Modules manager](systemPictures/4-modulesManager.jpg)
+## 2.4 Modules Manager
+![Modules Manager](systemPictures/4-modulesManager.jpg)
 
-## 2.5 Assignments manager
-![Assignments manager](systemPictures/5-assignmentsManager.jpg)
+## 2.5 Assignments Manager
+![Assignments Manager](systemPictures/5-assignmentsManager.jpg)
 
-## 2.6 View results
-![View results](systemPictures/6-viewResults.jpg)
+## 2.6a View Results
+![View Results](systemPictures/6a-viewResults.jpg)
 
-## 2.7 Help Menu --> How_to_use
-![Help-howToUse](systemPictures/7-helpHowToUse.jpg)
+## 2.6b View Results - 'show assignments' feature
+![View Results-show assignments](systemPictures/6b-viewResults-showAssignmentsFeature.jpg)
 
-## 2.8 Help Menu --> About
-![Help-about](systemPictures/8-helpAbout.jpg)
+## 2.7a Help Menu/How to use
+![Help-howToUse](systemPictures/7a-helpHowToUse.jpg)
 
-## 2.9 Example of a PDF file created using 'Print' button and choosing 'Modules' option
-![PDF-file-example](systemPictures/9-moduleResultsPDF.jpg)
+## 2.7b Help Menu/About
+![Help-about](systemPictures/7b-helpAbout.jpg)
 
-## 2.10  Example of a PDF file created using 'Print' button and choosing 'Modules with Assignments' option
-![PDF-file-example](systemPictures/9-moduleResultsPDF.jpg)
+## 2.8a Example of a PDF file created using 'Print' button and choosing 'Modules' option
+![PDF-file-example](systemPictures/8a-modulesResultsPDF.jpg)
+
+## 2.8b  Example of a PDF file created using 'Print' button and choosing 'Modules with Assignments' option
+![PDF-file-example](systemPictures/8b-modulesAndAssignmentsResultsPDF.jpg)
 
 ## 3. The Repository  
 The repository consists of:
