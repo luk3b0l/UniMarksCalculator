@@ -23,7 +23,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.*;
 import unimarkscalculator.mainClasses.Assignment;
 import unimarkscalculator.mainClasses.Module;
 import unimarkscalculator.mainClasses.ModulesManager;
@@ -124,12 +123,11 @@ public class ResultsGUI
         gcCenter.weighty = 6;
         centerPanel.add(checkboxShowAssignments, gcCenter);        
         checkboxShowAssignments.addActionListener(new CheckboxShowAssignmentsHandler());
-        assignmentsSelectionModel = tableAssignments.getSelectionModel();
-        assignmentsSelectionModel.addListSelectionListener(new SharedListSelectionHandler());
+
 
                 
-        labelAssignmentsList.setVisible(true);
-        assignmentsScrollPane.setVisible(true);
+        //labelAssignmentsList.setVisible(true);
+        //assignmentsScrollPane.setVisible(true);
                 
         // ***** MODULES TABLE ---------------------------------------------------------------------------------
         gcCenter.gridx = 0; gcCenter.gridy = 5;
@@ -182,6 +180,7 @@ public class ResultsGUI
                 
             }            
         };
+        tableModules.getSelectionModel().addListSelectionListener(new ModuleAssignmentsListSelectionHandler());
         tableModules.setPreferredScrollableViewportSize(new Dimension(600,300));
         tableModules.setFillsViewportHeight(true);
         tableModules.setAutoCreateRowSorter(true);      
@@ -199,7 +198,6 @@ public class ResultsGUI
         
         JScrollPane modulesScrollPane = new JScrollPane(tableModules);
         centerPanel.add(modulesScrollPane, gcCenter);     
-        tableModules.getSelectionModel().addListSelectionListener(new ModulesListSelectionListener());
         // -----------------------------------------------------------------------------------------------------
         
         // added two empty JLabels to make space between two JTables (for better clarity) [TO IMPROVE]
@@ -301,55 +299,55 @@ public class ResultsGUI
     }
     
     // ***** L I S T E N E R S -------------------------------------------------------------------------------------   
-    
-    private class ModulesListSelectionListener implements ListSelectionListener
+        
+    private class ModuleAssignmentsListSelectionHandler implements ListSelectionListener
     {
         @Override
         public void valueChanged(ListSelectionEvent event) 
-        {   
-            if(event.getValueIsAdjusting())     // 'true' if this is one in a series of multiple events, where changes are still being made 
+        {
+            if(checkboxShowAssignments.isSelected() && event.getValueIsAdjusting())  // event.getValueIsAdjusting() is 'true' if this is one in a series of multiple events, where changes are still being made 
                                                 // (very important for showing ONLY 1 instance of each assignment)
-            {
+            {                
                 Module selectedModule = null;
                 int selectedTableRow = tableModules.getSelectedRow();
                 setTempModuleRow(selectedTableRow);
                 String selectedModuleName = tableModules.getValueAt(selectedTableRow, 1).toString();
-                selectedModule = userModulesManager.getModule(selectedModuleName);
+                selectedModule = userModulesManager.getModule(selectedModuleName);                
                 
+                try
+                {
+                    listAssignments = selectedModule.getAllAssignments();
+                }
+                catch(NullPointerException e)
+                {
+                    System.out.println(e.toString());
+                }
+                
+                if(!listAssignments.isEmpty() || listAssignments != null)
+                {
+                    try
+                    {
+                        modelAssignmentsTable.getDataVector().removeAllElements();
+                        modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
+                        
+                        Object[] newAssignmentToBeAdded;
+                        for(Assignment tempAssignment : listAssignments)
+                        {
+                            newAssignmentToBeAdded = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
+                            modelAssignmentsTable.addRow(newAssignmentToBeAdded);
+                        }    
+                    }
+                    catch(NullPointerException e)
+                    {
+                        System.out.println(e.toString());
+                    }
+                }        
 
-//                try
-//                {
-//                    listAssignments = selectedModule.getAllAssignments();
-//                }
-//                catch(NullPointerException e)
-//                {
-//                    System.out.println(e.toString());
-//                }
-//                
-//
-//                if(listAssignments.isEmpty() || listAssignments == null)
-//                {
-//                    try
-//                    {
-//                        modelAssignmentsTable.getDataVector().removeAllElements();
-//                        modelAssignmentsTable.fireTableDataChanged(); // notifies the JTable that the model has changed
-//                    }
-//                    catch(NullPointerException e)
-//                    {
-//                        System.out.println(e.toString());
-//                    }
-//                }
-//                else
-//                {
-//                    Object[] newAssignmentToBeAdded;
-//                    for(Assignment tempAssignment : listAssignments)
-//                    {
-//                        newAssignmentToBeAdded = new Object[]{tempAssignment.getTitle(), tempAssignment.getType(), tempAssignment.getWeightPercent(), tempAssignment.getResult()};
-//                        modelAssignmentsTable.addRow(newAssignmentToBeAdded);
-//                    }    
-//                } 
             }
-        }     
+            
+            //if 
+            //ListSelectionModel assignmentSelection
+        }        
     }
             
     private class CheckboxSelectModulesToCalculateHandler implements ActionListener
@@ -390,36 +388,17 @@ public class ResultsGUI
         {
             if(checkboxShowAssignments.isSelected())
             {
-                // add ASSIGNMENTS label
-                // add Assignments table
-                System.out.println("SELECTED");
                 labelAssignmentsList.setVisible(true);
                 assignmentsScrollPane.setVisible(true);
-                
-                
-                
-                
-                resultsFrame.revalidate();
-                resultsFrame.pack();
-                resultsFrame.repaint();
-        
-                
-                
             }
             else if (!checkboxShowAssignments.isSelected())
             {
-                System.out.println("UNSELECTED");
                 labelAssignmentsList.setVisible(false);
                 assignmentsScrollPane.setVisible(false);
-                
-                
-                
-                
-                resultsFrame.revalidate();
-                resultsFrame.pack();
-                resultsFrame.repaint();
-                      
             }
+            resultsFrame.revalidate();
+            resultsFrame.pack();
+            resultsFrame.repaint();    
         }   
     }
     
@@ -1058,7 +1037,7 @@ public class ResultsGUI
             }                 
         }
     }
-    
+        
     // ***** M E T H O D S -------------------------------------------------------------------------------------   
     public void setWindowVisible(boolean visibility)
     {
