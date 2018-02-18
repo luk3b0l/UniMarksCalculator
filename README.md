@@ -40,10 +40,10 @@ The below are screenshots from the initial version of the program:
 ## 2.6b View Results - 'show assignments' feature
 ![View Results-show assignments](systemPictures/6b-viewResults-showAssignmentsFeature.jpg)
 
-## 2.7a Help Menu --> How_to_use
+## 2.7a Help Menu/How to use
 ![Help-howToUse](systemPictures/7a-helpHowToUse.jpg)
 
-## 2.7b Help Menu --> About
+## 2.7b Help Menu/About
 ![Help-about](systemPictures/7b-helpAbout.jpg)
 
 ## 2.8a Example of a PDF file created using 'Print' button and choosing 'Modules' option
