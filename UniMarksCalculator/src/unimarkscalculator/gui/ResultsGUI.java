@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -236,20 +237,7 @@ public class ResultsGUI
                         return Boolean.class;
                     default:
                         return String.class;
-                        
-                }
-                
-//                Class returnValue = null;
-//                
-//                if((column >= 0) && (column < getColumnCount()) && !listAssignments.isEmpty())
-//                {
-//                    returnValue = getValueAt(0, column).getClass();
-//                }
-//                else
-//                {
-//                    returnValue = Object.class;
-//                }
-//                return returnValue;                    
+                }       
             }
         };        
         
@@ -310,7 +298,6 @@ public class ResultsGUI
             {                
                 Module selectedModule = null;
                 int selectedTableRow = tableModules.getSelectedRow();
-                setTempModuleRow(selectedTableRow);
                 String selectedModuleName = tableModules.getValueAt(selectedTableRow, 1).toString();
                 selectedModule = userModulesManager.getModule(selectedModuleName);                
                 
@@ -342,11 +329,7 @@ public class ResultsGUI
                         System.out.println(e.toString());
                     }
                 }        
-
             }
-            
-            //if 
-            //ListSelectionModel assignmentSelection
         }        
     }
             
@@ -632,193 +615,168 @@ public class ResultsGUI
             
             else if(optionChosen == 1)
             {
-                
-                documentHeading = new Paragraph("MODULES WITH ASSIGNMENTS\n ", documentHeaderFont);
-                documentHeading.setAlignment(Element.ALIGN_CENTER);
-
-                Paragraph spaceBetweenLines = new Paragraph(" ");
-                spaceBetweenLines.setLeading(0, 5);
-
-                PdfPTable documentTable = new PdfPTable(2);
-                try 
-                {
-                    documentTable.setWidths(new float[] {5,5});
-                } 
-                catch (DocumentException ex) 
-                {
+                documentHeading = new Paragraph("MODULES AND ASSIGNMENTS\n ", documentHeaderFont);
+                try {
+                    writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream("Uni Marks Calculator - Modules Results.pdf"));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
                     Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                PdfPTable moduleAssignmentsTable;
-                moduleAssignmentsTable = new PdfPTable(4);
-                try 
-                {
-                    moduleAssignmentsTable.setWidths(new float[] {8,2,2,2});
-                } 
-                catch (DocumentException ex) 
-                {
+                pdfDocument.open();
+                try {
+                    pdfDocument.add(documentHeading);
+                } catch (DocumentException ex) {
                     Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                
-                String[] columnNames = {"No.", "Module Title", "Credits", "Semester", "Grade(%)", "Level"};
-                PdfPCell cell1 = null;
-                for(int i= 0; i < columnNames.length; i++)
+                for(int i = 0; i < 5; i++)
                 {
-                    cell1 = new PdfPCell(new Phrase(columnNames[i], tableHeaderFont));
-                    cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-                    documentTable.addCell(cell1);
-                }
-                //documentTable.setHeaderRows(1);
-
-                try 
-                {
-                    if(modelModulesTable.getRowCount() > 0)
+                    PdfPTable table1 = new PdfPTable(2);
+                    try 
                     {
-                        writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream("Uni Marks Calculator - Modules with Assignments Results.pdf"));
-                        PdfPageFooter footer = new PdfPageFooter();
-                        writer.setPageEvent(footer);
+                        table1.setWidths(new float[] {8,2});
+                    } 
+                    catch (DocumentException ex) 
+                    {
+                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                        Image uniLogoImage = Image.getInstance("images/uniMarksCalculatorLogo.jpg");
-                        uniLogoImage.scaleAbsolute(160f, 60f);
-                        pdfDocument.open();
-                        pdfDocument.add(uniLogoImage);
-                        pdfDocument.add(spaceBetweenLines);
-                        pdfDocument.add(documentHeading);
+                    PdfPCell cell3 = new PdfPCell(new Phrase("Title", tableHeaderFont));
+                    cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+                    table1.addCell(cell3);
+                    
+                    cell3 = new PdfPCell(new Phrase("Type", tableHeaderFont));
+                    cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+                    table1.addCell(cell3);
+                    
+                    PdfPCell cell4 = new PdfPCell(new Phrase("Table 1 Data - " + i, cellFont));
+                    cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell4.setBackgroundColor(new BaseColor(136, 159, 251));
+                    table1.addCell(cell4);
+
+                    cell4 = new PdfPCell(new Phrase("Table 1 Data - " + i, cellFont));
+                    cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell4.setBackgroundColor(new BaseColor(136, 159, 251));
+                    table1.addCell(cell4);              
+                    
+                    try {
+                        pdfDocument.add(table1);
+                    } catch (DocumentException ex) {
+                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+
                         
-                        for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+                        PdfPTable table2 = new PdfPTable(1);
+                        try 
                         {
-                            String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
-                            moduleObject = userModulesManager.getModule(moduleName);
-                            String[] moduleInfo = moduleObject.toStringDataArray();
-                            ArrayList<Assignment> assignmentsListOfSelectedModule = moduleObject.getAllAssignments();
-                            //pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.TIMES_ROMAN, fontSize))));
+                            table2.setWidths(new float[] {8});
+                        } 
+                        catch (DocumentException ex) 
+                        {
+                            Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        PdfPCell cell5 = new PdfPCell(new Phrase("Extra Info", tableHeaderFont));
+                        cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell5.setBackgroundColor(new BaseColor(136, 159, 251));
+                        table2.addCell(cell5);
+                        
+                    try {
+                        pdfDocument.add(table2);
+                    } catch (DocumentException ex) {
+                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                            // NUMBER
-                            PdfPCell cell2 = new PdfPCell(new Phrase(String.valueOf(tableRow+1), cellFont));
-                            documentTable.addCell(cell2);
 
-                            // NAME
-                            cell2 = new PdfPCell(new Phrase(moduleInfo[0], cellFont));
-                            documentTable.addCell(cell2);
-
-                            // CREDITS
-                            cell2 = new PdfPCell(new Phrase(moduleInfo[3], cellFont));
-                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            documentTable.addCell(cell2);
-
-                            // SEMESTER
-                            cell2 = new PdfPCell(new Phrase(moduleInfo[2], cellFont));
-                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            documentTable.addCell(cell2);
-
-                            // GRADE(%)
-                            cell2 = new PdfPCell(new Phrase(moduleInfo[4], cellFont));
-                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            documentTable.addCell(cell2);
-
-                            // LEVEL
-                            cell2 = new PdfPCell(new Phrase(moduleInfo[1], cellFont));
-                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            documentTable.addCell(cell2);
-                            
-                            // SPACE BETWEEN MODULES
-                            //cell2 = new PdfPCell(new Phrase("", cellFont));
-                            //cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            //documentTable.addCell(cell2);
-                            
-                            if(assignmentsListOfSelectedModule.size() > 0)
-                            {
-                                // make 1 line space
-                                // add all assignments
-                                // make 1 line space                                
-                                
-                                PdfPCell cell3 = new PdfPCell(new Phrase("Assignment Title", tableHeaderFont));
-                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
-                                moduleAssignmentsTable.addCell(cell3);
-
-                                cell3 = new PdfPCell(new Phrase("Type", tableHeaderFont));
-                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
-                                moduleAssignmentsTable.addCell(cell3);
-
-                                cell3 = new PdfPCell(new Phrase("Result(%)", tableHeaderFont));
-                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
-                                moduleAssignmentsTable.addCell(cell3);
-
-                                cell3 = new PdfPCell(new Phrase("Weight(%)", tableHeaderFont));
-                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
-                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                moduleAssignmentsTable.addCell(cell3);
-                                
-                                
-                                for (Assignment tempAssignment : assignmentsListOfSelectedModule) 
-                                {
-                                    String[] assignmentInfo = tempAssignment.toStringDataArray();
-                                    
-                                    // TITLE
-                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[0], cellFont));
-                                    moduleAssignmentsTable.addCell(cell2);
-
-                                    // TYPE
-                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[1], cellFont));
-                                    cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                    moduleAssignmentsTable.addCell(cell2);
-
-                                    // RESULT
-                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[2], cellFont));
-                                    cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                    moduleAssignmentsTable.addCell(cell2);
-
-                                    // WEIGHT
-                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[3], cellFont));
-                                    cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                                    moduleAssignmentsTable.addCell(cell2);
-                                    
-                                }
-                                pdfDocument.add(documentTable);
-                                pdfDocument.add(moduleAssignmentsTable);
-                                
-
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                            }
-                            
+                    for(int x = 0; x < 3; x++)
+                    {       
+                        PdfPTable table3 = new PdfPTable(1);
+                        try 
+                        {
+                            table3.setWidths(new float[] {8});
+                        } 
+                        catch (DocumentException ex) 
+                        {
+                            Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         
                         
                         
+                        PdfPCell cell6 = new PdfPCell(new Phrase("Table 2 Data - " + x, cellFont));
+                        cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell6.setBackgroundColor(new BaseColor(136, 159, 251));
+                        table3.addCell(cell6);
                         
-                        pdfDocument.close();
-                        System.out.println("PDF file saved successfully!");
-
-                        if(Desktop.isDesktopSupported())
-                        {
-                            createdPDFFile = new File("Uni Marks Calculator - Modules with Assignments Results.pdf");
-                            Desktop.getDesktop().open(createdPDFFile);
+                        try {
+                            pdfDocument.add(table3);
+                        } catch (DocumentException ex) {
+                            Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(resultsFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
-                    }
-                } 
-                catch (IOException ex) 
+                    } 
+                }
+                pdfDocument.close();
+                System.out.println("PDF file saved successfully!");
+
+                if(Desktop.isDesktopSupported())
                 {
-                    System.out.println(ex.toString());
-                } 
-                catch (DocumentException ex) 
-                {
-                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }                
+                    createdPDFFile = new File("Uni Marks Calculator - Modules Results.pdf");
+                    try {
+                        Desktop.getDesktop().open(createdPDFFile);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                
+                
+                
+             
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 
                 
@@ -835,10 +793,10 @@ public class ResultsGUI
 //                Paragraph spaceBetweenLines = new Paragraph(" ");
 //                spaceBetweenLines.setLeading(0, 5);
 //
-//                PdfPTable documentTable = new PdfPTable(6);
+//                PdfPTable documentTable = new PdfPTable(2);
 //                try 
 //                {
-//                    documentTable.setWidths(new float[] {1,8,2,2,3,2});
+//                    documentTable.setWidths(new float[] {5,5});
 //                } 
 //                catch (DocumentException ex) 
 //                {
@@ -855,36 +813,17 @@ public class ResultsGUI
 //                {
 //                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
 //                }
-//
-//                PdfPCell cell1 = new PdfPCell(new Phrase("No.", tableHeaderFont));
-//                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-//                documentTable.addCell(cell1);
-//
-//                cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
-//                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-//                documentTable.addCell(cell1);
-//
-//                cell1 = new PdfPCell(new Phrase("Credits", tableHeaderFont));
-//                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-//                documentTable.addCell(cell1);
-//
-//                cell1 = new PdfPCell(new Phrase("Semester", tableHeaderFont));
-//                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-//                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//                documentTable.addCell(cell1);
-//
-//                cell1 = new PdfPCell(new Phrase("Grade(%)", tableHeaderFont));
-//                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-//                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//                documentTable.addCell(cell1);
-//
-//                cell1 = new PdfPCell(new Phrase("Level", tableHeaderFont));
-//                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
-//                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-//                documentTable.addCell(cell1);
+//                
+//                
+//                String[] columnNames = {"No.", "Module Title", "Credits", "Semester", "Grade(%)", "Level"};
+//                PdfPCell cell1 = null;
+//                for(int i= 0; i < columnNames.length; i++)
+//                {
+//                    cell1 = new PdfPCell(new Phrase(columnNames[i], tableHeaderFont));
+//                    cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+//                    cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+//                    documentTable.addCell(cell1);
+//                }
 //                //documentTable.setHeaderRows(1);
 //
 //                try 
@@ -1033,7 +972,225 @@ public class ResultsGUI
 //                catch (DocumentException ex) 
 //                {
 //                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+//                }                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+////                documentHeading = new Paragraph("MODULES WITH ASSIGNMENTS\n ", documentHeaderFont);
+////                documentHeading.setAlignment(Element.ALIGN_CENTER);
+////
+////                Paragraph spaceBetweenLines = new Paragraph(" ");
+////                spaceBetweenLines.setLeading(0, 5);
+////
+////                PdfPTable documentTable = new PdfPTable(6);
+////                try 
+////                {
+////                    documentTable.setWidths(new float[] {1,8,2,2,3,2});
+////                } 
+////                catch (DocumentException ex) 
+////                {
+////                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+////                }
+////                
+////                PdfPTable moduleAssignmentsTable;
+////                moduleAssignmentsTable = new PdfPTable(4);
+////                try 
+////                {
+////                    moduleAssignmentsTable.setWidths(new float[] {8,2,2,2});
+////                } 
+////                catch (DocumentException ex) 
+////                {
+////                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+////                }
+////
+////                PdfPCell cell1 = new PdfPCell(new Phrase("No.", tableHeaderFont));
+////                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+////                documentTable.addCell(cell1);
+////
+////                cell1 = new PdfPCell(new Phrase("Module Title", tableHeaderFont));
+////                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+////                documentTable.addCell(cell1);
+////
+////                cell1 = new PdfPCell(new Phrase("Credits", tableHeaderFont));
+////                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+////                documentTable.addCell(cell1);
+////
+////                cell1 = new PdfPCell(new Phrase("Semester", tableHeaderFont));
+////                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+////                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                documentTable.addCell(cell1);
+////
+////                cell1 = new PdfPCell(new Phrase("Grade(%)", tableHeaderFont));
+////                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+////                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                documentTable.addCell(cell1);
+////
+////                cell1 = new PdfPCell(new Phrase("Level", tableHeaderFont));
+////                cell1.setBackgroundColor(new BaseColor(136, 159, 251));
+////                cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                documentTable.addCell(cell1);
+////                //documentTable.setHeaderRows(1);
+////
+////                try 
+////                {
+////                    if(modelModulesTable.getRowCount() > 0)
+////                    {
+////                        writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream("Uni Marks Calculator - Modules with Assignments Results.pdf"));
+////                        PdfPageFooter footer = new PdfPageFooter();
+////                        writer.setPageEvent(footer);
+////
+////                        Image uniLogoImage = Image.getInstance("images/uniMarksCalculatorLogo.jpg");
+////                        uniLogoImage.scaleAbsolute(160f, 60f);
+////                        pdfDocument.open();
+////                        pdfDocument.add(uniLogoImage);
+////                        pdfDocument.add(spaceBetweenLines);
+////                        pdfDocument.add(documentHeading);
+////                        
+////                        for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
+////                        {
+////                            String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
+////                            moduleObject = userModulesManager.getModule(moduleName);
+////                            String[] moduleInfo = moduleObject.toStringDataArray();
+////                            ArrayList<Assignment> assignmentsListOfSelectedModule = moduleObject.getAllAssignments();
+////                            //pdfDocument.add(new Paragraph(new Phrase(lineSpacing, moduleObject.toString(), FontFactory.getFont(FontFactory.TIMES_ROMAN, fontSize))));
+////
+////                            // NUMBER
+////                            PdfPCell cell2 = new PdfPCell(new Phrase(String.valueOf(tableRow+1), cellFont));
+////                            documentTable.addCell(cell2);
+////
+////                            // NAME
+////                            cell2 = new PdfPCell(new Phrase(moduleInfo[0], cellFont));
+////                            documentTable.addCell(cell2);
+////
+////                            // CREDITS
+////                            cell2 = new PdfPCell(new Phrase(moduleInfo[3], cellFont));
+////                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                            documentTable.addCell(cell2);
+////
+////                            // SEMESTER
+////                            cell2 = new PdfPCell(new Phrase(moduleInfo[2], cellFont));
+////                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                            documentTable.addCell(cell2);
+////
+////                            // GRADE(%)
+////                            cell2 = new PdfPCell(new Phrase(moduleInfo[4], cellFont));
+////                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                            documentTable.addCell(cell2);
+////
+////                            // LEVEL
+////                            cell2 = new PdfPCell(new Phrase(moduleInfo[1], cellFont));
+////                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                            documentTable.addCell(cell2);
+////                            
+////                            // SPACE BETWEEN MODULES
+////                            //cell2 = new PdfPCell(new Phrase("", cellFont));
+////                            //cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                            //documentTable.addCell(cell2);
+////                            
+////                            if(assignmentsListOfSelectedModule.size() > 0)
+////                            {
+////                                // make 1 line space
+////                                // add all assignments
+////                                // make 1 line space                                
+////                                
+////                                PdfPCell cell3 = new PdfPCell(new Phrase("Assignment Title", tableHeaderFont));
+////                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+////                                moduleAssignmentsTable.addCell(cell3);
+////
+////                                cell3 = new PdfPCell(new Phrase("Type", tableHeaderFont));
+////                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+////                                moduleAssignmentsTable.addCell(cell3);
+////
+////                                cell3 = new PdfPCell(new Phrase("Result(%)", tableHeaderFont));
+////                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+////                                moduleAssignmentsTable.addCell(cell3);
+////
+////                                cell3 = new PdfPCell(new Phrase("Weight(%)", tableHeaderFont));
+////                                cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+////                                cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                moduleAssignmentsTable.addCell(cell3);
+////                                
+////                                
+////                                for (Assignment tempAssignment : assignmentsListOfSelectedModule) 
+////                                {
+////                                    String[] assignmentInfo = tempAssignment.toStringDataArray();
+////                                    
+////                                    // TITLE
+////                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[0], cellFont));
+////                                    moduleAssignmentsTable.addCell(cell2);
+////
+////                                    // TYPE
+////                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[1], cellFont));
+////                                    cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                    moduleAssignmentsTable.addCell(cell2);
+////
+////                                    // RESULT
+////                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[2], cellFont));
+////                                    cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                    moduleAssignmentsTable.addCell(cell2);
+////
+////                                    // WEIGHT
+////                                    cell2 = new PdfPCell(new Phrase(assignmentInfo[3], cellFont));
+////                                    cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+////                                    moduleAssignmentsTable.addCell(cell2);
+////                                    
+////                                }
+////                                pdfDocument.add(documentTable);
+////                                pdfDocument.add(moduleAssignmentsTable);
+////                                
+////
+////                                
+////                                
+////                                
+////                                
+////                                
+////                                
+////                                
+////                            }
+////                            
+////                        }
+////                        
+////                        
+////                        
+////                        
+////                        pdfDocument.close();
+////                        System.out.println("PDF file saved successfully!");
+////
+////                        if(Desktop.isDesktopSupported())
+////                        {
+////                            createdPDFFile = new File("Uni Marks Calculator - Modules with Assignments Results.pdf");
+////                            Desktop.getDesktop().open(createdPDFFile);
+////                        }
+////                    }
+////                    else
+////                    {
+////                        JOptionPane.showMessageDialog(resultsFrame, "No modules on the list.", "ERROR Info", JOptionPane.ERROR_MESSAGE);
+////                    }
+////                } 
+////                catch (IOException ex) 
+////                {
+////                    System.out.println(ex.toString());
+////                } 
+////                catch (DocumentException ex) 
+////                {
+////                    Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+////                }
+
+
+
             }                 
         }
     }
@@ -1043,16 +1200,6 @@ public class ResultsGUI
     {
         resultsFrame.setVisible(visibility);
     }
-
-    public int getTempModuleRow() 
-    {
-        return tempModuleRow;
-    }
-
-    public void setTempModuleRow(int newTempModuleRow) 
-    {
-        this.tempModuleRow = newTempModuleRow;
-    } 
 
     public void setMultipleRowSelection(boolean newMultipleRowSelection) 
     {
