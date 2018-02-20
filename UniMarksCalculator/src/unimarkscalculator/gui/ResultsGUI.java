@@ -615,116 +615,200 @@ public class ResultsGUI
             
             else if(optionChosen == 1)
             {
-                documentHeading = new Paragraph("MODULES AND ASSIGNMENTS\n ", documentHeaderFont);
-                try {
-                    writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream("Uni Marks Calculator - Modules Results.pdf"));
+                documentHeading = new Paragraph("MODULES WITH ASSIGNMENTS\n ", documentHeaderFont);
+                documentHeading.setAlignment(Element.ALIGN_CENTER);
+                
+                Paragraph spaceBetweenLines = new Paragraph(" ");
+                spaceBetweenLines.setLeading(0, 5);
+                
+                try 
+                {
+                    writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream("Uni Marks Calculator - Modules with Assignments Results.pdf"));
+                    PdfPageFooter footer = new PdfPageFooter();
+                    writer.setPageEvent(footer);
+                    Image uniLogoImage = Image.getInstance("images/uniMarksCalculatorLogo.jpg");
+                    uniLogoImage.scaleAbsolute(160f, 60f);
+                    
+                    pdfDocument.open();
+                    
+                    pdfDocument.add(uniLogoImage);
+                    pdfDocument.add(spaceBetweenLines);
+                    pdfDocument.add(documentHeading); 
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (DocumentException ex) {
                     Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                pdfDocument.open();
-                try {
-                    pdfDocument.add(documentHeading);
-                } catch (DocumentException ex) {
+                } catch (IOException ex) {
                     Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                for(int i = 0; i < 5; i++)
+
+                for(int tableRow = 0; tableRow < modelModulesTable.getRowCount(); tableRow++)
                 {
-                    PdfPTable table1 = new PdfPTable(2);
+                    PdfPTable tableModules = new PdfPTable(6);
                     try 
                     {
-                        table1.setWidths(new float[] {8,2});
+                        tableModules.setWidths(new float[] {1,8,2,2,3,2});
                     } 
                     catch (DocumentException ex) 
                     {
                         Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    PdfPCell cell3 = new PdfPCell(new Phrase("Title", tableHeaderFont));
-                    cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell3.setBackgroundColor(new BaseColor(136, 159, 251));
-                    table1.addCell(cell3);
                     
-                    cell3 = new PdfPCell(new Phrase("Type", tableHeaderFont));
-                    cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell3.setBackgroundColor(new BaseColor(136, 159, 251));
-                    table1.addCell(cell3);
+                    PdfPCell cell3 = null;
+                    String[] columnNames = {"No.", "Module Title", "Credits", "Semester", "Grade(%)", "Level"};
+                    for(int columnNamesIndex = 0; columnNamesIndex < columnNames.length; columnNamesIndex++)
+                    {
+                        cell3 = new PdfPCell(new Phrase(columnNames[columnNamesIndex], tableHeaderFont));
+                        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell3.setBackgroundColor(new BaseColor(136, 159, 251));
+                        tableModules.addCell(cell3);
+                    }          
                     
-                    PdfPCell cell4 = new PdfPCell(new Phrase("Table 1 Data - " + i, cellFont));
-                    cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell4.setBackgroundColor(new BaseColor(136, 159, 251));
-                    table1.addCell(cell4);
+                    String moduleName = modelModulesTable.getValueAt(tableRow, 1).toString();
+                    moduleObject = userModulesManager.getModule(moduleName);
+                    String[] moduleInfo = moduleObject.toStringDataArray();
+                    
+                    // NUMBER
+                    PdfPCell cell4 = new PdfPCell(new Phrase(String.valueOf(tableRow+1), cellFont));
+                    tableModules.addCell(cell4);
 
-                    cell4 = new PdfPCell(new Phrase("Table 1 Data - " + i, cellFont));
+                    // NAME
+                    cell4 = new PdfPCell(new Phrase(moduleInfo[0], cellFont));
+                    tableModules.addCell(cell4);
+
+                    // CREDITS
+                    cell4 = new PdfPCell(new Phrase(moduleInfo[3], cellFont));
                     cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    cell4.setBackgroundColor(new BaseColor(136, 159, 251));
-                    table1.addCell(cell4);              
+                    tableModules.addCell(cell4);
+
+                    // SEMESTER
+                    cell4 = new PdfPCell(new Phrase(moduleInfo[2], cellFont));
+                    cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tableModules.addCell(cell4);
+
+                    // GRADE(%)
+                    cell4 = new PdfPCell(new Phrase(moduleInfo[4], cellFont));
+                    cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tableModules.addCell(cell4);
+
+                    // LEVEL
+                    cell4 = new PdfPCell(new Phrase(moduleInfo[1], cellFont));
+                    cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    tableModules.addCell(cell4);                    
                     
                     try {
-                        pdfDocument.add(table1);
+                        pdfDocument.add(tableModules);
                     } catch (DocumentException ex) {
                         Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-
-                        
-                        PdfPTable table2 = new PdfPTable(1);
+                        PdfPTable tableAssignmentsHeader = new PdfPTable(4);
                         try 
                         {
-                            table2.setWidths(new float[] {8});
+                            tableAssignmentsHeader.setWidths(new float[] {8,2,2,2});
                         } 
                         catch (DocumentException ex) 
                         {
                             Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         
-                        PdfPCell cell5 = new PdfPCell(new Phrase("Extra Info", tableHeaderFont));
-                        cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cell5.setBackgroundColor(new BaseColor(136, 159, 251));
-                        table2.addCell(cell5);
+                        PdfPCell cell5 = null;
+                        String[] assignmentsColumnNames = {"Title", "Type", "Result(%)", "Weight(%)"};
                         
-                    try {
-                        pdfDocument.add(table2);
-                    } catch (DocumentException ex) {
-                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-
-                    for(int x = 0; x < 3; x++)
-                    {       
-                        PdfPTable table3 = new PdfPTable(1);
-                        try 
+                        for(int assignmentsColumnNamesIndex = 0; assignmentsColumnNamesIndex < assignmentsColumnNames.length; assignmentsColumnNamesIndex++)
                         {
-                            table3.setWidths(new float[] {8});
-                        } 
-                        catch (DocumentException ex) 
-                        {
-                            Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                        
-                        
-                        PdfPCell cell6 = new PdfPCell(new Phrase("Table 2 Data - " + x, cellFont));
-                        cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        cell6.setBackgroundColor(new BaseColor(136, 159, 251));
-                        table3.addCell(cell6);
-                        
+                            cell5 = new PdfPCell(new Phrase(assignmentsColumnNames[assignmentsColumnNamesIndex], tableHeaderFont));
+                            cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell5.setBackgroundColor(new BaseColor(136, 159, 251));
+                            tableAssignmentsHeader.addCell(cell5);
+                        }  
                         try {
-                            pdfDocument.add(table3);
+                            pdfDocument.add(tableAssignmentsHeader);
                         } catch (DocumentException ex) {
                             Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
+
+
+                        
+                        
+                        
+                    ArrayList<Assignment> assignmentsListOfSelectedModule = moduleObject.getAllAssignments();    
+                    PdfPCell cell6 = null;
+                    
+                    for(Assignment tempAssignment : assignmentsListOfSelectedModule)
+                    {   
+                        String[] assignmentInfo = tempAssignment.toStringDataArray();
+                        
+                        PdfPTable tableAssignments = new PdfPTable(4);
+                        try 
+                        {
+                            tableAssignments.setWidths(new float[] {8,2,2,2});
+                        } 
+                        catch (DocumentException ex) 
+                        {
+                            Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+
+                       // TITLE
+                       cell6 = new PdfPCell(new Phrase(assignmentInfo[0], cellFont));
+                       tableAssignments.addCell(cell6);
+
+                       // TYPE
+                       cell6 = new PdfPCell(new Phrase(assignmentInfo[1], cellFont));
+                       cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+                       tableAssignments.addCell(cell6);
+
+                       // RESULT
+                       cell6 = new PdfPCell(new Phrase(assignmentInfo[2], cellFont));
+                       cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+                       tableAssignments.addCell(cell6);
+
+                       // WEIGHT
+                       cell6 = new PdfPCell(new Phrase(assignmentInfo[3], cellFont));
+                       cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+                       tableAssignments.addCell(cell6);
+                        
+                        try {
+                            pdfDocument.add(tableAssignments);
+                        } catch (DocumentException ex) {
+                            Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    
+                    PdfPTable modulesSeparatorRow = new PdfPTable(1);
+                    
+                    try 
+                    {
+                        modulesSeparatorRow.setWidths(new float[] {8});
                     } 
+                    catch (DocumentException ex) 
+                    {
+                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    PdfPCell emptyRow = new PdfPCell(new Phrase(" ", cellFont));
+                    emptyRow.setBorder(PdfPCell.NO_BORDER);
+                    modulesSeparatorRow.addCell(emptyRow);
+                    
+                    
+                    try 
+                    {
+                        pdfDocument.add(modulesSeparatorRow);
+                    } 
+                    catch (DocumentException ex) 
+                    {
+                        Logger.getLogger(ResultsGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    
                 }
                 pdfDocument.close();
                 System.out.println("PDF file saved successfully!");
 
                 if(Desktop.isDesktopSupported())
                 {
-                    createdPDFFile = new File("Uni Marks Calculator - Modules Results.pdf");
+                    createdPDFFile = new File("Uni Marks Calculator - Modules with Assignments Results.pdf");
                     try {
                         Desktop.getDesktop().open(createdPDFFile);
                     } catch (IOException ex) {
