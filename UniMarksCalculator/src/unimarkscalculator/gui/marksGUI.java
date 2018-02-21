@@ -98,25 +98,25 @@ public class MarksGUI
         fileMenu.add(exitItem);
         exitItem.addActionListener(new ExitHandler());                           
         
-        // *** PROFILE menu:
-        JMenu profileMenu = new JMenu("Profile");
-        menubar.add(profileMenu);
-        
-        JMenuItem newItem = new JMenuItem("New");
-        profileMenu.add(newItem);
-        // TODO - add Action Listener
-
-        JMenuItem loadItem = new JMenuItem("Load");
-        profileMenu.add(loadItem);
-        // TODO - add Action Listener
-
-        JMenuItem editItem = new JMenuItem("Edit");
-        profileMenu.add(editItem);
-        // TODO - add Action Listener  
- 
-        JMenuItem deleteItem = new JMenuItem("Delete");
-        profileMenu.add(deleteItem);
-        // TODO - add Action Listener
+//        // *** PROFILE menu:
+//        JMenu profileMenu = new JMenu("Profile");
+//        menubar.add(profileMenu);
+//        
+//        JMenuItem newItem = new JMenuItem("New");
+//        profileMenu.add(newItem);
+//        // TODO - add Action Listener
+//
+//        JMenuItem loadItem = new JMenuItem("Load");
+//        profileMenu.add(loadItem);
+//        // TODO - add Action Listener
+//
+//        JMenuItem editItem = new JMenuItem("Edit");
+//        profileMenu.add(editItem);
+//        // TODO - add Action Listener  
+// 
+//        JMenuItem deleteItem = new JMenuItem("Delete");
+//        profileMenu.add(deleteItem);
+//        // TODO - add Action Listener
         
         // *** HELP menu:
         JMenu helpMenu = new JMenu("Help");
