@@ -50,7 +50,7 @@ The below are screenshots from the initial version of the program:
 ![PDF-file-example](systemPictures/8a-modulesResultsPDF.jpg)
 
 ## 2.8b  Example of a PDF file created using 'Print' button and choosing 'Modules with Assignments' option
-![PDF-file-example](systemPictures/8b-modulesAndAssignmentsResultsPDF.jpg)
+![PDF-file-example](systemPictures/8b-modulesWithAssignmentsResultsPDF.jpg)
 
 ## 3. The Repository  
 The repository consists of:
