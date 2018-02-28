@@ -27,7 +27,7 @@ public class MarksGUI
     public MarksGUI()
     {
         setGUIFrame();
-        setTestData();      //temporary TEST DATA METHOD
+        //setTestData();      //temporary TEST DATA METHOD
         
     }
     
@@ -97,7 +97,8 @@ public class MarksGUI
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
         exitItem.addActionListener(new ExitHandler());                           
-        
+
+//        [FUTURE DEVELOPMENT]
 //        // *** PROFILE menu:
 //        JMenu profileMenu = new JMenu("Profile");
 //        menubar.add(profileMenu);
