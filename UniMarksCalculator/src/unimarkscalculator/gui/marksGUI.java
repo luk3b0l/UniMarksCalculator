@@ -27,7 +27,7 @@ public class MarksGUI
     public MarksGUI()
     {
         setGUIFrame();
-        //setTestData();      //temporary TEST DATA METHOD
+        setTestData();      //temporary TEST DATA METHOD
         
     }
     
@@ -94,6 +94,10 @@ public class MarksGUI
         JMenu fileMenu = new JMenu("File");
         menubar.add(fileMenu);
         
+        JMenuItem clearAllDataItems = new JMenuItem("Clear all data");
+        fileMenu.add(clearAllDataItems);
+        clearAllDataItems.addActionListener(new ClearAllDataItems());
+        
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
         exitItem.addActionListener(new ExitHandler());                           
@@ -135,8 +139,27 @@ public class MarksGUI
     
     // ***** L I S T E N E R S -------------------------------------------------------------------------------------
     
+    
+    
     // File:
-    // - Exit    
+    // - Clear all data  
+    // - Exit
+    
+    private class ClearAllDataItems implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            userModulesManager.removeAllModulesList();
+        }
+        
+    }
+    
+    
+    
+    
+    
+  
     private class ExitHandler implements ActionListener
     {
 
