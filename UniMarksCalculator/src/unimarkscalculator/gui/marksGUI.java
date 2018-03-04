@@ -150,7 +150,11 @@ public class MarksGUI
         @Override
         public void actionPerformed(ActionEvent e) 
         {
-            userModulesManager.removeAllModulesList();
+            int userAnswer = JOptionPane.showConfirmDialog(programMainFrame, "Are you sure you want to clear all existing data?", "Clear All Data Confirmation", JOptionPane.YES_NO_OPTION);
+            if(userAnswer == JOptionPane.YES_OPTION)
+            {
+                userModulesManager.removeAllModulesList();
+            }
         }
         
     }
