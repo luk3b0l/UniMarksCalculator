@@ -1,7 +1,6 @@
 package unimarkscalculator.gui;
 
 import java.awt.*;
-import java.awt.Event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener; 
 import javax.swing.*;
@@ -43,10 +42,6 @@ public class MarksGUI
         JPanel northPanel = new JPanel();
         contentPane.add(northPanel, BorderLayout.NORTH);
         northPanel.setLayout(new FlowLayout());
-        //northPanel.add(usernameLabel);
-        //northPanel.add(usernameInput);
-        //northPanel.add(passwordLabel);
-        //northPanel.add(passwordInput);
         
         // ***** C E N T E R
         JPanel centerPanel = new JPanel();
@@ -156,13 +151,7 @@ public class MarksGUI
                 userModulesManager.removeAllModulesList();
             }
         }
-        
     }
-    
-    
-    
-    
-    
   
     private class ExitHandler implements ActionListener
     {
@@ -188,15 +177,22 @@ public class MarksGUI
          // TODO!
             String title = "How to use";
             String message = "\n<html><font size='5'>How to use Uni Marks Calculator ?</font></html>\n\n"
-                             +"For the Uni Marks Calculator application to work, please follow these simple steps: \n"
-                             + "1. Add all relevant modules.\n"
-                             + "2. Add all assignments to each individual module stored earlier.\n"
-                             + "3. Go to 'View Results' to see all your modules and assignments.\n"
-                             + "4. Tick modules that you want to add to the final mark grade (not applicable for Level 4 modules) and press 'Calculate FINAL GRADE' button.\n"
+                             + "GENERAL INFO:\n"
+                             + "For the Uni Marks Calculator application to work, please follow these simple steps: \n"
+                             + "1. Click on 'File' -> 'Clear all data' to make sure you start with no previous data added.\n"
+                             + "2. Add all relevant modules.\n"
+                             + "3. Add all assignments to each individual module stored earlier.\n"
+                             + "4. Go to 'View Results' to see all your modules and assignments.\n"
+                             + "5. Tick 'select modules' checkbox and select modules that you want to add to the final mark grade (not applicable for Level 4 modules) and press 'Calculate FINAL GRADE' button.\n"
                              + "\n"
                              + "NOTE:\n"
-                    + "<html><ul><li>Module grades are calculated once total percentage weight of module assignments will be equal to 100%."
-                             + "<li>Otherwise, the Grade will be 0 in the 'View Results' tab.</ul></html>";
+                             + "<html><ul><li>Module grades are calculated once total percentage weight of module assignments is 100%."
+                             + "<li>Otherwise, the Final Grade will be 0 in the 'View Results' tab.</ul><br>"
+                    
+                             + "SHOW ASSIGNMENTS:\n"
+                             + "To see assignments of each module tick 'show assignments' checkbox in 'View Results' tab.\n"
+                             + "Now, whenever you click on a module, you will be shown with related assignments in the Assignments table."
+                             + "";
             
             JOptionPane.showMessageDialog(programMainFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
         }
