@@ -186,13 +186,17 @@ public class MarksGUI
                              + "5. Tick 'select modules' checkbox and select modules that you want to add to the final mark grade (not applicable for Level 4 modules) and press 'Calculate FINAL GRADE' button.\n"
                              + "\n"
                              + "NOTE:\n"
-                             + "<html><ul><li>Module grades are calculated once total percentage weight of module assignments is 100%."
+                             + "<html><body><ul><li>Module grades are calculated once total percentage weight of module assignments is 100%."
                              + "<li>Otherwise, the Final Grade will be 0 in the 'View Results' tab.</ul><br>"
                     
                              + "SHOW ASSIGNMENTS:\n"
                              + "To see assignments of each module tick 'show assignments' checkbox in 'View Results' tab.\n"
-                             + "Now, whenever you click on a module, you will be shown with related assignments in the Assignments table."
-                             + "";
+                             + "Now, whenever you click on a module, you will be shown with related assignments in the Assignments table.\n\n"
+                    
+                             + "PRINTING:\n"
+                             + "1. On the 'View Results' tab click on 'Print' button.\n"
+                             + "2. Choose 'Modules' or 'Modules and assignments'.\n"
+                             + "3. The program will generate a PDF file in the program destination and open it straight after creating it.";
             
             JOptionPane.showMessageDialog(programMainFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
         }
